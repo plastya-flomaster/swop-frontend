@@ -19,6 +19,10 @@ const Login: React.FC = () => {
         setValidated(true);
     };
 
+    const handleCheck = () => {
+        alert('checked!');
+    };
+
     return (
         <Container fluid='md'>
             <Form validated={validated} onSubmit={handleSubmit}>
