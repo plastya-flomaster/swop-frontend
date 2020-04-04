@@ -23,11 +23,26 @@ const config = {
         use: 'file-loader'
       },
       {
+        test: /\.css$/i,
+        use: [
+          // The `injectType`  option can be avoided because it is default behaviour
+          { loader: 'style-loader'},
+          'css-loader',
+        ],
+      },
+      {
         test: /\.ts(x)?$/,
         use: [
           'awesome-typescript-loader'
         ],
         exclude: /node_modules/
+      },
+      {
+        test: /\.(png|jpg|gif|svg|eot|ttf|woff|woff2)$/,
+        loader: 'url-loader',
+        options: {
+          limit: 10000
+        }
       }
     ]
   },
