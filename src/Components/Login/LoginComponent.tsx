@@ -2,7 +2,7 @@ import * as React from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { IUserInfo } from "../../utils/interface";
 
@@ -16,6 +16,7 @@ const Login: React.FC = () => {
     });
     const [checked, setCheck] = useState<boolean>(false);
 
+    const history = useHistory();
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
@@ -83,7 +84,7 @@ const Login: React.FC = () => {
                         }} />
                     <Form.Control.Feedback type='valid'>Хорошо!</Form.Control.Feedback>
                 </Form.Group>
-                <Button type='submit' block>Войти</Button>
+                <Button type='submit' block onClick={() => {history.push('/swop')}}>Войти</Button>
             </Form>
         </Container>
     );
