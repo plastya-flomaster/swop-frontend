@@ -4,6 +4,7 @@ import { hot } from "react-hot-loader/root";
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import LoginPage from './Pages/LoginPage';
 import MainPage from './Pages/MainPage';
+import UserPage from './Pages/UserPage';
 
 class App extends React.Component {
   render() {
@@ -11,6 +12,7 @@ class App extends React.Component {
       <Switch>
         <Route component={LoginPage} path='/' exact />
         <Route component={MainPage} path='/swop' />
+        <Route component={UserPage} path='/user'/>
       </Switch>
     </BrowserRouter>;
   }

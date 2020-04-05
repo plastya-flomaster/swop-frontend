@@ -7,7 +7,7 @@ const UserInfo: React.FC = () => {
     const history = useHistory();
     return (
         <Row className='b-header'>
-            <div className='b-header__circle' onClick={() => history.push('/')}>
+            <div className='b-header__circle' onClick={() => history.push('/user')}>
                 <img src='https://source.unsplash.com/random/900×700/?fruit' alt='аватар пользователя'></img>
             </div>
             <div className='b-user'>
