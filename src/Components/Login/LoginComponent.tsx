@@ -3,16 +3,18 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { IUserInfo } from "../../utils/interface";
 
-interface Props {
-    user: IUserInfo;
-}
-const Login: React.FC<Props> = ({ user }) => {
+
+const Login: React.FC = () => {
 
     const [validated, setValidated] = useState<boolean>(false); //валидация формы
-    const [checked, setChecked] = useState<boolean>(false);
+    const [user, setUser] = useState<IUserInfo>({
+        login: '',
+        password: '',
+    });
+    const [checked, setCheck] = useState<boolean>(false);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         const form = event.currentTarget;
@@ -21,42 +23,64 @@ const Login: React.FC<Props> = ({ user }) => {
             event.stopPropagation();
         }
         setValidated(true);
-        rememberMe();
-
-
+        setUser({
+            login: user.login,
+            password: user.password
+        })
+        writeToLocalStorage();
     };
+    const writeToLocalStorage = () => {
+        localStorage.setItem('rememberMe', checked.toString());
+        localStorage.setItem('userLogin', user.login);
+        localStorage.setItem('userPassword', user.password);
+    }
 
-    const rememberMe = () => {
-        setChecked(!checked);
-        if (checked){
-            localStorage.setItem('rememberMe', 'true');
-            localStorage.setItem('userLogin', user.login);
-            localStorage.setItem('userPassword', user.password);
+    useEffect(() => {
+        const rememberMe = localStorage.getItem('rememberMe') === 'true';
+        if (rememberMe) {
+            setUser({
+                login: localStorage.getItem('userLogin') || '',
+                password: localStorage.getItem('userPassword') || ''
+            })
         } else {
-            localStorage.removeItem('rememberMe');
             localStorage.removeItem('userLogin');
             localStorage.removeItem('userPassword');
         }
-    }
-   
+
+    }, [])
+
+
     return (
         <Container fluid='md'>
             <Form validated={validated} onSubmit={handleSubmit}>
                 <h3>Войдите, чтобы продолжить...</h3>
                 <Form.Group controlId="formEmail">
                     <Form.Label>Email</Form.Label>
-                    <Form.Control placeholder="Введите email" defaultValue={user.login} required />
+                    <Form.Control placeholder="Введите email" value={user.login} required onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        setUser({
+                            login: event.target.value,
+                            password: user.password
+                        })
+                    }} />
                 </Form.Group>
                 <Form.Group controlId="formPassword">
                     <Form.Label>Пароль</Form.Label>
-                    <Form.Control type="password" defaultValue={user.password} placeholder="Введите пароль..." required />
+                    <Form.Control type="password" value={user.password} placeholder="Введите пароль..." required onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+                        setUser({
+                            login: user.login,
+                            password: event.target.value
+                        })
+                    }} />
                 </Form.Group>
                 <Form.Group controlId='forgotPassword?'>
                     <Link to='/swop'>Забыли пароль?</Link>
 
                 </Form.Group>
                 <Form.Group controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Запомнить меня" defaultChecked={checked}/>
+                    <Form.Check type="checkbox" label="Запомнить меня" checked={checked} onChange={
+                        (event: React.ChangeEvent<HTMLInputElement>) => {
+                            setCheck(event.target.checked);
+                        }} />
                     <Form.Control.Feedback type='valid'>Хорошо!</Form.Control.Feedback>
                 </Form.Group>
                 <Button type='submit' block>Войти</Button>
