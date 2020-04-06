@@ -1,25 +1,24 @@
 import * as React from 'react';
-const SwipeCards: React.FC = () => {
-    return (<><div className='card'>
-    <img src="https://source.unsplash.com/random" alt=""/>
-    <h3 className='title'>title</h3>
-    <h4 className='description'>description</h4>
-    <div className='footer'>
-        <div className='location'>
-            <img
-                src='/content/location.svg'
-                alt='info'
-                height='20'>
-            </img>
-            <h6>location</h6>
-        </div>
-        <img
-            src='/content/info.svg'
-            alt='info'
-            height='20'>
-        </img>
-    </div>
-</div></>);
+//import locationIcon from '../../../icons/star.svg';
+import './CardsStyles.css';
+import { ICard } from '../../utils/interface';
+
+interface Props {
+    card: ICard
+}
+
+const SwipeCards: React.FC<Props> = ({ card }) => {
+    return (
+        <div className='card'>
+                <div className='header'>
+                    <span className='date'>{card.date}</span>
+                </div>
+                <div className='data'>
+                        <span className='location'>{card.location}</span>
+                        <h1 className='title'>{card.title}</h1>
+                        <p className='text'>The antsy bingers of Netflix will eagerly anticipate the digital release of the Survive soundtrack, out today.</p>
+                </div>
+        </div>);
 }
 
 export default SwipeCards;

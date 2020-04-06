@@ -25,7 +25,6 @@ const config = {
       {
         test: /\.css$/i,
         use: [
-          // The `injectType`  option can be avoided because it is default behaviour
           { loader: 'style-loader'},
           'css-loader',
         ],

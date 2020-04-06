@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import './userInfoStyles.css';
+import Star from '../../../icons/icons';
 
 const UserInfo: React.FC = () => {
     const history = useHistory();
@@ -13,6 +14,8 @@ const UserInfo: React.FC = () => {
             <div className='b-user'>
                 <p className='b-user__username'>USERNAME</p>
                 <p className='b-user__rating'>4.5</p>
+                <Star size='1rem'/>
+    
             </div>
         </Row>
     );

@@ -3,3 +3,9 @@ export interface IUserInfo {
     password: string;
     rememberMe?: boolean;
 }
+export interface ICard {
+    id: number;
+    title: string;
+    date: string;
+    location: string;
+}
