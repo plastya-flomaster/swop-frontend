@@ -1,9 +1,8 @@
 import * as React from 'react';
 
-const Star: React.FC<{size: string}> = ({size}) => {
+export const Star: React.FC<{size: string}> = ({size}) => {
     return(<svg
     height={size} 
-    viewBox="0 -10 511.98685 511" 
     width={size} 
     xmlns="http://www.w3.org/2000/svg">
     
@@ -12,4 +11,16 @@ const Star: React.FC<{size: string}> = ({size}) => {
 
     </svg>)
 }
-export default Star;
+
+export const Location: React.FC<{size: string}> = ({size}) => {
+    return(<svg 
+    width={size} 
+    height={size} 
+    fill="none" 
+    xmlns="http://www.w3.org/2000/svg">
+    <path fill-rule="evenodd" 
+    clip-rule="evenodd" 
+    d="M15.567 25.8169C17.5055 24.2796 23.75 18.8358 23.75 12.5C23.75 7.66751 19.8325 3.75 15 3.75C10.1675 3.75 6.25 7.66751 6.25 12.5C6.25 18.8358 12.4945 24.2796 14.433 25.8169C14.7678 26.0824 15.2322 26.0824 15.567 25.8169ZM15 16.25C17.0711 16.25 18.75 14.5711 18.75 12.5C18.75 10.4289 17.0711 8.75 15 8.75C12.9289 8.75 11.25 10.4289 11.25 12.5C11.25 14.5711 12.9289 16.25 15 16.25Z" 
+    fill="white"/>
+    </svg>)
+}
