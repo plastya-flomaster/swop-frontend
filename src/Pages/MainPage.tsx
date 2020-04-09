@@ -63,27 +63,26 @@ const MainPage: React.FC = () => {
         }
     }
 
-if(test.length !== 0) {return (<Container>
-    <Row>
-        <Col lg='3' md='9'><UserInfo></UserInfo><Messages></Messages></Col>
-        <Col lg='9' md='9'>
-            <Row><Navbar>
-                <Nav.Link href="#features">Помощь</Nav.Link>
-                <Nav.Link onClick={() => { history.push('/') }}>Выйти</Nav.Link>
-            </Navbar></Row>
-            <Row onKeyPress={handleKeyPress}>
-                <Swipeable onSwipe={handleSwipe} renderButtons={({left, right}) => {
-                    return <CardButtons right={right} left={left} />;
-                }}>
-                    <SwipeCards card={test[0]}></SwipeCards>
-                </Swipeable>
-            </Row>
-            <Row><Alert show={alert.show} variant={alert.variant}>{alert.title}</Alert></Row>
-        </Col>
-    </Row>
-</Container>);}
-else {
-    return(<Row>На сегодня все!</Row>)
-}
+    return (<Container>
+        <Row>
+            <Col lg='3' md='9'><UserInfo></UserInfo><Messages></Messages></Col>
+            <Col lg='9' md='9'>
+                <Row><Navbar>
+                    <Nav.Link href="#features">Помощь</Nav.Link>
+                    <Nav.Link onClick={() => { history.push('/') }}>Выйти</Nav.Link>
+                </Navbar></Row>
+                {(test.length !== 0)
+                    ? <><Row onKeyPress={handleKeyPress}>
+                        <Swipeable onSwipe={handleSwipe} renderButtons={({ left, right }) => {
+                            return <CardButtons right={right} left={left} />;
+                        }}>
+                            <SwipeCards card={test[0]}></SwipeCards>
+                        </Swipeable>
+                    </Row>
+                        <Row><Alert show={alert.show} variant={alert.variant}>{alert.title}</Alert></Row></>
+                    : <Row>На сегодня всё!</Row>}
+            </Col>
+        </Row>
+    </Container>);
 }
 export default MainPage;
