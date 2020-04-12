@@ -3,28 +3,23 @@ import Messages from '../Components/Messages/MessagesComponent';
 import { Container, Row, Col, Navbar, Nav, Alert } from 'react-bootstrap';
 import SwipeCards from '../Components/Cards/SwipeCardsComponent';
 import UserInfo from '../Components/User/UserInfoComponent';
-
+import { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import { ICard } from '../utils/interface';
+import { ICard, IChat, IAlert } from '../utils/interface';
 import { Swipeable, direction } from 'react-deck-swiper';
 import './pageStyle.css';
 import CardButtons from '../Components/Cards/CardButtons';
-
 
 export interface RenderButtonsPayload {
     right: () => void;
     left: () => void;
 }
 
-interface IAlert {
-    show: boolean;
-    variant: "success" | "danger" | "light" | "dark" | "primary" | "secondary" | "warning" | "info" | undefined;
-    title: string;
-}
 const MainPage: React.FC = () => {
     const history = useHistory();
-    const [alert, setAlert] = React.useState<IAlert>({ show: false, variant: 'success', title: '' });
-    const [test, setTest] = React.useState<ICard[]>([{
+    const [chats, setChats] = useState<IChat[]>();
+    const [alert, setAlert] = useState<IAlert>({ show: false, variant: 'success', title: '' });
+    const [test, setTest] = useState<ICard[]>([{
         id: 1,
         title: 'Card',
         location: 'Perm krai',
@@ -44,6 +39,37 @@ const MainPage: React.FC = () => {
         date: '25/02/22'
     },
     ])
+
+    useEffect(() => {
+const chats: IChat[] = [{
+    chatId: 0,
+    toItem: 'Пальто BERSHKA',
+    fromItem: 'Лонгслив ZARA',
+    userImage: 'https://source.unsplash.com/random/700×700/?man'
+},{
+    chatId: 1,
+    toItem: 'Пальто BERSHKA',
+    fromItem: 'Лонгслив ZARA',
+    userImage: 'https://source.unsplash.com/random/700×700/?man'
+},{
+    chatId: 0,
+    toItem: 'Пальто BERSHKA',
+    fromItem: 'Лонгслив ZARA',
+    userImage: 'https://source.unsplash.com/random/700×700/?man'
+},{
+    chatId: 0,
+    toItem: 'Пальто BERSHKA',
+    fromItem: 'Лонгслив ZARA',
+    userImage: 'https://source.unsplash.com/random/700×700/?man'
+},{
+    chatId: 0,
+    toItem: 'Пальто BERSHKA',
+    fromItem: 'Лонгслив ZARA',
+    userImage: 'https://source.unsplash.com/random/700×700/?man'
+}]
+        setChats(chats)
+    }, []);
+
     const handleKeyPress = (event: any) => {
         if (event.key === 'Digit2') {
             handleSwipe(direction.RIGHT);
@@ -65,12 +91,18 @@ const MainPage: React.FC = () => {
 
     return (<Container>
         <Row>
-            <Col lg='3' md='9'><UserInfo></UserInfo><Messages></Messages></Col>
+            <Col lg='3' md='9'>
+                <UserInfo />
+                <Messages chats={chats} />
+            </Col>
             <Col lg='9' md='9'>
-                <Row><Navbar>
-                    <Nav.Link href="#features">Помощь</Nav.Link>
-                    <Nav.Link onClick={() => { history.push('/') }}>Выйти</Nav.Link>
-                </Navbar></Row>
+                <Row>
+                    <Navbar>
+                        <Nav.Link href="#features">Помощь</Nav.Link>
+                        <Nav.Link onClick={() => { history.push('/') }}>Выйти</Nav.Link>
+                    </Navbar>
+                </Row>
+
                 {(test.length !== 0)
                     ? <><Row onKeyPress={handleKeyPress}>
                         <Swipeable onSwipe={handleSwipe} renderButtons={({ left, right }) => {

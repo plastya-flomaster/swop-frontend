@@ -1,0 +1,59 @@
+.change {
+    background: #f0f1f2;
+    font: 12px "Open Sans", sans-serif;
+}
+
+.data strong {
+    font-weight: 600;
+    font-size: 14px;
+    color: #2d2e30;
+}
+
+.data {
+    display: flex;
+    flex-direction: column;
+}
+
+.data .head {
+    flex-wrap: nowrap;
+    margin-bottom: 0.5rem;
+    margin-top: 20px;
+}
+
+.data span {
+    font-size: 13px;
+    font-weight: 400;
+    color: #aab8c2;
+}
+
+.data img {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.change {
+    height: 80px;
+    border-top: 1px solid #e7ebee;
+    border-bottom: 1px solid #e7ebee;
+    position: relative;
+}
+
+.change:hover {
+    background: #f1f4f6;
+    cursor: pointer;
+}
+
+.change .circle {
+    float: left;
+    position: relative;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin: 15px 2rem 0 20px;
+}
+
+.change .circle img {
+    width: 200%;
+    height: auto;
+}

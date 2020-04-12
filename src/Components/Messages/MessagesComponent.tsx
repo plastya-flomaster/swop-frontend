@@ -1,8 +1,31 @@
 import * as React from 'react';
-import { useHistory } from "react-router-dom";
+import './MessagesStyle.css';
+import { IChat } from "../../utils/interface";
 
-const Messages: React.FC = () => {
-    const history = useHistory();
-    return (<><h1>Сообщения</h1><button onClick={() => history.push('/')}>Back</button></>);
+interface IMessagesProps {
+    chats?: IChat[]
+}
+
+const Messages: React.FC<IMessagesProps> = ({chats}) => {
+    return(<>
+        <h2>Сообщения</h2>
+        {chats&&chats.map(chat => {
+             return <div className='change'>
+                <div className='circle'>
+                    <img src={chat.userImage} alt="user profile"/>
+                </div>
+                <div className='data'>
+                    <div className='head'>
+                    <strong>{chat.fromItem}</strong>
+                    <img
+                        src='/content/arrows-change.svg'
+                        alt='arrow'
+                        height='15'></img>
+                    <strong>{chat.toItem}</strong>
+                    </div>
+                </div>
+            </div>
+        })}
+        </>)
 }
 export default Messages; 
