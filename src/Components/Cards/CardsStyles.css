@@ -1,11 +1,9 @@
 .card {
+    margin: 5% 25% 1% 25%;
     max-width: 900px;
-    float: left;
     width: 50%;
     min-height: 540px;
-    overflow: hidden;
     background: url(https://tvseriescritic.files.wordpress.com/2016/10/stranger-things-bicycle-lights-children.jpg) center / cover no-repeat;
-    border-radius: 5%;
 }
 
 .data h1 {

@@ -23,6 +23,7 @@ const Login: React.FC = () => {
             event.preventDefault();
             event.stopPropagation();
         }
+        
         setValidated(true);
         setUser({
             login: user.login,
@@ -85,6 +86,7 @@ const Login: React.FC = () => {
                     <Form.Control.Feedback type='valid'>Хорошо!</Form.Control.Feedback>
                 </Form.Group>
                 <Button type='submit' block onClick={() => {history.push('/swop')}}>Войти</Button>
+                <Link to = '/register'>Нет аккаунта? Зарегистрируйтесь</Link>
             </Form>
         </Container>
     );

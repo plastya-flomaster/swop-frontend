@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Messages from '../Components/Messages/MessagesComponent';
-import { Container, Row, Col, Navbar, Nav, Alert } from 'react-bootstrap';
+import { Container, Row, Col, Nav, Alert } from 'react-bootstrap';
 import SwipeCards from '../Components/Cards/SwipeCardsComponent';
 import UserInfo from '../Components/User/UserInfoComponent';
 import { useState, useEffect } from 'react';
@@ -41,43 +41,35 @@ const MainPage: React.FC = () => {
     ])
 
     useEffect(() => {
-const chats: IChat[] = [{
-    chatId: 0,
-    toItem: 'Пальто BERSHKA',
-    fromItem: 'Лонгслив ZARA',
-    userImage: 'https://source.unsplash.com/random/700×700/?man'
-},{
-    chatId: 1,
-    toItem: 'Пальто BERSHKA',
-    fromItem: 'Лонгслив ZARA',
-    userImage: 'https://source.unsplash.com/random/700×700/?man'
-},{
-    chatId: 0,
-    toItem: 'Пальто BERSHKA',
-    fromItem: 'Лонгслив ZARA',
-    userImage: 'https://source.unsplash.com/random/700×700/?man'
-},{
-    chatId: 0,
-    toItem: 'Пальто BERSHKA',
-    fromItem: 'Лонгслив ZARA',
-    userImage: 'https://source.unsplash.com/random/700×700/?man'
-},{
-    chatId: 0,
-    toItem: 'Пальто BERSHKA',
-    fromItem: 'Лонгслив ZARA',
-    userImage: 'https://source.unsplash.com/random/700×700/?man'
-}]
+        const chats: IChat[] = [{
+            chatId: 0,
+            toItem: 'Пальто BERSHKA',
+            fromItem: 'Лонгслив ZARA',
+            userImage: 'https://source.unsplash.com/random/700×700/?man'
+        }, {
+            chatId: 1,
+            toItem: 'Пальто BERSHKA',
+            fromItem: 'Лонгслив ZARA',
+            userImage: 'https://source.unsplash.com/random/700×700/?man'
+        }, {
+            chatId: 0,
+            toItem: 'Пальто BERSHKA',
+            fromItem: 'Лонгслив ZARA',
+            userImage: 'https://source.unsplash.com/random/700×700/?man'
+        }, {
+            chatId: 0,
+            toItem: 'Пальто BERSHKA',
+            fromItem: 'Лонгслив ZARA',
+            userImage: 'https://source.unsplash.com/random/700×700/?man'
+        }, {
+            chatId: 0,
+            toItem: 'Пальто BERSHKA',
+            fromItem: 'Лонгслив ZARA',
+            userImage: 'https://source.unsplash.com/random/700×700/?man'
+        }]
         setChats(chats)
     }, []);
 
-    const handleKeyPress = (event: any) => {
-        if (event.key === 'Digit2') {
-            handleSwipe(direction.RIGHT);
-        }
-        if (event.key === 'Digit1') {
-            handleSwipe(direction.LEFT);
-        }
-    }
     const handleSwipe = (swipeDirection: direction) => {
         if (swipeDirection == direction.RIGHT) {
             setAlert({ show: true, variant: 'success', title: 'Вы свайпнули вправо!' })
@@ -89,30 +81,38 @@ const chats: IChat[] = [{
         }
     }
 
-    return (<Container>
+    return (
+    <Container>
         <Row>
             <Col lg='3' md='9'>
                 <UserInfo />
                 <Messages chats={chats} />
             </Col>
             <Col lg='9' md='9'>
-                <Row>
-                    <Navbar>
+                <Nav className='justify-content-end'>
+                    <Nav.Item>
                         <Nav.Link href="#features">Помощь</Nav.Link>
+                    </Nav.Item>
+                    <Nav.Item>
                         <Nav.Link onClick={() => { history.push('/') }}>Выйти</Nav.Link>
-                    </Navbar>
-                </Row>
+                    </Nav.Item>
+
+                </Nav>
 
                 {(test.length !== 0)
-                    ? <><Row onKeyPress={handleKeyPress}>
+                    ? <><Row className='justify-content-center'>
                         <Swipeable onSwipe={handleSwipe} renderButtons={({ left, right }) => {
                             return <CardButtons right={right} left={left} />;
                         }}>
                             <SwipeCards card={test[0]}></SwipeCards>
                         </Swipeable>
                     </Row>
-                        <Row><Alert show={alert.show} variant={alert.variant}>{alert.title}</Alert></Row></>
-                    : <Row>На сегодня всё!</Row>}
+                        <Row className='justify-content-center'>
+                            <Alert show={alert.show} variant={alert.variant}>{alert.title}</Alert>
+                        </Row></>
+                    : <Row>
+                        <h2>На сегодня всё!</h2>
+                    </Row>}
             </Col>
         </Row>
     </Container>);
