@@ -7,16 +7,21 @@ import MainPage from './Pages/MainPage';
 import UserPage from './Pages/UserPage';
 import RegisterComponent from './Components/Auth/RegisterComponent';
 
+import { Provider } from 'react-redux';
+import store from './store';
+
 class App extends React.Component {
   render() {
-    return <BrowserRouter>
-      <Switch>
-        <Route component={LoginPage} path='/'/>
-        <Route component={MainPage} path='/swop' />
-        <Route component={UserPage} path='/user'/>
-        <Route component={RegisterComponent} path='/register'/>
-      </Switch>
-    </BrowserRouter>;
+    return <Provider store={store}>
+      <BrowserRouter>
+        <Switch>
+          <Route component={LoginPage} path='/' exact />
+          <Route component={MainPage} path='/swop' />
+          <Route component={UserPage} path='/user' />
+          <Route component={RegisterComponent} path='/register' />
+        </Switch>
+      </BrowserRouter>
+    </Provider>;
   }
 }
 
