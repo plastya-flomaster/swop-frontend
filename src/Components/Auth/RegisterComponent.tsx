@@ -12,7 +12,15 @@ const RegisterComponent: React.FC = () => {
     });
     const handleSubmit = () => {
 
-    }
+    };
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        setUser((data) => ({
+            ...data,
+            [name]: value
+        }));
+    };
+
     useEffect(() => {
         setUser({
             name: '',
@@ -36,22 +44,22 @@ const RegisterComponent: React.FC = () => {
                     <Form onSubmit={handleSubmit}>
                         <Form.Group>
                             <Form.Label>Имя</Form.Label>
-                            <Form.Control value={user.name} type='text' placeholder="Иван" />
+                            <Form.Control value={user.name} type='text' name='name' placeholder='Иван' onChange={handleChange} />
                         </Form.Group>
 
                         <Form.Group>
                             <Form.Label>Email</Form.Label>
-                            <Form.Control value={user.email} type='email' placeholder="iivanov@gmail.com" />
+                            <Form.Control value={user.email} type='email' name='email' placeholder='iivanov@gmail.com' onChange={handleChange} />
                         </Form.Group>
 
                         <Form.Group>
                             <Form.Label>Пароль</Form.Label>
-                            <Form.Control value={user.password} type='password' placeholder="123456" />
+                            <Form.Control value={user.password} type='password' name='password' placeholder='123456' onChange={handleChange} />
                         </Form.Group>
 
                         <Form.Group>
                             <Form.Label>Повторите пароль</Form.Label>
-                            <Form.Control value={user.confirmPassword} type='password' placeholder="123456" />
+                            <Form.Control value={user.confirmPassword} type='password' name='confirmPassword' placeholder='123456' onChange={handleChange} />
                         </Form.Group>
 
                     </Form>

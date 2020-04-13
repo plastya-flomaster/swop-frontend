@@ -11,7 +11,7 @@ class App extends React.Component {
   render() {
     return <BrowserRouter>
       <Switch>
-        <Route component={LoginPage} path='/' exact />
+        <Route component={LoginPage} path='/'/>
         <Route component={MainPage} path='/swop' />
         <Route component={UserPage} path='/user'/>
         <Route component={RegisterComponent} path='/register'/>
