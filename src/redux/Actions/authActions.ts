@@ -1,11 +1,11 @@
 import axios from "axios";
 import setAuthToken from "../../utils/setAuthToken";
-import jwt_decode from "jwt-decode";
+import  jwt_decode  from "jwt-decode";
 
 import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types";
 
 //register user
-export const registerUser = (userData: any, history: string[]) => (dispatch: (arg0: { type: string; payload: any; }) => any) => {
+export const registerUser = (userData: any, history: any) => (dispatch: (arg0: { type: string; payload: any; }) => any) => {
     axios.post('/api/users/register', userData)
         .then(res => history.push('/login'))
         .catch(err => dispatch({
@@ -32,7 +32,7 @@ export const loginUser = (userData: any) => (dispatch: (arg0: { type: string; pa
 };
 
 //set loggedin user
-export const setCurrentUser = (decoded: {}) => {
+export const setCurrentUser = (decoded: any) => {
     return {
         type: SET_CURRENT_USER,
         payload: decoded

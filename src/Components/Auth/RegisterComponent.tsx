@@ -1,16 +1,46 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import { Container, Col, Row, Form, Button } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+import { registerUser } from '../../redux/Actions/authActions';
+//import classnames from 'classnames';
 
-const RegisterComponent: React.FC = () => {
+interface IRegisterProps extends RouteComponentProps {
+    registerUser: (userData: any, history: any) => void,
+    auth: {},
+    errors: {
+        name?: string
+    }
+}
+
+const RegisterComponent: React.FC<IRegisterProps> = (props) => {
+
+    const [errors, setErrors] = useState({ errors: props.errors });
     const [user, setUser] = useState({
         name: '',
         email: '',
         password: '',
         confirmPassword: ''
     });
-    const handleSubmit = () => {
+
+    useEffect(() => {
+        if (props.errors) {
+            setErrors({
+                errors: props.errors
+            })
+        }
+    }, [props.errors])
+
+    useEffect(() => {
+        props.registerUser(user, props.history)
+            
+    }, [])
+
+    const handleSubmit = (event: any) => {
+        console.log(errors);
+        debugger;
+        event.preventDefault();
 
     };
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +57,8 @@ const RegisterComponent: React.FC = () => {
             email: '',
             password: '',
             confirmPassword: ''
-        })
+        });
+
     }, [])
     return (
         <Container>
@@ -46,7 +77,6 @@ const RegisterComponent: React.FC = () => {
                             <Form.Label>Имя</Form.Label>
                             <Form.Control value={user.name} type='text' name='name' placeholder='Иван' onChange={handleChange} />
                         </Form.Group>
-
                         <Form.Group>
                             <Form.Label>Email</Form.Label>
                             <Form.Control value={user.email} type='email' name='email' placeholder='iivanov@gmail.com' onChange={handleChange} />
@@ -70,5 +100,14 @@ const RegisterComponent: React.FC = () => {
     )
 
 }
-export default RegisterComponent;
+//allows pass props auth and errors  to register component
+const mapStateToProps = (state: any) => ({
+    auth: state.auth,
+    errors: state.errors
+});
+
+export default connect(
+    mapStateToProps,
+    { registerUser }
+)(withRouter(RegisterComponent));
 

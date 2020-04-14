@@ -8,7 +8,7 @@ import UserPage from './Pages/UserPage';
 import RegisterComponent from './Components/Auth/RegisterComponent';
 
 import { Provider } from 'react-redux';
-import store from './store';
+import store from './redux/Stores/store';
 
 class App extends React.Component {
   render() {

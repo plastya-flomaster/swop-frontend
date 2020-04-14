@@ -10,13 +10,14 @@ import { IUserInfo } from "../../utils/interface";
 const Login: React.FC = () => {
 
     const [validated, setValidated] = useState<boolean>(false); //валидация формы
+    const [checked, setCheck] = useState<boolean>(false);
     const [user, setUser] = useState<IUserInfo>({
         login: '',
         password: '',
     });
-    const [checked, setCheck] = useState<boolean>(false);
 
     const history = useHistory();
+
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         const form = event.currentTarget;
         if (form.checkValidity() === false) {
@@ -31,6 +32,7 @@ const Login: React.FC = () => {
         })
         writeToLocalStorage();
     };
+    
     const writeToLocalStorage = () => {
         localStorage.setItem('rememberMe', checked.toString());
         localStorage.setItem('userLogin', user.login);
