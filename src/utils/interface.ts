@@ -1,7 +1,8 @@
 export interface IUserInfo {
-    login: string;
+    name: string;
+    email: string;
     password: string;
-    rememberMe?: boolean;
+    confirmPassword: string;
 }
 export interface ICard {
     id: number;

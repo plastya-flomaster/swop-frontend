@@ -3,10 +3,11 @@ import setAuthToken from "../../utils/setAuthToken";
 import  jwt_decode  from "jwt-decode";
 
 import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from "./types";
+import { IUserInfo } from '../../utils/interface';
 
 //register user
-export const registerUser = (userData: any, history: any) => (dispatch: (arg0: { type: string; payload: any; }) => any) => {
-    axios.post('/api/users/register', userData)
+export const registerUser = (userData: IUserInfo, history: any) => (dispatch: (arg0: { type: string; payload: any; }) => any) => {
+    axios.post('http://localhost:5000/api/users/register', userData)
         .then(res => history.push('/login'))
         .catch(err => dispatch({
             type: GET_ERRORS,

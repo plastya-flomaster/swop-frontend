@@ -1,22 +1,29 @@
 import * as React from 'react';
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
-import { Container, Col, Row, Form, Button } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
+
+import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { registerUser } from '../../redux/Actions/authActions';
 //import classnames from 'classnames';
 
+import { FormField, Grommet, grommet, Header, Button, Box, Heading, Form, TextInput, Anchor } from 'grommet';
+import { LinkPrevious } from 'grommet-icons';
+
+type IError = {
+    name?: string,
+    email?: string,
+    password?: string,
+    confirmPassword?: string
+}
 interface IRegisterProps extends RouteComponentProps {
     registerUser: (userData: any, history: any) => void,
     auth: {},
-    errors: {
-        name?: string
-    }
+    errors: IError
 }
 
 const RegisterComponent: React.FC<IRegisterProps> = (props) => {
 
-    const [errors, setErrors] = useState({ errors: props.errors });
+    const [err, setErrors] = useState({ err: props.errors });
     const [user, setUser] = useState({
         name: '',
         email: '',
@@ -25,78 +32,66 @@ const RegisterComponent: React.FC<IRegisterProps> = (props) => {
     });
 
     useEffect(() => {
+        debugger;
         if (props.errors) {
             setErrors({
-                errors: props.errors
+                err: props.errors
             })
         }
     }, [props.errors])
 
-    useEffect(() => {
-        props.registerUser(user, props.history)
-            
-    }, [])
-
     const handleSubmit = (event: any) => {
-        console.log(errors);
-        debugger;
+        props.registerUser(user, props.history);
         event.preventDefault();
 
     };
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
-        setUser((data) => ({
-            ...data,
-            [name]: value
-        }));
-    };
-
-    useEffect(() => {
+    const handleReset = () => {
         setUser({
             name: '',
             email: '',
             password: '',
             confirmPassword: ''
         });
+    };
 
-    }, [])
     return (
-        <Container>
-            <Col>
-                <Row>
-                    <Link to='/' >Назад</Link>
-                </Row>
-                <Row>
-                    <h2>Зарегистрироваться</h2>
-                </Row>
-                <Row>                    <h6>Уже есть аккаунт?</h6> <Link to='/login'>Войти</Link>
-                </Row>
-                <Row>
-                    <Form onSubmit={handleSubmit}>
-                        <Form.Group>
-                            <Form.Label>Имя</Form.Label>
-                            <Form.Control value={user.name} type='text' name='name' placeholder='Иван' onChange={handleChange} />
-                        </Form.Group>
-                        <Form.Group>
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control value={user.email} type='email' name='email' placeholder='iivanov@gmail.com' onChange={handleChange} />
-                        </Form.Group>
+        <Grommet theme={grommet}>
+            <Header>
+                <Link to='/' ><Button icon={<LinkPrevious color='brand'/>} label = 'Назад' margin='small' plain={true} hoverIndicator /></Link>
 
-                        <Form.Group>
-                            <Form.Label>Пароль</Form.Label>
-                            <Form.Control value={user.password} type='password' name='password' placeholder='123456' onChange={handleChange} />
-                        </Form.Group>
+            </Header>
+            <Box align="center">
+                <Heading level={2}>Зарегистрироваться</Heading>
+                <Box direction='row' gap='small'>
+                    <h5>Уже есть аккаунт? </h5>
+                    <Link to='/login'><Anchor href="">Войдите</Anchor></Link>
+                </Box>
 
-                        <Form.Group>
-                            <Form.Label>Повторите пароль</Form.Label>
-                            <Form.Control value={user.confirmPassword} type='password' name='confirmPassword' placeholder='123456' onChange={handleChange} />
-                        </Form.Group>
-
-                    </Form>
-                </Row>
-                <Button type='submit'>Зарегистрироваться</Button>
-            </Col>
-        </Container >
+                <Form
+                    onSubmit={handleSubmit}
+                    onReset={handleReset}
+                    value={user}
+                    onChange={(nextValue: any) => { setUser(nextValue) }}
+                >
+                    <FormField label="Имя" name='name' error={err.err.name}>
+                        <TextInput placeholder="Иван" name='name' />
+                    </FormField>
+                    <FormField label="Email" name='email' error={err.err.email}>
+                        <TextInput placeholder="test@gmail.com" name='email' />
+                    </FormField>
+                    <FormField label="Пароль" name='password' error={err.err.password}>
+                        <TextInput placeholder="123456" type="password" name='password' />
+                    </FormField>
+                    <FormField label="Повторите пароль" name='confirmPassword' error={err.err.confirmPassword}>
+                        <TextInput placeholder="123456" type="password" name='confirmPassword' />
+                    </FormField>
+                    <Box direction="row" gap="medium">
+                        <Button type="submit" primary label="Зарегистрироваться" />
+                        <Button type="reset" label="Очистить" />
+                    </Box>
+                </Form>
+            </Box>
+        </Grommet>
     )
 
 }

@@ -4,14 +4,13 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import { Link, useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { IUserInfo } from "../../utils/interface";
 
 
 const Login: React.FC = () => {
 
     const [validated, setValidated] = useState<boolean>(false); //валидация формы
     const [checked, setCheck] = useState<boolean>(false);
-    const [user, setUser] = useState<IUserInfo>({
+    const [user, setUser] = useState<any>({
         login: '',
         password: '',
     });
