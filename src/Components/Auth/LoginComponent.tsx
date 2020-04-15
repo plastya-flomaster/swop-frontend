@@ -1,9 +1,8 @@
 import * as React from 'react';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import { Link, useHistory } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { Link, useHistory } from 'react-router-dom';
+
+import { FormField, Grommet, grommet, Button, Box, Heading, Form, TextInput, Text, CheckBox } from 'grommet';
 
 
 const Login: React.FC = () => {
@@ -11,7 +10,7 @@ const Login: React.FC = () => {
     const [validated, setValidated] = useState<boolean>(false); //валидация формы
     const [checked, setCheck] = useState<boolean>(false);
     const [user, setUser] = useState<any>({
-        login: '',
+        email: '',
         password: '',
     });
 
@@ -23,18 +22,19 @@ const Login: React.FC = () => {
             event.preventDefault();
             event.stopPropagation();
         }
-        
+
         setValidated(true);
         setUser({
-            login: user.login,
+            email: user.email,
             password: user.password
         })
         writeToLocalStorage();
+        history.push('/swop');
     };
-    
+
     const writeToLocalStorage = () => {
         localStorage.setItem('rememberMe', checked.toString());
-        localStorage.setItem('userLogin', user.login);
+        localStorage.setItem('userEmail', user.email);
         localStorage.setItem('userPassword', user.password);
     }
 
@@ -42,54 +42,50 @@ const Login: React.FC = () => {
         const rememberMe = localStorage.getItem('rememberMe') === 'true';
         if (rememberMe) {
             setUser({
-                login: localStorage.getItem('userLogin') || '',
+                email: localStorage.getItem('userEmail') || '',
                 password: localStorage.getItem('userPassword') || ''
             })
         } else {
-            localStorage.removeItem('userLogin');
+            localStorage.removeItem('userEmail');
             localStorage.removeItem('userPassword');
         }
-
+        console.log(validated);
     }, [])
 
 
     return (
-        <Container fluid='md'>
-            <Form validated={validated} onSubmit={handleSubmit}>
-                <h3>Войдите, чтобы продолжить...</h3>
-                <Form.Group controlId="formEmail">
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control placeholder="Введите email" value={user.login} required onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                        setUser({
-                            login: event.target.value,
-                            password: user.password
-                        })
-                    }} />
-                </Form.Group>
-                <Form.Group controlId="formPassword">
-                    <Form.Label>Пароль</Form.Label>
-                    <Form.Control type="password" value={user.password} placeholder="Введите пароль..." required onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
-                        setUser({
-                            login: user.login,
-                            password: event.target.value
-                        })
-                    }} />
-                </Form.Group>
-                <Form.Group controlId='forgotPassword?'>
-                    <Link to='/swop'>Забыли пароль?</Link>
-
-                </Form.Group>
-                <Form.Group controlId="formBasicCheckbox">
-                    <Form.Check type="checkbox" label="Запомнить меня" checked={checked} onChange={
-                        (event: React.ChangeEvent<HTMLInputElement>) => {
+        <Grommet theme={grommet}>
+            <Box align='center'>
+                <Heading level={2} margin={{'vertical': '30px'}}>Войдите, чтобы продолжить</Heading>
+                <Form
+                    onSubmit={handleSubmit}
+                    onChange={(value: any) => { setUser(value) }}
+                    value={user}>
+                    <FormField label='Email' name='email' required>
+                        <TextInput placeholder='test@gmail.com' name='email' />
+                    </FormField>
+                    <FormField label='Пароль' name='password' required>
+                        <TextInput placeholder='123456' type='password' name='password' />
+                    </FormField>
+                    <Box direction='row' gap='small' margin={{
+                        "vertical": "20px"
+                    }}>
+                    <Text>Нет аккаунта? <Link to='/register'><Text color='accent-2'> Зарегистрируйтесь</Text></Link></Text>
+                    </Box>
+                    {/* <Link to='/'><Text>Забыли пароль?</Text></Link> */}
+                    <CheckBox
+                        label='Запомнить меня'
+                        checked={checked}
+                        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                             setCheck(event.target.checked);
                         }} />
-                    <Form.Control.Feedback type='valid'>Хорошо!</Form.Control.Feedback>
-                </Form.Group>
-                <Button type='submit' block onClick={() => {history.push('/swop')}}>Войти</Button>
-                <Link to = '/register'>Нет аккаунта? Зарегистрируйтесь</Link>
-            </Form>
-        </Container>
+                    <Button type='submit' primary label='Войти' fill='horizontal' margin={{
+                        "vertical": "20px"
+                    }} />
+
+                </Form>
+            </Box>
+        </Grommet>
     );
 }
 export default Login; 

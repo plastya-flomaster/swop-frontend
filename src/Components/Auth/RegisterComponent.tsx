@@ -4,17 +4,13 @@ import { useState, useEffect } from 'react';
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { registerUser } from '../../redux/Actions/authActions';
-//import classnames from 'classnames';
 
 import { FormField, Grommet, grommet, Header, Button, Box, Heading, Form, TextInput, Anchor } from 'grommet';
 import { LinkPrevious } from 'grommet-icons';
 
-type IError = {
-    name?: string,
-    email?: string,
-    password?: string,
-    confirmPassword?: string
-}
+import { IError } from '../../utils/types';
+
+
 interface IRegisterProps extends RouteComponentProps {
     registerUser: (userData: any, history: any) => void,
     auth: {},
@@ -58,7 +54,6 @@ const RegisterComponent: React.FC<IRegisterProps> = (props) => {
         <Grommet theme={grommet}>
             <Header>
                 <Link to='/' ><Button icon={<LinkPrevious color='brand'/>} label = 'Назад' margin='small' plain={true} hoverIndicator /></Link>
-
             </Header>
             <Box align="center">
                 <Heading level={2}>Зарегистрироваться</Heading>
