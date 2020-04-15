@@ -1,35 +1,41 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
-import { Link, useHistory } from 'react-router-dom';
-
+import { Link, RouteComponentProps } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { loginUser } from "../../redux/Actions/authActions";
 import { FormField, Grommet, grommet, Button, Box, Heading, Form, TextInput, Text, CheckBox } from 'grommet';
 
+interface ILoginProps extends RouteComponentProps {
+    loginUser: (userData: any) => void,
+    auth: any,
+    errors: any
+}
 
-const Login: React.FC = () => {
+const LoginComponent: React.FC<ILoginProps> = (props) => {
 
-    const [validated, setValidated] = useState<boolean>(false); //валидация формы
+    //const [validated, setValidated] = useState<boolean>(false); //валидация формы
     const [checked, setCheck] = useState<boolean>(false);
-    const [user, setUser] = useState<any>({
-        email: '',
-        password: '',
-    });
+    const [user, setUser] = useState<any>({ email: '', password: '' });
+    const [err, setErrors] = useState({ err: props.errors });
 
-    const history = useHistory();
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        // const form = event.currentTarget;
+        // if (form.checkValidity() === false) {
+        //     event.preventDefault();
+        //     event.stopPropagation();
+        // }
+        // console.log(validated);
+        // console.log(err);
+        // setValidated(true);
+        e.preventDefault();
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        const form = event.currentTarget;
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-
-        setValidated(true);
-        setUser({
-            email: user.email,
-            password: user.password
-        })
-        writeToLocalStorage();
-        history.push('/swop');
+            setUser({
+                email: user.email,
+                password: user.password
+            })
+            props.loginUser(user);
+            writeToLocalStorage();
+        
     };
 
     const writeToLocalStorage = () => {
@@ -49,28 +55,39 @@ const Login: React.FC = () => {
             localStorage.removeItem('userEmail');
             localStorage.removeItem('userPassword');
         }
-        console.log(validated);
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        if (props.auth.isAuthenticated) {
+            props.history.push('/swop');
+        }
+        if (props.errors) {
+            setErrors({
+                err: props.errors
+            })
+        }
+    }, [props])
 
 
     return (
         <Grommet theme={grommet}>
             <Box align='center'>
-                <Heading level={2} margin={{'vertical': '30px'}}>Войдите, чтобы продолжить</Heading>
+                <Heading level={2} margin={{ 'vertical': '30px' }}>Войдите, чтобы продолжить</Heading>
                 <Form
                     onSubmit={handleSubmit}
                     onChange={(value: any) => { setUser(value) }}
-                    value={user}>
-                    <FormField label='Email' name='email' required>
+                    value={user}
+                    validate='submit'>
+                    <FormField label='Email' name='email' error={err.err.email}>
                         <TextInput placeholder='test@gmail.com' name='email' />
                     </FormField>
-                    <FormField label='Пароль' name='password' required>
+                    <FormField label='Пароль' name='password' error={err.err.password}>
                         <TextInput placeholder='123456' type='password' name='password' />
                     </FormField>
                     <Box direction='row' gap='small' margin={{
                         "vertical": "20px"
                     }}>
-                    <Text>Нет аккаунта? <Link to='/register'><Text color='accent-2'> Зарегистрируйтесь</Text></Link></Text>
+                        <Text>Нет аккаунта? <Link to='/register'><Text color='accent-2'> Зарегистрируйтесь</Text></Link></Text>
                     </Box>
                     {/* <Link to='/'><Text>Забыли пароль?</Text></Link> */}
                     <CheckBox
@@ -87,5 +104,14 @@ const Login: React.FC = () => {
             </Box>
         </Grommet>
     );
-}
-export default Login; 
+};
+
+const mapStateToProps = (state: any) => ({
+    auth: state.auth,
+    errors: state.errors
+});
+
+export default connect(
+    mapStateToProps,
+    { loginUser }
+)(LoginComponent);

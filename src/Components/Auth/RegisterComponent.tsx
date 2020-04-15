@@ -28,7 +28,6 @@ const RegisterComponent: React.FC<IRegisterProps> = (props) => {
     });
 
     useEffect(() => {
-        debugger;
         if (props.errors) {
             setErrors({
                 err: props.errors
@@ -36,7 +35,7 @@ const RegisterComponent: React.FC<IRegisterProps> = (props) => {
         }
     }, [props.errors])
 
-    const handleSubmit = (event: any) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         props.registerUser(user, props.history);
         event.preventDefault();
 
@@ -90,7 +89,7 @@ const RegisterComponent: React.FC<IRegisterProps> = (props) => {
     )
 
 }
-//allows pass props auth and errors  to register component
+//allows pass props auth and errors to register component
 const mapStateToProps = (state: any) => ({
     auth: state.auth,
     errors: state.errors
