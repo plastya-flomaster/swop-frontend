@@ -1,23 +1,18 @@
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
-import Row from 'react-bootstrap/Row';
-import './userInfoStyles.css';
-import { Star } from '../../../icons/icons';
+import { Box, Avatar, Text } from 'grommet';
+//import { UserFemale } from 'grommet-icons'
 
 const UserInfo: React.FC = () => {
     const history = useHistory();
     return (
-        <Row className='b-header'>
-            <div className='b-header__circle' onClick={() => history.push('/user')}>
-                <img src='https://source.unsplash.com/random/900×700/?fruit' alt='аватар пользователя'></img>
-            </div>
-            <div className='b-user'>
-                <p className='b-user__username'>USERNAME</p>
-                <p className='b-user__rating'>4.5</p>
-                <Star size='1rem' />
-
-            </div>
-        </Row>
+        <Box direction="row" gap="small" alignContent='center' margin={{ 'vertical': '2rem' }}>
+            <Avatar src="//s.gravatar.com/avatar/b7fb138d53ba0f573212ccce38a7c43b?s=80" onClick={() => history.push('/user')} />
+            <Text alignSelf='center' color='neutral-2' weight='bold'>USERNAME</Text>
+            {/* <Avatar background="accent-2">
+                <UserFemale color="accent-1" />
+            </Avatar> */}
+        </Box>      
     );
 }
 export default UserInfo; 
