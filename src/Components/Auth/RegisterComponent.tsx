@@ -11,13 +11,15 @@ import { LinkPrevious } from 'grommet-icons';
 import { IError } from '../../utils/types';
 
 
-interface IRegisterProps extends RouteComponentProps {
+interface IRegister extends RouteComponentProps {
     registerUser: (userData: any, history: any) => void,
-    auth: {},
+    auth: {
+        isAuthenticated: boolean
+    },
     errors: IError
 }
 
-const RegisterComponent: React.FC<IRegisterProps> = (props) => {
+const RegisterComponent: React.FC<IRegister> = (props) => {
 
     const [err, setErrors] = useState({ err: props.errors });
     const [user, setUser] = useState({
@@ -33,7 +35,15 @@ const RegisterComponent: React.FC<IRegisterProps> = (props) => {
                 err: props.errors
             })
         }
-    }, [props.errors])
+    }, [props.errors]);
+
+    useEffect(() => {
+          // If logged in and user navigates to Register page, redirect him to swop
+          if (props.auth.isAuthenticated) {
+            props.history.push("/swop");
+          }
+
+    }, []);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         props.registerUser(user, props.history);
@@ -90,7 +100,7 @@ const RegisterComponent: React.FC<IRegisterProps> = (props) => {
 
 }
 //allows pass props auth and errors to register component
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: IRegister) => ({
     auth: state.auth,
     errors: state.errors
 });

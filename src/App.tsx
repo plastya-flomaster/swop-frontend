@@ -14,8 +14,8 @@ import UserPage from './Pages/UserPage';
 import RegisterComponent from './Components/Auth/RegisterComponent';
 import LoginComponent from "./Components/Auth/LoginComponent";
 
-import PrivateRoute from './Components/Private-routes/PrivateRoute';
 import MainPage from './Pages/MainPage';
+import PrivateRoute from './Components/Private-routes/PrivateRoute';
 
 // Check for token to keep user logged in
 if (localStorage.getItem('jwtToken')) {
@@ -53,5 +53,6 @@ class App extends React.Component {
     </Provider>;
   }
 }
+
 
 export default hot(App);

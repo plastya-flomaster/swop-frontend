@@ -1,7 +1,7 @@
 import * as React from 'react';
 import './CardsStyles.css';
 import { ICard } from '../../utils/interface';
-import { Location } from "../../../icons/icons";
+import { Location } from '../../../icons/icons';
 
 interface Props {
     card: ICard

@@ -91,7 +91,7 @@ const MainPage: React.FC = () => {
             <Col lg='9' md='9'>
                 <Nav className='justify-content-end'>
                     <Nav.Item>
-                        <Nav.Link href="#features">Помощь</Nav.Link>
+                        <Nav.Link href='#features'>Помощь</Nav.Link>
                     </Nav.Item>
                     <Nav.Item>
                         <Nav.Link onClick={() => { history.push('/') }}>Выйти</Nav.Link>

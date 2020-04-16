@@ -1,6 +1,6 @@
 import React from 'react';
-import { Route, Redirect } from "react-router-dom";
-import { connect } from "react-redux";
+import { Route, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 // interface IPrivateRouteProps {
 //         Component: React.FC,

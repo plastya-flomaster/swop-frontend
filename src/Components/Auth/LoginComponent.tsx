@@ -55,6 +55,10 @@ const LoginComponent: React.FC<ILoginProps> = (props) => {
             localStorage.removeItem('userEmail');
             localStorage.removeItem('userPassword');
         }
+         // If logged in and user navigates to Login page, redirect him to swop
+        if (props.auth.isAuthenticated) {
+            props.history.push('/swop');
+          }
     }, []);
 
     useEffect(() => {
