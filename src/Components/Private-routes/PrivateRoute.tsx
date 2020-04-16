@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import MainPage from '../../Pages/MainPage';
 
 // interface IPrivateRouteProps {
 //         Component: React.FC,
@@ -11,15 +12,12 @@ import { connect } from 'react-redux';
 // }
 
 const PrivateRoute: React.FC<any> = ({ component: Component, auth, ...rest }) => (
-    <Route
-        {...rest}
-        render={props => {
-            debugger;
-            auth.isAuthenticated === true ? (
-                <Component {...props} />
-            ) : <Redirect to='/login' />
+    <Route>
+        {auth.isAuthenticated === true ? (
+            <MainPage />
+        ) : <Redirect to='/login' />
         }}
-    />
+    </Route>
 )
 
 const mapStateToProps = (state: any) => ({

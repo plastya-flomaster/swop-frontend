@@ -6,7 +6,7 @@ import { AddCircle } from 'grommet-icons';
 const ItemComponent: React.FC = () => {
 
     return (
-        <Box background='accent-2' pad='small' >
+        <Box background='accent-2'>
             <Box border={{ color: 'brand', size: 'medium', style: 'dotted' }} align='center' margin='5px'>
                 <AddCircle></AddCircle>
                 <Heading level={6}>Добавить</Heading>
