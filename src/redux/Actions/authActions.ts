@@ -50,7 +50,7 @@ export const setUserLoading = () => {
 };
 
 //logging out
-export const logoutUser = () => (dispatch: (arg0: { type: string; payload: any; }) => void) => {
+export const logoutUser = (): any => (dispatch: any) => {
     //remove token from local storage
     localStorage.removeItem('jwtToken');
     //remove auth header for next requests

@@ -2,12 +2,40 @@
 import * as React from 'react';
 import { hot } from "react-hot-loader/root";
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-import MainPage from './Pages/MainPage';
+
+import { Provider } from 'react-redux';
+import store from './redux/Stores/store';
+
+import jwt_decode from 'jwt-decode';
+import setAuthToken from './utils/setAuthToken';
+import { setCurrentUser, logoutUser } from "./redux/Actions/authActions";
+
 import UserPage from './Pages/UserPage';
 import RegisterComponent from './Components/Auth/RegisterComponent';
 import LoginComponent from "./Components/Auth/LoginComponent";
-import { Provider } from 'react-redux';
-import store from './redux/Stores/store';
+
+import PrivateRoute from './Components/Private-routes/PrivateRoute';
+import MainPage from './Pages/MainPage';
+
+// Check for token to keep user logged in
+if (localStorage.getItem('jwtToken')) {
+  //sitting auth token header auth
+  const token = localStorage.getItem('jwtToken');
+  setAuthToken(token!);
+  //decoding token
+  debugger;
+  const decoded: any = jwt_decode(token!);
+  store.dispatch(setCurrentUser(decoded));
+
+  const currentTime = Date.now();
+  //check for expired token
+  if (decoded.exp < currentTime) {
+    store.dispatch(logoutUser());
+    window.location.href = './login';
+  }
+}
+
+
 
 class App extends React.Component {
   render() {
@@ -15,9 +43,11 @@ class App extends React.Component {
       <BrowserRouter>
         <Switch>
           <Route component={LoginComponent} path='/login' />
-          <Route component={MainPage} path='/swop' exact />
           <Route component={UserPage} path='/user' />
           <Route component={RegisterComponent} path='/register' />
+          <Switch>
+            <PrivateRoute exact path='/swop' component={MainPage}/>
+          </Switch>
         </Switch>
       </BrowserRouter>
     </Provider>;
