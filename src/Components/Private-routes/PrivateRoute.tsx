@@ -11,14 +11,15 @@ import MainPage from '../../Pages/MainPage';
 
 // }
 
-const PrivateRoute: React.FC<any> = ({ component: Component, auth, ...rest }) => (
+const PrivateRoute: React.FC<any> = ({ component: Component, auth, ...rest }) => {
+    return (
     <Route>
         {auth.isAuthenticated === true ? (
             <MainPage />
         ) : <Redirect to='/login' />
         }}
-    </Route>
-)
+    </Route>)
+}
 
 const mapStateToProps = (state: any) => ({
     auth: state.auth

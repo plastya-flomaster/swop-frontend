@@ -24,7 +24,7 @@ if (localStorage.getItem('jwtToken')) {
   const decoded: any = jwt_decode(token!);
   store.dispatch(setCurrentUser(decoded));
 
-  const currentTime = Date.now();
+  const currentTime = Date.now() / 1000;
   //check for expired token
   if (decoded.exp < currentTime) {
     store.dispatch(logoutUser());
@@ -33,9 +33,8 @@ if (localStorage.getItem('jwtToken')) {
 }
 
 
-
 class App extends React.Component {
- 
+
   render() {
     return <Provider store={store}>
       <BrowserRouter>
@@ -44,7 +43,7 @@ class App extends React.Component {
           <Route component={UserPage} path='/user' />
           <Route component={RegisterComponent} path='/register' />
           <Switch>
-            <PrivateRoute exact path='/swop'/>
+            <PrivateRoute exact path='/swop' />
             <Route component={UserPage} path='/user' />
           </Switch>
         </Switch>
