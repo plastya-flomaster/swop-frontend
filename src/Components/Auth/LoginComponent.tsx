@@ -7,7 +7,9 @@ import { FormField, Grommet, grommet, Button, Box, Heading, Form, TextInput, Tex
 
 interface ILoginProps extends RouteComponentProps {
     loginUser: (userData: any) => void,
-    auth: any,
+    auth: {
+        isAuthenticated: boolean
+    },
     errors: any
 }
 
@@ -18,7 +20,7 @@ const LoginComponent: React.FC<ILoginProps> = (props) => {
     const [user, setUser] = useState<any>({ email: '', password: '' });
     const [err, setErrors] = useState({ err: props.errors });
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         // const form = event.currentTarget;
         // if (form.checkValidity() === false) {
         //     event.preventDefault();
@@ -27,15 +29,15 @@ const LoginComponent: React.FC<ILoginProps> = (props) => {
         // console.log(validated);
         // console.log(err);
         // setValidated(true);
-        e.preventDefault();
+        event.preventDefault();
 
-            setUser({
-                email: user.email,
-                password: user.password
-            })
-            props.loginUser(user);
-            writeToLocalStorage();
-        
+        setUser({
+            email: user.email,
+            password: user.password
+        })
+        props.loginUser(user);
+        writeToLocalStorage();
+
     };
 
     const writeToLocalStorage = () => {
@@ -55,10 +57,10 @@ const LoginComponent: React.FC<ILoginProps> = (props) => {
             localStorage.removeItem('userEmail');
             localStorage.removeItem('userPassword');
         }
-         // If logged in and user navigates to Login page, redirect him to swop
+        // If logged in and user navigates to Login page, redirect him to swop
         if (props.auth.isAuthenticated) {
             props.history.push('/swop');
-          }
+        }
     }, []);
 
     useEffect(() => {
@@ -110,7 +112,7 @@ const LoginComponent: React.FC<ILoginProps> = (props) => {
     );
 };
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: ILoginProps) => ({
     auth: state.auth,
     errors: state.errors
 });

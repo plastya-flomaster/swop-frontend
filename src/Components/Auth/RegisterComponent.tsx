@@ -40,13 +40,14 @@ const RegisterComponent: React.FC<IRegister> = (props) => {
     useEffect(() => {
           // If logged in and user navigates to Register page, redirect him to swop
           if (props.auth.isAuthenticated) {
-            props.history.push("/swop");
+            props.history.push('/swop');
           }
 
     }, []);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         props.registerUser(user, props.history);
+        console.log(props.errors);
         event.preventDefault();
 
     };
@@ -64,11 +65,11 @@ const RegisterComponent: React.FC<IRegister> = (props) => {
             <Header>
                 <Link to='/' ><Button icon={<LinkPrevious color='brand'/>} label = 'Назад' margin='small' plain={true} hoverIndicator /></Link>
             </Header>
-            <Box align="center">
+            <Box align='center'>
                 <Heading level={2}>Зарегистрироваться</Heading>
                 <Box direction='row' gap='small'>
                     <h5>Уже есть аккаунт? </h5>
-                    <Link to='/login'><Anchor href="">Войдите</Anchor></Link>
+                    <Link to='/login'><Anchor href=''>Войдите</Anchor></Link>
                 </Box>
 
                 <Form
@@ -77,21 +78,21 @@ const RegisterComponent: React.FC<IRegister> = (props) => {
                     value={user}
                     onChange={(nextValue: any) => { setUser(nextValue) }}
                 >
-                    <FormField label="Имя" name='name' error={err.err.name}>
-                        <TextInput placeholder="Иван" name='name' />
+                    <FormField label='Имя' name='name' error={err.err.name}>
+                        <TextInput placeholder='Иван' name='name' />
                     </FormField>
-                    <FormField label="Email" name='email' error={err.err.email}>
-                        <TextInput placeholder="test@gmail.com" name='email' />
+                    <FormField label='Email' name='email' error={err.err.email}>
+                        <TextInput placeholder='test@gmail.com' name='email' />
                     </FormField>
-                    <FormField label="Пароль" name='password' error={err.err.password}>
-                        <TextInput placeholder="123456" type="password" name='password' />
+                    <FormField label='Пароль' name='password' error={err.err.password}>
+                        <TextInput placeholder='123456' type='password' name='password' />
                     </FormField>
-                    <FormField label="Повторите пароль" name='confirmPassword' error={err.err.confirmPassword}>
-                        <TextInput placeholder="123456" type="password" name='confirmPassword' />
+                    <FormField label='Повторите пароль' name='confirmPassword' error={err.err.confirmPassword}>
+                        <TextInput placeholder='123456' type='password' name='confirmPassword' />
                     </FormField>
-                    <Box direction="row" gap="medium">
-                        <Button type="submit" primary label="Зарегистрироваться" />
-                        <Button type="reset" label="Очистить" />
+                    <Box direction='row' gap='medium'>
+                        <Button type='submit' primary label='Зарегистрироваться' />
+                        <Button type='reset' label='Очистить' />
                     </Box>
                 </Form>
             </Box>

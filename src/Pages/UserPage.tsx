@@ -7,7 +7,7 @@ import UserInfo from '../Components/User/UserInfoComponent';
 import ItemComponent from '../Components/ItemComponent';
 
 const UserPage: React.FC = () => {
-    return <Box>
+    return <>
         <Grid
             columns={['1/4', 'flex']}
             rows={['xsmall', 'medium']}
@@ -18,7 +18,7 @@ const UserPage: React.FC = () => {
             ]}
             gap='xxsmall'>
             <Box gridArea='nav' background='light-3' direction='column' margin={{ 'horizontal': '1rem' }}>
-                <UserInfo />
+                <UserInfo name={'c'} />
                 <Box direction='row' align='center' >
                     <Box pad='small'><Waypoint color='brand' /></Box>
                     <Box direction='column'>
@@ -50,9 +50,7 @@ const UserPage: React.FC = () => {
 
                 </Box>
             </Box>
-
-
         </Grid>
-    </Box>;
+    </>;
 }
 export default UserPage; 

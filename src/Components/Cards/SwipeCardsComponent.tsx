@@ -1,7 +1,6 @@
 import * as React from 'react';
 import './CardsStyles.css';
 import { ICard } from '../../utils/interface';
-import { Location } from '../../../icons/icons';
 
 interface Props {
     card: ICard
@@ -9,6 +8,7 @@ interface Props {
 
 const SwipeCards: React.FC<Props> = ({ card }) => {
     return (
+        <>
         <div className='card'>
             <div className='header'>
                 <span className='date'>{card.date}</span>
@@ -17,9 +17,10 @@ const SwipeCards: React.FC<Props> = ({ card }) => {
                 <span className='location'>{card.location}</span>
                 <h1 className='title'>{card.title}</h1>
                 <p className='text'>The antsy bingers of Netflix will eagerly anticipate the digital release of the Survive soundtrack, out today.</p>
-                <div className='footer'><Location size='30px' />{card.location}</div>
+                <div className='footer'>{card.location}</div>
             </div>
-        </div>);
+        </div>
+        </>);
 }
 
 export default SwipeCards;
