@@ -34,7 +34,7 @@ const UserPage: React.FC<IUserPage> = (props) => {
             </Box>
             {editMode ? (
             <Box gridArea='main' align='start' >
-                <button onClick={offEditMode} > exit</button>
+                <button onClick={offEditMode} >exit</button>
             </Box>
             ): (
              <Box gridArea='main' align='start'>
