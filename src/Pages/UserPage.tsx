@@ -1,15 +1,21 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 
 import { Grid, Box, Heading, Tabs, Tab } from 'grommet';
 
-import UserPic from '../Components/User/UserPicComponent.tsx';
 import { connect } from 'react-redux';
+
+import UserPic from '../Components/User/UserPicComponent';
 import UserDetails from '../Components/User/UserDetailsComponent';
 import MyItems from '../Items/MyItemsComponent';
-import { useState } from 'react';
+import ItemCard from '../Items/ItemCardComponent';
+
+import { readItems } from '../redux/Actions/itemsActions';
+
 interface IUserPage {
     user: {
-        name: string
+        name: string,
+        id: string
     }
 }
 
@@ -18,6 +24,12 @@ const UserPage: React.FC<IUserPage> = (props) => {
 
     const onEditMode = () => setEditMode(true)
     const offEditMode = () => setEditMode(false)
+
+    useEffect(() => {
+        alert('!');
+        const res = readItems(props.user.id);
+        console.log(res);
+    }, [])
 
     return <>
         <Grid
@@ -33,25 +45,27 @@ const UserPage: React.FC<IUserPage> = (props) => {
                 <UserDetails />
             </Box>
             {editMode ? (
-            <Box gridArea='main' align='start' >
-                <button onClick={offEditMode} >exit</button>
-            </Box>
-            ): (
-             <Box gridArea='main' align='start'>
-                    <Tabs>
-                        <Tab title='Мои товары'>
-                            <MyItems onEditMode={onEditMode} />
-                        </Tab>
-                        <Tab title='История обмена'>
-                            <Heading level={2} margin={{ 'left': '2rem', 'vertical': '1.5rem' }}>История обмена</Heading>
-                        </Tab>
-                    </Tabs>
-                </Box>)}
+                <Box gridArea='main' align='start' >
+                    <ItemCard />
+                    <button onClick={offEditMode} >exit</button>
+                </Box>
+            ) : (
+                    <Box gridArea='main' align='start'>
+                        <Tabs>
+                            <Tab title='Мои товары'>
+                                <MyItems onEditMode={onEditMode} />
+                            </Tab>
+                            <Tab title='История обмена'>
+                                <Heading level={2} margin={{ 'left': '2rem', 'vertical': '1.5rem' }}>История обмена</Heading>
+                            </Tab>
+                        </Tabs>
+                    </Box>)}
         </Grid>
     </>;
 }
 const mapStateToProps = (state: any) => ({
-    user: state.auth.user
+    user: state.auth.user,
+    items: state.items
 });
 
 export default connect(

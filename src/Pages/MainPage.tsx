@@ -8,7 +8,7 @@ import { Swipeable, direction } from 'react-deck-swiper';
 
 //import Messages from '../Components/Messages/MessagesComponent';
 import SwipeCards from '../Components/Cards/SwipeCardsComponent';
-import UserPic from '../Components/User/UserPicComponent.tsx';
+import UserPic from '../Components/User/UserPicComponent';
 import CardButtons from '../Components/Cards/CardButtons';
 
 import { Grid, Box, Heading, Anchor } from 'grommet';
@@ -99,7 +99,6 @@ const MainPage: React.FC<ISwap> = (props) => {
         }
     };
     const handleLogout = (event: any) => {
-        debugger;
         event.preventDefault();
         props.logoutUser();
 
