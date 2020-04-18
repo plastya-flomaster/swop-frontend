@@ -1,56 +1,59 @@
 import * as React from 'react';
 
-import { Grid, Box, Heading, Text } from 'grommet';
-import { Waypoint } from 'grommet-icons';
+import { Grid, Box, Heading, Tabs, Tab } from 'grommet';
 
-import UserInfo from '../Components/User/UserInfoComponent';
-import ItemComponent from '../Components/ItemComponent';
+import UserPic from '../Components/User/UserPicComponent.tsx';
+import { connect } from 'react-redux';
+import UserDetails from '../Components/User/UserDetailsComponent';
+import MyItems from '../Items/MyItemsComponent';
+import { useState } from 'react';
+interface IUserPage {
+    user: {
+        name: string
+    }
+}
 
-const UserPage: React.FC = () => {
+const UserPage: React.FC<IUserPage> = (props) => {
+    const [editMode, setEditMode] = useState<boolean>(false);
+
+    const onEditMode = () => setEditMode(true)
+    const offEditMode = () => setEditMode(false)
+
     return <>
         <Grid
             columns={['1/4', 'flex']}
-            rows={['xsmall', 'medium']}
+            rows={['large']}
             areas={[
-                { name: 'nav', start: [0, 0], end: [0, 1] },
-                { name: 'header', start: [1, 0], end: [1, 0] },
-                { name: 'main', start: [1, 1], end: [1, 1] }
+                { name: 'nav', start: [0, 0], end: [0, 0] },
+                { name: 'main', start: [1, 0], end: [1, 0] }
             ]}
             gap='xxsmall'>
             <Box gridArea='nav' background='light-3' direction='column' margin={{ 'horizontal': '1rem' }}>
-                <UserInfo name={'c'} />
-                <Box direction='row' align='center' >
-                    <Box pad='small'><Waypoint color='brand' /></Box>
-                    <Box direction='column'>
-                        <Heading level='4' margin={{ 'bottom': '0px' }} color='brand'>Москва</Heading>
-                        <Text size='small' >Автоматически</Text>
-                    </Box>
-                </Box>
-                <Box pad='small'>
-                    <Heading level={4} >Мои контакты</Heading>
-                </Box>
+                <UserPic name={props.user.name} />
+                <UserDetails />
             </Box>
-
-
-
-            <Box gridArea='header' background='brand' direction='row' gap='small' align='center'>
-                <Text margin={{ 'left': '2rem' }}>Мои товары</Text>
-                <Text>История обмена</Text>
+            {editMode ? (
+            <Box gridArea='main' align='start' >
+                <button onClick={offEditMode} > exit</button>
             </Box>
-
-            <Box gridArea='main' background='accent-1'>
-                <Heading level={2} margin={{ 'left': '2rem', 'vertical': '1.5rem' }}>Мои товары</Heading>
-                <Box margin='2rem' wrap={true}  >
-                    <ItemComponent />
-                    <ItemComponent />
-                    <ItemComponent />
-
-                    <ItemComponent />
-                    <ItemComponent />
-
-                </Box>
-            </Box>
+            ): (
+             <Box gridArea='main' align='start'>
+                    <Tabs>
+                        <Tab title='Мои товары'>
+                            <MyItems onEditMode={onEditMode} />
+                        </Tab>
+                        <Tab title='История обмена'>
+                            <Heading level={2} margin={{ 'left': '2rem', 'vertical': '1.5rem' }}>История обмена</Heading>
+                        </Tab>
+                    </Tabs>
+                </Box>)}
         </Grid>
     </>;
 }
-export default UserPage; 
+const mapStateToProps = (state: any) => ({
+    user: state.auth.user
+});
+
+export default connect(
+    mapStateToProps
+)(UserPage); 

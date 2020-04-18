@@ -8,13 +8,12 @@ import { Swipeable, direction } from 'react-deck-swiper';
 
 //import Messages from '../Components/Messages/MessagesComponent';
 import SwipeCards from '../Components/Cards/SwipeCardsComponent';
-import UserInfo from '../Components/User/UserInfoComponent';
+import UserPic from '../Components/User/UserPicComponent.tsx';
 import CardButtons from '../Components/Cards/CardButtons';
 
 import { Grid, Box, Heading, Anchor } from 'grommet';
 
-import { ICard, IAlert } from '../utils/interface';
-import { Link } from 'grommet-icons';
+import { ICard } from '../utils/interface';
 
 
 export interface RenderButtonsPayload {
@@ -35,7 +34,7 @@ interface ISwap {
 
 const MainPage: React.FC<ISwap> = (props) => {
     //const [chats, setChats] = useState<IChat[]>();
-    const [alert, setAlert] = useState<IAlert>({ show: false, variant: 'success', title: '' });
+    const [alert, setAlert] = useState({ show: false, variant: 'success', title: '' });
     const [test, setTest] = useState<ICard[]>([{
         id: 1,
         title: 'Card',
@@ -117,11 +116,11 @@ const MainPage: React.FC<ISwap> = (props) => {
             ]}
             gap='xxsmall'>
             <Box gridArea='nav' background='light-3'>
-                <UserInfo name={user.name} />
+                <UserPic name={user.name} />
                 {/* <Messages chats={chats} /> */}
             </Box>
             <Box gridArea='header' background='light-3' direction='row' align='center' gap='xsmall' justify='end'>
-                <Anchor label='Помощь'><Link></Link></Anchor>
+                <Anchor label='Помощь'></Anchor>
                 <Anchor label='Выйти' margin={{ 'right': '4rem' }} onClick={handleLogout}></Anchor>
             </Box>
             <Box gridArea='main' background='light-3'>

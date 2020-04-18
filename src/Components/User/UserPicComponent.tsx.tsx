@@ -6,12 +6,12 @@ import { Box, Avatar, Text } from 'grommet';
 interface P {
     name: any
 }
-const UserInfo: React.FC<P> = ({name}) => {
+const UserPic: React.FC<P> = ({name}) => {
     const history = useHistory();
     return (<>
         <Box direction='row' gap='small' alignContent='center' margin={{ 'vertical': '1rem' }} pad='small'>
             <Avatar src='//s.gravatar.com/avatar/b7fb138d53ba0f573212ccce38a7c43b?s=80' onClick={() => history.push('/user')} />
-            <Text alignSelf='center' color='neutral-2' weight='bold'>{name}</Text>
+            <Text alignSelf='center' color='neutral-2' weight='bold'>{name.toUpperCase()}</Text>
             {/* <Avatar background='accent-2'>
                 <UserFemale color='accent-1' />
             </Avatar> */}
@@ -20,4 +20,4 @@ const UserInfo: React.FC<P> = ({name}) => {
     </>
     );
 }
-export default UserInfo; 
+export default UserPic; 
