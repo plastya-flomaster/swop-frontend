@@ -1,15 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, Heading } from 'grommet';
+import { IItem } from '../utils/interface';
 
 interface IItemProps {
     onEditMode: () => void
+    item: IItem,
+    key: number
 }
 
-const MyItemComponent: React.FC<IItemProps> = ({onEditMode}) => {
+const MyItemComponent: React.FC<IItemProps> = ({ onEditMode, item, key }) => {
+    useEffect(() => {
+        console.log(item);
+    }, []);
+    
     return (
-        <Box background='accent-3' margin='small' height='small' width='small' elevation='small' >
-            <Box border={{ color: 'brand', size: 'medium', style: 'dotted' }} basis='small' align='center' justify='center' margin='5px' onClick={onEditMode}>
-                <Heading level={6} color='brand'>Мой</Heading>
+        <Box background='brand' margin='small' height='small' width='small' elevation='small'>
+            <Box background={item.photos ? 
+            {'image': `url(${item.photos![0].url})`, 'dark': true, 'opacity' : 'medium'}
+             : 'brand'} basis='small' align='start' justify='end' margin='5px' onClick={onEditMode} pad={{'left': '1rem'}}>
+                <Heading level={4} color='light-1' margin={{'bottom': '0'}} truncate={true}>{item.name}</Heading>
+                <Heading level={6} color='light-1'>{item.category.category}</Heading>
+
             </Box>
         </Box>
     )

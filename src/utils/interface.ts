@@ -18,5 +18,22 @@ export interface IChat {
 }
 
 export interface IItem {
-    status: 'isNew' | 'isEditing' | undefined;
+    name: string,
+    category: ICategory,
+    description?: string,
+    type?: IItemType[],
+    photos?: IPhoto[]
 }
+
+export interface ICategory {
+    id: number,
+    category: 'Одежда' | 'Обувь' | 'Аксессуары'
+}
+export interface IItemType {
+    id: number, 
+    typeName: string
+}
+export interface IPhoto {
+    url: string
+}
+
