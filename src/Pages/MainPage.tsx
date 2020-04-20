@@ -15,6 +15,7 @@ import { Grid, Box, Heading, Anchor } from 'grommet';
 
 import { ICard } from '../utils/interface';
 
+import { useHistory } from "react-router-dom";
 
 export interface RenderButtonsPayload {
     right: () => void;
@@ -27,13 +28,14 @@ interface ISwap {
         isAuthenticated: boolean,
         user: {
             id: string,
-            name: string     
+            name: string
         }
     }
 }
 
 const MainPage: React.FC<ISwap> = (props) => {
     //const [chats, setChats] = useState<IChat[]>();
+    const history = useHistory();
     const [alert, setAlert] = useState({ show: false, variant: 'success', title: '' });
     const [test, setTest] = useState<ICard[]>([{
         id: 1,
@@ -98,10 +100,13 @@ const MainPage: React.FC<ISwap> = (props) => {
             setTest(test.slice(1))
         }
     };
-    const handleLogout = (event: any) => {
+    const handleHelp = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+        event.preventDefault();
+        history.push('/help');
+    };
+    const handleLogout = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
         event.preventDefault();
         props.logoutUser();
-
     };
 
     return (<>
@@ -119,13 +124,13 @@ const MainPage: React.FC<ISwap> = (props) => {
                 {/* <Messages chats={chats} /> */}
             </Box>
             <Box gridArea='header' background='light-3' direction='row' align='center' gap='xsmall' justify='end'>
-                <Anchor label='Помощь'></Anchor>
+                <Anchor label='Помощь' onClick={handleHelp}></Anchor>
                 <Anchor label='Выйти' margin={{ 'right': '4rem' }} onClick={handleLogout}></Anchor>
             </Box>
             <Box gridArea='main' background='light-3'>
                 {
                     (test.length !== 0)
-                        ? <><Box border = {{color: 'brand'}}>
+                        ? <><Box border={{ color: 'brand' }}>
                             <Swipeable onSwipe={handleSwipe} renderButtons={({ left, right }) => {
                                 return <CardButtons right={right} left={left} />;
                             }}>

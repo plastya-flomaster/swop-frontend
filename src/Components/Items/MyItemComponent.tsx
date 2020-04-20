@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Heading } from 'grommet';
-import { IItem } from '../utils/interface';
+import { IItem } from '../../utils/interface';
 
 interface IItemProps {
     onEditMode: () => void;

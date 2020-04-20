@@ -7,8 +7,8 @@ import { connect } from 'react-redux';
 
 import UserPic from '../Components/User/UserPicComponent';
 import UserDetails from '../Components/User/UserDetailsComponent';
-import MyItems from '../Items/MyItemsComponent';
-import ItemCard from '../Items/ItemCardComponent';
+import MyItems from '../Components/Items/MyItemsComponent';
+import ItemCard from '../Components/Items/ItemCardComponent';
 import { IItem } from '../utils/interface';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppActionType } from '../redux/Actions/ActionTypes';

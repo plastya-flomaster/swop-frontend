@@ -10,22 +10,25 @@ import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
 import { setCurrentUser, logoutUser } from './redux/Actions/authActions';
 
-import UserPage from './Pages/UserPage';
 import RegisterComponent from './Components/Auth/RegisterComponent';
 import LoginComponent from './Components/Auth/LoginComponent';
 import PrivateRoute from './Components/Private-routes/PrivateRoute';
 
-// Check for token to keep user logged in
+import HelpPage from './Pages/HelpPage';
+import UserPage from './Pages/UserPage';
+
+
+// проверяем токен, чтобы пользователь был все время авторизован
 if (localStorage.getItem('jwtToken')) {
-  //sitting auth token header auth
+  //добавляем токен в localStorage
   const token = localStorage.getItem('jwtToken');
   setAuthToken(token!);
-  //decoding token
+  //дешифруем токен
   const decoded: any = jwt_decode(token!);
   store.dispatch(setCurrentUser(decoded));
 
   const currentTime = Date.now() / 1000;
-  //check for expired token
+  // проверяем не истек ли токен
   if (decoded.exp < currentTime) {
     store.dispatch(logoutUser());
     window.location.href = './login';
@@ -45,6 +48,7 @@ class App extends React.Component {
           <Switch>
             <PrivateRoute exact path='/swop' />
             <Route component={UserPage} path='/user' />
+            <Route component={HelpPage} path='/help' />
           </Switch>
         </Switch>
       </BrowserRouter>
