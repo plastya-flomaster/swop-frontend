@@ -1,7 +1,7 @@
 import { AppActionType } from './ActionTypes';
 import { IItem } from '../../utils/interface';
 import { Dispatch } from 'react';
-import Axios from 'axios';
+import axios from 'axios';
 
 export enum ItemsActions {
     GET_ITEMS = 'GET_ITEMS',
@@ -54,7 +54,7 @@ export const deleteItem = (payload: string): AppActionType => ({
 export const getAllItems = (userId: string) => {
     return (dispatch: Dispatch<AppActionType>) => {
         dispatch(sendLoading());
-        return Axios
+        return axios
         .get(`http://localhost:5000/api/items/${userId}`)
         .then(res => dispatch(sendItems(res.data)))
         .catch(error => dispatch(sendErrors(error.response.data)))

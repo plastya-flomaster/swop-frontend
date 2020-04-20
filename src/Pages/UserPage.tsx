@@ -23,6 +23,7 @@ interface IUserPage {
     }
     items: IItem[];
     getAllItems: (userId: string) => void;
+    error: any
 }
 
 const UserPage: React.FC<IUserPage> = (props) => {
@@ -33,10 +34,7 @@ const UserPage: React.FC<IUserPage> = (props) => {
 
     useEffect(() => {
         props.getAllItems(props.user.id)
-    }, [])
-
-    console.log(props.items);
-    
+    }, []);
 
     return <>
         <Grid
@@ -60,6 +58,8 @@ const UserPage: React.FC<IUserPage> = (props) => {
                     <Box gridArea='main' align='start'>
                         <Tabs>
                             <Tab title='Мои товары'>
+                                <Heading level={2} margin={{ 'left': '2rem', 'vertical': '1.5rem' }}>Мои товары</Heading>
+                                <Heading level={5} color='status-error' margin={{'left': '2rem'}}>{props.error}</Heading>
                                 <MyItems onEditMode={onEditMode} items={props.items} />
                             </Tab>
                             <Tab title='История обмена'>
@@ -72,11 +72,12 @@ const UserPage: React.FC<IUserPage> = (props) => {
 }
 const mapStateToProps = (state: AppState) => ({
     user: state.auth.user,
-    items: state.items.items
+    items: state.items.items,
+    error: state.items.error
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AppActionType>) => ({
-  getAllItems: bindActionCreators(getAllItems, dispatch)   // dispatch(getAllItems())
+    getAllItems: bindActionCreators(getAllItems, dispatch)   // dispatch(getAllItems())
 })
 
 export default connect(
