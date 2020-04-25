@@ -22,7 +22,7 @@ export default function (state = initialState, action: AppActionType): IUserRedu
             return {
                 ...state,
                 isAuthenticated: !isEmpty(action.payload),
-                id: action.payload._id,
+                id: action.payload._id ? action.payload._id : '',
                 user: action.payload,
                 loading: false
             }

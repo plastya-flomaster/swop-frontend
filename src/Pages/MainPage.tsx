@@ -120,52 +120,50 @@ const MainPage: React.FC<ISwap> = (props) => {
     };
 
 
-    return (<>
-        <Grid
-            columns={['1/4', 'fill']}
-            rows={['xsmall', 'flex']}
-            areas={[
-                { name: 'nav', start: [0, 0], end: [0, 1] },
-                { name: 'header', start: [1, 0], end: [1, 0] },
-                { name: 'main', start: [1, 1], end: [1, 1] }
-            ]}
-            gap='xxsmall'>
-            <Box gridArea='nav' background='light-3'>
-                <UserPic name={user.name} />
-                {/* <Messages chats={chats} /> */}
-                <Box pad='small'><Heading level='5'>Добро пожаловать в приложение SWOP!
+    return (<Grid
+        columns={['1/4', '3/4']}
+        rows={['xsmall', 'fill']}
+        areas={[
+            { name: 'nav', start: [0, 0], end: [0, 1] },
+            { name: 'header', start: [1, 0], end: [1, 0] },
+            { name: 'main', start: [1, 1], end: [1, 1] }
+        ]}
+        gap='xxsmall'>
+        <Box gridArea='nav' background='light-3'>
+            <UserPic name={user.name} />
+            {/* <Messages chats={chats} /> */}
+            <Box pad='small'><Heading level='5'>Добро пожаловать в приложение SWOP!
                 Свайпай карточки справа, выбирай те предметы одежды, которые понравятся тебе.</Heading>
-                </Box>
-                <Button label='узнать совпадения'></Button>
             </Box>
-            <Box gridArea='header' background='light-3' direction='row' align='center' gap='xsmall' justify='end'>
-                <Anchor label='Помощь' onClick={handleHelp}></Anchor>
-                <Anchor label='Выйти' margin={{ 'right': '4rem' }} onClick={handleLogout}></Anchor>
-            </Box>
-            <Box gridArea='main'>
-                {
-                    (test.length !== 0)
-                        ? <>
-                            <Swipeable onSwipe={handleSwipe} renderButtons={({ left, right }) => {
-                                return <CardButtons right={right} left={left} />;
-                            }}>
-                                <Box align='center' pad={{ 'vertical': '2rem' }}><SwipeCards card={test[0]}></SwipeCards></Box>
-                            </Swipeable>
-                            {(alert.show) ? <Box round={true} background={alert.variant}>
+            <Button margin='small' label='узнать совпадения'></Button>
+        </Box>
+        <Box gridArea='header' background='light-3' direction='row' align='center' gap='xsmall' justify='end'>
+            <Anchor label='Помощь' onClick={handleHelp}></Anchor>
+            <Anchor label='Выйти' margin={{ 'right': '4rem' }} onClick={handleLogout}></Anchor>
+        </Box>
+        <Box gridArea='main'>
+            {(test.length !== 0)
+                ? <>
+                    <Swipeable onSwipe={handleSwipe} renderButtons={({ left, right }) => {
+                        return <CardButtons right={right} left={left} />;
+                    }}>
+                        <Box align='center' pad={{ 'vertical': '2rem' }}><SwipeCards card={test[0]}></SwipeCards></Box>
+                    </Swipeable>
+                    {(alert.show) ? <Box round={true} background={alert.variant}>
                         <Text margin={{ 'horizontal': 'small' }}>{alert.title}</Text> </Box> : <></>}
-                        </>
-                        : <Box align='center' justify='center'><Heading level={2}>На сегодня всё!</Heading></Box>
-                }
-            </Box>
-        </Grid>
-    </>
-
-
-
+                </>
+                : <Box align='center' justify='center'><Heading level={2}>На сегодня всё!</Heading></Box>
+            }
+        </Box>
+    </Grid>
     );
 }
+
 const mapStateToProps = (state: any) => ({
     auth: state.auth
 });
 
-export default connect(mapStateToProps, { logoutUser })(MainPage);
+export default connect(
+    mapStateToProps,
+    { logoutUser })
+    (MainPage);

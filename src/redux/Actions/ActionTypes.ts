@@ -1,11 +1,11 @@
 import { ItemsActions } from './itemsActions';
 import { UserActions } from './userActions'
-import { IItem } from '../../utils/interface';
+import { IItem, IUserInfo } from '../../utils/interface';
 
 
 interface ISetCurrentUser {
     type: typeof UserActions.SET_CURRENT_USER,
-    payload: any
+    payload: IUserInfo
 }
 
 interface ISetUserLoading {

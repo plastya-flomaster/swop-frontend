@@ -15,9 +15,9 @@ export enum UserActions {
 };
 
 //set loggedin user
-export const setCurrentUser = (info: IUserInfo): AppActionType => ({
+export const setCurrentUser = (payload: IUserInfo): AppActionType => ({
     type: UserActions.SET_CURRENT_USER,
-    payload: info
+    payload
 });
 
 //user loading
@@ -38,10 +38,10 @@ export const userLogout = (): AppActionType => ({
 
 //НЕ ЭКШЕНЫ
 export const updateUser = (id: string, user: IUserInfo) => (dispatch: Dispatch<AppActionType>) => {
-    axios.put(`http://localhost:5000/api/users/${id}/update/`, {}, { params: user } )
+    axios.put(`http://localhost:5000/api/users/${id}/update/`, {}, { params: user })
         .then(res => {
-            console.log(res.data);            
-            dispatch(setCurrentUser(res.data)) 
+            console.log(res.data);
+            dispatch(setCurrentUser(res.data));
         }) //установим текущего юзера)
         .catch(err => dispatch(sendErrors(err.response.data)));
 }
@@ -73,6 +73,15 @@ export const logoutUser = (): any => (dispatch: any) => {
     setAuthToken(false);
     //clean current user
     dispatch(userLogout());
+};
+
+export const deleteUser = (id: string) => (dispatch: Dispatch<AppActionType>) => {
+    axios.delete(`http://localhost:5000/api/users/${id}`)
+        .then(res => { 
+            console.log(res.data);
+            dispatch(logoutUser());
+         })
+        .catch(err => dispatch(sendErrors(err.response.data)));
 };
 
 

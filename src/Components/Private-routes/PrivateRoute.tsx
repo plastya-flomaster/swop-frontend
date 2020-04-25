@@ -9,7 +9,7 @@ const PrivateRoute: React.FC<any> = ({ component: Component, auth, ...rest }) =>
         {auth.isAuthenticated === true ? (
             <MainPage />
         ) : <Redirect to='/login' />
-        }}
+        }
     </Route>)
 }
 

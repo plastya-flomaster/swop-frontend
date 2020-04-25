@@ -10,6 +10,7 @@ import { LinkPrevious } from 'grommet-icons';
 
 import { IError } from '../../utils/types';
 import { AppState } from '../../redux/Stores/store';
+import { IUserInfo } from '../../utils/interface';
 
 
 interface IRegister extends RouteComponentProps {
@@ -20,7 +21,7 @@ interface IRegister extends RouteComponentProps {
 
 const RegisterComponent: React.FC<IRegister> = (props) => {
 
-    const [user, setUser] = useState({
+    const [user, setUser] = useState<IUserInfo>({
         name: '',
         email: '',
         password: '',

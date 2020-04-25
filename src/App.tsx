@@ -20,12 +20,38 @@ import EditUserPage from './Pages/EditUserPage';
 
 
 // проверяем токен, чтобы пользователь был все время авторизован
-if (localStorage.getItem('jwtToken')) {
+// if (localStorage.getItem('jwtToken')) {
+//   //добавляем токен в localStorage
+//   const token = localStorage.getItem('jwtToken');
+//   setAuthToken(token!);
+//   //дешифруем токен
+//   const decoded: any = jwt_decode(token!);
+//   console.log('decode4ed');  
+//   console.log(decoded);
+  
+//   store.dispatch(setCurrentUser(decoded));
+
+//   const currentTime = Date.now() / 1000;
+//   // проверяем не истек ли токен
+//   if (decoded.exp < currentTime) {
+//     store.dispatch(logoutUser());
+//     window.location.href = './login';
+//   }
+// }
+
+
+const App: React.FC = () =>{
+
+  React.useEffect(() => {
+    const token = localStorage.getItem('jwtToken')
+    if (token) {
   //добавляем токен в localStorage
-  const token = localStorage.getItem('jwtToken');
   setAuthToken(token!);
   //дешифруем токен
-  const decoded: any = jwt_decode(token!);
+  const decoded: any = jwt_decode(token);
+  console.log('decode4ed');  
+  console.log(decoded);
+  
   store.dispatch(setCurrentUser(decoded));
 
   const currentTime = Date.now() / 1000;
@@ -35,11 +61,8 @@ if (localStorage.getItem('jwtToken')) {
     window.location.href = './login';
   }
 }
+  })
 
-
-class App extends React.Component {
-
-  render() {
     return <Provider store={store}>
       <BrowserRouter>
         <Switch>
@@ -56,7 +79,6 @@ class App extends React.Component {
         </Switch>
       </BrowserRouter>
     </Provider>;
-  }
 }
 
 
