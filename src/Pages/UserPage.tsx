@@ -36,9 +36,8 @@ const UserPage: React.FC<IUserPage> = (props) => {
         props.getAllItems(props.id)
     }, []);
 
-    return <>
-        <Grid
-            columns={['1/4', 'flex']}
+    return <Grid
+            columns={['1/4', '3/4']}
             rows={['large']}
             areas={[
                 { name: 'nav', start: [0, 0], end: [0, 0] },
@@ -70,8 +69,7 @@ const UserPage: React.FC<IUserPage> = (props) => {
                             </Tab>
                         </Tabs></>)}
             </Box>
-        </Grid>
-    </>;
+        </Grid>;
 }
 const mapStateToProps = (state: AppState) => ({
     user: state.auth.user,

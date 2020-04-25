@@ -9,19 +9,17 @@ import { FormField, Grommet, grommet, Header, Button, Box, Heading, Form, TextIn
 import { LinkPrevious } from 'grommet-icons';
 
 import { IError } from '../../utils/types';
+import { AppState } from '../../redux/Stores/store';
 
 
 interface IRegister extends RouteComponentProps {
     registerUser: (userData: any, history: any) => void,
-    auth: {
-        isAuthenticated: boolean
-    },
+    isAuthenticated: boolean
     errors: IError
 }
 
 const RegisterComponent: React.FC<IRegister> = (props) => {
 
-    const [err, setErrors] = useState({ err: props.errors });
     const [user, setUser] = useState({
         name: '',
         email: '',
@@ -29,17 +27,10 @@ const RegisterComponent: React.FC<IRegister> = (props) => {
         confirmPassword: ''
     });
 
-    useEffect(() => {
-        if (props.errors) {
-            setErrors({
-                err: props.errors
-            })
-        }
-    }, [props.errors]);
 
     useEffect(() => {
           // If logged in and user navigates to Register page, redirect him to swop
-          if (props.auth.isAuthenticated) {
+          if (props.isAuthenticated) {
             props.history.push('/swop');
           }
 
@@ -77,16 +68,16 @@ const RegisterComponent: React.FC<IRegister> = (props) => {
                     value={user}
                     onChange={(nextValue: any) => { setUser(nextValue) }}
                 >
-                    <FormField label='Имя' name='name' error={err.err.name}>
+                    <FormField label='Имя' name='name' error={props.errors && props.errors.name}>
                         <TextInput placeholder='Иван' name='name' />
                     </FormField>
-                    <FormField label='Email' name='email' error={err.err.email} >
+                    <FormField label='Email' name='email' error={props.errors && props.errors.email} >
                         <TextInput placeholder='test@gmail.com' name='email' />
                     </FormField>
-                    <FormField label='Пароль' name='password' error={err.err.password}>
+                    <FormField label='Пароль' name='password' error={props.errors && props.errors.password}>
                         <TextInput placeholder='123456' type='password' name='password' />
                     </FormField>
-                    <FormField label='Повторите пароль' name='confirmPassword' error={err.err.confirmPassword}>
+                    <FormField label='Повторите пароль' name='confirmPassword' error={props.errors && props.errors.confirmPassword}>
                         <TextInput placeholder='123456' type='password' name='confirmPassword' />
                     </FormField>
                     <Box direction='row' gap='medium'>
@@ -100,9 +91,9 @@ const RegisterComponent: React.FC<IRegister> = (props) => {
 
 }
 //allows pass props auth and errors to register component
-const mapStateToProps = (state: IRegister) => ({
-    auth: state.auth,
-    errors: state.errors
+const mapStateToProps = (state: AppState) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    error: state.auth.error
 });
 
 export default connect(

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { Box, Button, Header, TextInput, FormField, Heading, Grommet, grommet, Form } from 'grommet';
+import { Box, Button, Header, TextInput, FormField, Heading, Grommet, grommet, Form, Layer } from 'grommet';
 import { LinkPrevious, MailOption, Phone, Instagram } from 'grommet-icons';
 
 import UserPic from '../Components/User/UserPicComponent';
@@ -12,13 +12,15 @@ import { AppState } from '../redux/Stores/store';
 
 interface IEditUserPage {
 
-    updateUser: ( id: string, userData: IUserInfo) => void;
+    updateUser: (id: string, userData: IUserInfo) => void;
     error: any,
     user: IUserInfo,
     id: string,
 
 }
 const EditUserPage: React.FC<IEditUserPage> = (props) => {
+
+    const [confirm, setConfirm] = useState(false);
 
     const [user, setUser] = useState<IUserInfo>({
         name: '',
@@ -37,10 +39,13 @@ const EditUserPage: React.FC<IEditUserPage> = (props) => {
             instagram: user.instagram
 
         });
-        props.updateUser( props.id ,user);
+        props.updateUser(props.id, user);
         event.preventDefault();
     };
-
+    const handleDelete = () => {
+        setConfirm(false);
+        alert('del');
+    };
     const handleReset = () => {
         setUser({
             name: '',
@@ -66,7 +71,7 @@ const EditUserPage: React.FC<IEditUserPage> = (props) => {
                 onSubmit={handleEdit}
                 onReset={handleReset}
                 value={user}
-                onChange={(nextValue: any) => { debugger; setUser(nextValue) }}
+                onChange={(nextValue: any) => setUser(nextValue)}
             >
                 <FormField label='Имя' name='name' validate={{ regexp: /^[a-zA-zА-Яа-яё]/i }}>
                     <TextInput placeholder='Иван' name='name' />
@@ -89,8 +94,23 @@ const EditUserPage: React.FC<IEditUserPage> = (props) => {
                 </Box>
 
             </Form>
-            <Button label='Удалить аккаунт' color='status-error' />
+            <Button label='Удалить аккаунт' color='status-error' onClick={() => setConfirm(true)} />
+            {confirm && (
+                <Layer
+                    onEsc={() => setConfirm(false)}
+                    onClickOutside={() => setConfirm(false)}
+                >
+                    <Box pad='small'>
 
+                        <Heading level='4'>Вы уверены, что хотите удалить аккаунт?</Heading>
+                        <Box margin='small' flex='grow' direction='row' justify='between'>
+
+                            <Button label="Удалить" color='status-error' onClick={handleDelete} />
+                            <Button label="Отмена" color='status-unknown' onClick={() => setConfirm(false)} />
+                        </Box>
+                    </Box>
+                </Layer>
+            )}
         </Box></Grommet>);
 }
 const mapStateToProps = (state: AppState) => ({
