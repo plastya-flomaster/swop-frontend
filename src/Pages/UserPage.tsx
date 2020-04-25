@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 
-import { Grid, Box, Heading, Tabs, Tab } from 'grommet';
+import { Grid, Box, Heading, Tabs, Tab, Button, Header } from 'grommet';
 
 import { connect } from 'react-redux';
 
@@ -9,19 +9,19 @@ import UserPic from '../Components/User/UserPicComponent';
 import UserDetails from '../Components/User/UserDetailsComponent';
 import MyItems from '../Components/Items/MyItemsComponent';
 import ItemCard from '../Components/Items/ItemCardComponent';
-import { IItem } from '../utils/interface';
+import { IItem, IUserInfo } from '../utils/interface';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppActionType } from '../redux/Actions/ActionTypes';
 import { bindActionCreators } from 'redux';
 import { getAllItems } from '../redux/Actions/itemsActions';
 import { AppState } from '../redux/Stores/store';
+import { LinkPrevious } from 'grommet-icons';
+import { Link } from 'react-router-dom';
 
 interface IUserPage {
-    user: {
-        name: string,
-        id: string
-    }
+    user: IUserInfo
     items: IItem[];
+    id: string;
     getAllItems: (userId: string) => void;
     error: any
 }
@@ -29,11 +29,11 @@ interface IUserPage {
 const UserPage: React.FC<IUserPage> = (props) => {
     const [editMode, setEditMode] = useState<boolean>(false);
 
-    const onEditMode = () => setEditMode(true)
-    const offEditMode = () => setEditMode(false)
+    const onEditMode = () => setEditMode(true);
+    const offEditMode = () => setEditMode(false);
 
     useEffect(() => {
-        props.getAllItems(props.user.id)
+        props.getAllItems(props.id)
     }, []);
 
     return <>
@@ -49,36 +49,40 @@ const UserPage: React.FC<IUserPage> = (props) => {
                 <UserPic name={props.user.name} />
                 <UserDetails />
             </Box>
-            {editMode ? (
-                <Box gridArea='main' align='start' >
-                    <ItemCard />
-                    <button onClick={offEditMode} >exit</button>
-                </Box>
-            ) : (
-                    <Box gridArea='main' align='start'>
+            <Box gridArea='main' align='start' >
+                {editMode ? (<>
+                    <Header margin={{ 'top': '1rem' }}>
+                        <Button icon={<LinkPrevious color='brand' />} onClick={offEditMode} label='Назад' margin='small' hoverIndicator />
+                    </Header>
+                    <ItemCard /></>
+                ) : (<>
+                        <Header margin={{ 'top': '1rem' }}>
+                            <Link to='/swop'><Button icon={<LinkPrevious color='brand' />} label='На главную' margin='small' hoverIndicator /></Link>
+                        </Header>
                         <Tabs>
                             <Tab title='Мои товары'>
                                 <Heading level={2} margin={{ 'left': '2rem', 'vertical': '1.5rem' }}>Мои товары</Heading>
-                                <Heading level={5} color='status-error' margin={{'left': '2rem'}}>{props.error}</Heading>
+                                <Heading level={5} color='status-error' margin={{ 'left': '2rem' }}>{props.error}</Heading>
                                 <MyItems onEditMode={onEditMode} items={props.items} />
                             </Tab>
                             <Tab title='История обмена'>
                                 <Heading level={2} margin={{ 'left': '2rem', 'vertical': '1.5rem' }}>История обмена</Heading>
                             </Tab>
-                        </Tabs>
-                    </Box>)}
+                        </Tabs></>)}
+            </Box>
         </Grid>
     </>;
 }
 const mapStateToProps = (state: AppState) => ({
     user: state.auth.user,
+    id: state.auth.id,
     items: state.items.items,
     error: state.items.error
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AppActionType>) => ({
     getAllItems: bindActionCreators(getAllItems, dispatch)   // dispatch(getAllItems())
-})
+});
 
 export default connect(
     mapStateToProps,

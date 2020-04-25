@@ -1,15 +1,19 @@
 export interface IUserInfo {
+    _id?: string,
     name: string;
     email: string;
-    password: string;
-    confirmPassword: string;
+    password?: string;
+    confirmPassword?: string;
+    phone?: string;
+    instagram?: string;
 }
-export interface ICard {
-    id: number;
-    title: string;
-    date: string;
-    location: string;
+
+export interface IAlert {
+    show: boolean,
+    variant: string,
+    title: string
 }
+
 export interface IChat {
     chatId: number;
     fromItem: string;
@@ -30,7 +34,7 @@ export interface ICategory {
     category: 'Одежда' | 'Обувь' | 'Аксессуары'
 }
 export interface IItemType {
-    id: number, 
+    id: number,
     typeName: string
 }
 export interface IPhoto {

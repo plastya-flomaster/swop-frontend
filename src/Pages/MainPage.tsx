@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 
 import { connect } from 'react-redux';
-import { logoutUser } from '../redux/Actions/authActions'
+import { logoutUser } from '../redux/Actions/userActions'
 
 import { Swipeable, direction } from 'react-deck-swiper';
 
@@ -11,9 +11,9 @@ import SwipeCards from '../Components/Cards/SwipeCardsComponent';
 import UserPic from '../Components/User/UserPicComponent';
 import CardButtons from '../Components/Cards/CardButtons';
 
-import { Grid, Box, Heading, Anchor } from 'grommet';
+import { Grid, Box, Heading, Anchor, Text, Button } from 'grommet';
 
-import { ICard } from '../utils/interface';
+import { IItem, ICategory, IItemType, IAlert } from '../utils/interface';
 
 import { useHistory } from "react-router-dom";
 
@@ -36,27 +36,37 @@ interface ISwap {
 const MainPage: React.FC<ISwap> = (props) => {
     //const [chats, setChats] = useState<IChat[]>();
     const history = useHistory();
-    const [alert, setAlert] = useState({ show: false, variant: 'success', title: '' });
-    const [test, setTest] = useState<ICard[]>([{
-        id: 1,
-        title: 'Card',
-        location: 'Perm krai',
-        date: '22/02/22'
-    },
-    { id: 2, title: 'Card2', location: 'Perm krai', date: '15/02/22' },
-    {
-        id: 3,
-        title: 'Card3',
-        location: 'Perm krai',
-        date: '24/02/22'
-    },
-    {
-        id: 4,
-        title: 'Card4',
-        location: 'Perm krai',
-        date: '25/02/22'
-    },
-    ]);
+    const [alert, setAlert] = useState<IAlert>({ show: false, variant: 'status-ok', title: '' });
+
+    const category: ICategory = { id: 1, category: 'Одежда' };
+    const cat2: ICategory = { id: 2, category: 'Обувь' };
+    const type1: IItemType = { id: 2, typeName: 'Крутой!' }
+    const [test, setTest] = useState<IItem[]>([{
+        name: 'Брюки Armani',
+        description: 'Новые и красивые!',
+        category: category,
+        photos: [{
+            url: 'https://source.unsplash.com/random/700×700/?man'
+        },
+        { url: 'https://source.unsplash.com/random/700×700/?wear' }]
+
+    }, {
+        name: 'Карточка 2',
+        description: 'Новые и красивые!',
+        category: category,
+        photos: [{
+            url: 'https://source.unsplash.com/random/700×700/?shoes'
+        },
+        { url: 'https://source.unsplash.com/random/700×700/?wear' }]
+
+    }, {
+        name: 'Ботинки черные',
+        description: 'Размера 41, мужские',
+        category: cat2,
+        type: [type1]
+
+
+    }]);
 
     const { user } = props.auth;
 
@@ -65,7 +75,7 @@ const MainPage: React.FC<ISwap> = (props) => {
     //         chatId: 0,
     //         toItem: 'Пальто BERSHKA',
     //         fromItem: 'Лонгслив ZARA',
-    //         userImage: 'https://source.unsplash.com/random/700×700/?man'
+    //         userImage: ''
     //     }, {
     //         chatId: 1,
     //         toItem: 'Пальто BERSHKA',
@@ -92,11 +102,11 @@ const MainPage: React.FC<ISwap> = (props) => {
 
     const handleSwipe = (swipeDirection: direction) => {
         if (swipeDirection == direction.RIGHT) {
-            setAlert({ show: true, variant: 'success', title: 'Вы свайпнули вправо!' })
+            setAlert({ show: true, variant: 'status-error', title: 'Вы свайпнули вправо!' })
             setTest(test.slice(1))
         }
         if (swipeDirection == direction.LEFT) {
-            setAlert({ show: true, variant: 'danger', title: 'Вы свайпнули влево!' })
+            setAlert({ show: true, variant: 'status-ok', title: 'Вы свайпнули влево!' })
             setTest(test.slice(1))
         }
     };
@@ -109,10 +119,11 @@ const MainPage: React.FC<ISwap> = (props) => {
         props.logoutUser();
     };
 
+
     return (<>
         <Grid
-            columns={['1/4', 'flex']}
-            rows={['xsmall', 'medium']}
+            columns={['1/4', 'fill']}
+            rows={['xsmall', 'flex']}
             areas={[
                 { name: 'nav', start: [0, 0], end: [0, 1] },
                 { name: 'header', start: [1, 0], end: [1, 0] },
@@ -122,26 +133,28 @@ const MainPage: React.FC<ISwap> = (props) => {
             <Box gridArea='nav' background='light-3'>
                 <UserPic name={user.name} />
                 {/* <Messages chats={chats} /> */}
+                <Box pad='small'><Heading level='5'>Добро пожаловать в приложение SWOP!
+                Свайпай карточки справа, выбирай те предметы одежды, которые понравятся тебе.</Heading>
+                </Box>
+                <Button label='узнать совпадения'></Button>
             </Box>
             <Box gridArea='header' background='light-3' direction='row' align='center' gap='xsmall' justify='end'>
                 <Anchor label='Помощь' onClick={handleHelp}></Anchor>
                 <Anchor label='Выйти' margin={{ 'right': '4rem' }} onClick={handleLogout}></Anchor>
             </Box>
-            <Box gridArea='main' background='light-3'>
+            <Box gridArea='main'>
                 {
                     (test.length !== 0)
-                        ? <><Box border={{ color: 'brand' }}>
+                        ? <>
                             <Swipeable onSwipe={handleSwipe} renderButtons={({ left, right }) => {
                                 return <CardButtons right={right} left={left} />;
                             }}>
-                                <SwipeCards card={test[0]}></SwipeCards>
+                                <Box align='center' pad={{ 'vertical': '2rem' }}><SwipeCards card={test[0]}></SwipeCards></Box>
                             </Swipeable>
-                        </Box>
-                            {(alert.show) ? <Box>
-                                <Heading>{alert.title}, {alert.variant}</Heading>
-                            </Box> : <></>}
+                            {(alert.show) ? <Box round={true} background={alert.variant}>
+                        <Text margin={{ 'horizontal': 'small' }}>{alert.title}</Text> </Box> : <></>}
                         </>
-                        : <Heading level={2}> На сегодня всё!</Heading>
+                        : <Box align='center' justify='center'><Heading level={2}>На сегодня всё!</Heading></Box>
                 }
             </Box>
         </Grid>

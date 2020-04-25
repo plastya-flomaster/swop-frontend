@@ -1,22 +1,27 @@
-import { SET_CURRENT_USER, USER_LOADING, GET_ERRORS } from "./types";
 import { ItemsActions } from './itemsActions';
+import { UserActions } from './userActions'
 import { IItem } from '../../utils/interface';
 
 
 interface ISetCurrentUser {
-    type: typeof SET_CURRENT_USER,
+    type: typeof UserActions.SET_CURRENT_USER,
     payload: any
 }
 
 interface ISetUserLoading {
-    type: typeof USER_LOADING
+    type: typeof UserActions.USER_LOADING
+}
+
+interface IUserLogout {
+    type: typeof UserActions.USER_LOGOUT
 }
 
 interface ISendErrors {
-    type: typeof GET_ERRORS,
+    type: typeof UserActions.USER_ERROR
     payload: any
 }
-type UserTypes = ISetCurrentUser | ISetUserLoading | ISendErrors;
+
+type UserTypes = ISetCurrentUser | ISetUserLoading | IUserLogout | ISendErrors;
 
 interface IGetAllItems {
     type: typeof ItemsActions.GET_ITEMS,
@@ -48,7 +53,5 @@ interface IItemError {
 
 type ItemTypes = IGetAllItems | IDelItem | IAddItem | IUpdateItem | IItemLoading | IItemError;
 
-
-
-export type AppActionType = UserTypes | ItemTypes;
+export type AppActionType = UserTypes | ItemTypes ;
 

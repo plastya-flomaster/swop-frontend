@@ -16,7 +16,7 @@ export enum ItemsActions {
 
 // внести товары в стор
 //вставляет данные в стор
-const sendItems = (payload: IItem[]): AppActionType => ({
+export const sendItems = (payload: IItem[]): AppActionType => ({
     type: ItemsActions.GET_ITEMS,
     payload
 });

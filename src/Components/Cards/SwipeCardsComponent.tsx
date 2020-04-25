@@ -1,26 +1,35 @@
 import * as React from 'react';
-import './CardsStyles.css';
-import { ICard } from '../../utils/interface';
+import { IItem } from '../../utils/interface';
+import { Box, Text } from 'grommet';
 
 interface Props {
-    card: ICard
+    card: IItem
 }
 
 const SwipeCards: React.FC<Props> = ({ card }) => {
     return (
-        <>
-        <div className='card'>
-            <div className='header'>
-                <span className='date'>{card.date}</span>
-            </div>
-            <div className='data'>
-                <span className='location'>{card.location}</span>
-                <h1 className='title'>{card.title}</h1>
-                <p className='text'>The antsy bingers of Netflix will eagerly anticipate the digital release of the Survive soundtrack, out today.</p>
-                <div className='footer'>{card.location}</div>
-            </div>
-        </div>
-        </>);
+        <Box round='small'
+            background={card.photos ?
+                { 'image': `url(${card.photos![0].url})`, 'dark': true, 'opacity': 'medium' }
+                : 'brand'}
+            width='medium'
+            height='400px'
+            animation='slideUp'
+            pad='small'
+            justify='end'>
+                <Text>{card.category.category}, г. Пермь</Text>
+            <Box>
+                <h1 className='title'>{card.name}</h1>
+                <p className='text'>{card.description}</p>
+                <Box align='start' justify='end'>
+                    <Box round={true} background='accent-2'>
+                        <Text margin={{ 'horizontal': 'small' }}>
+                             {card.type ? card.type[0].typeName : ''}
+                        </Text>
+                    </Box>
+                </Box>
+            </Box>
+        </Box>);
 }
 
 export default SwipeCards;

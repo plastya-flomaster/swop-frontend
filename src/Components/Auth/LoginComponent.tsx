@@ -2,14 +2,13 @@ import * as React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { loginUser } from "../../redux/Actions/authActions";
+import { loginUser } from "../../redux/Actions/userActions";
 import { FormField, Grommet, grommet, Button, Box, Heading, Form, TextInput, Text, CheckBox } from 'grommet';
+import { AppState } from '../../redux/Stores/store';
 
 interface ILoginProps extends RouteComponentProps {
     loginUser: (userData: any) => void,
-    auth: {
-        isAuthenticated: boolean
-    },
+    isAuthenticated: boolean;
     errors: any
 }
 
@@ -18,7 +17,6 @@ const LoginComponent: React.FC<ILoginProps> = (props) => {
     //const [validated, setValidated] = useState<boolean>(false); //валидация формы
     const [checked, setCheck] = useState<boolean>(false);
     const [user, setUser] = useState<any>({ email: '', password: '' });
-    const [err, setErrors] = useState({ err: props.errors });
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         // const form = event.currentTarget;
@@ -31,10 +29,10 @@ const LoginComponent: React.FC<ILoginProps> = (props) => {
         // setValidated(true);
         event.preventDefault();
 
-        setUser({
-            email: user.email,
-            password: user.password
-        })
+        // setUser({
+        //     email: user.email,
+        //     password: user.password
+        // })
         props.loginUser(user);
         writeToLocalStorage();
 
@@ -58,19 +56,14 @@ const LoginComponent: React.FC<ILoginProps> = (props) => {
             localStorage.removeItem('userPassword');
         }
         // If logged in and user navigates to Login page, redirect him to swop
-        if (props.auth.isAuthenticated) {
+        if (props.isAuthenticated) {
             props.history.push('/swop');
         }
     }, []);
 
     useEffect(() => {
-        if (props.auth.isAuthenticated) {
+        if (props.isAuthenticated) {
             props.history.push('/swop');
-        }
-        if (props.errors) {
-            setErrors({
-                err: props.errors
-            })
         }
     }, [props])
 
@@ -84,10 +77,10 @@ const LoginComponent: React.FC<ILoginProps> = (props) => {
                     onChange={(value: any) => { setUser(value) }}
                     value={user}
                     validate='submit'>
-                    <FormField label='Email' name='email' error={err.err.email}>
+                    <FormField label='Email' name='email' error={props.errors && props.errors.email}>
                         <TextInput placeholder='test@gmail.com' name='email' />
                     </FormField>
-                    <FormField label='Пароль' name='password' error={err.err.password}>
+                    <FormField label='Пароль' name='password' error={props.errors && props.errors.password}>
                         <TextInput placeholder='123456' type='password' name='password' />
                     </FormField>
                     <Box direction='row' gap='small' margin={{
@@ -112,9 +105,9 @@ const LoginComponent: React.FC<ILoginProps> = (props) => {
     );
 };
 
-const mapStateToProps = (state: ILoginProps) => ({
-    auth: state.auth,
-    errors: state.errors
+const mapStateToProps = (state: AppState) => ({
+    isAuthenticated: state.auth.isAuthenticated,
+    errors: state.auth.error
 });
 
 export default connect(

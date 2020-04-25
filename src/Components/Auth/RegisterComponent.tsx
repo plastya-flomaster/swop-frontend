@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 
 import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { registerUser } from '../../redux/Actions/authActions';
+import { registerUser } from '../../redux/Actions/userActions';
 
 import { FormField, Grommet, grommet, Header, Button, Box, Heading, Form, TextInput, Anchor } from 'grommet';
 import { LinkPrevious } from 'grommet-icons';
@@ -47,7 +47,6 @@ const RegisterComponent: React.FC<IRegister> = (props) => {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         props.registerUser(user, props.history);
-        console.log(props.errors);
         event.preventDefault();
 
     };
@@ -81,7 +80,7 @@ const RegisterComponent: React.FC<IRegister> = (props) => {
                     <FormField label='Имя' name='name' error={err.err.name}>
                         <TextInput placeholder='Иван' name='name' />
                     </FormField>
-                    <FormField label='Email' name='email' error={err.err.email}>
+                    <FormField label='Email' name='email' error={err.err.email} >
                         <TextInput placeholder='test@gmail.com' name='email' />
                     </FormField>
                     <FormField label='Пароль' name='password' error={err.err.password}>
