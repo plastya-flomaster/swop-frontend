@@ -8,7 +8,7 @@ import store from './redux/Stores/store';
 
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
-import { setCurrentUser, logoutUser } from './redux/Actions/authActions';
+import { setCurrentUser, logoutUser } from './redux/Actions/userActions';
 
 import RegisterComponent from './Components/Auth/RegisterComponent';
 import LoginComponent from './Components/Auth/LoginComponent';
@@ -16,6 +16,7 @@ import PrivateRoute from './Components/Private-routes/PrivateRoute';
 
 import HelpPage from './Pages/HelpPage';
 import UserPage from './Pages/UserPage';
+import EditUserPage from './Pages/EditUserPage';
 
 
 // проверяем токен, чтобы пользователь был все время авторизован
@@ -49,6 +50,8 @@ class App extends React.Component {
             <PrivateRoute exact path='/swop' />
             <Route component={UserPage} path='/user' />
             <Route component={HelpPage} path='/help' />
+            <Route component={EditUserPage} path='/edit' />
+
           </Switch>
         </Switch>
       </BrowserRouter>
