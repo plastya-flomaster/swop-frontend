@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
-import { Box, Button, Header, TextInput, FormField, Heading, Grommet, grommet, Form, Layer } from 'grommet';
+import { Box, Button, Header, TextInput, FormField, Heading, Form, Layer } from 'grommet';
 import { LinkPrevious, MailOption, Phone, Instagram } from 'grommet-icons';
 
 import UserPic from '../Components/User/UserPicComponent';
@@ -55,7 +55,7 @@ const EditUserPage: React.FC<IEditUserPage> = (props) => {
         setUser(props.user);
     }, [props.user]);
 
-    return (<Grommet theme={grommet}>
+    return (<>
         <Box pad='small' fill align='center' justify='center'>
             <Header>
                 <UserPic name={user.name}></UserPic>
@@ -105,7 +105,7 @@ const EditUserPage: React.FC<IEditUserPage> = (props) => {
                     </Box>
                 </Layer>
             )}
-        </Box></Grommet>);
+        </Box></>);
 }
 const mapStateToProps = (state: AppState) => ({
     user: state.auth.user,

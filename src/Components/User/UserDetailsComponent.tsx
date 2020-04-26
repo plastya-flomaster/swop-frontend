@@ -1,9 +1,15 @@
 import React from 'react';
 import { Box, Heading, Text, Button } from 'grommet';
-import { Waypoint, Configure } from 'grommet-icons';
+import { Waypoint, Configure, Phone, Instagram } from 'grommet-icons';
 import { useHistory } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { AppState } from '../../redux/Stores/store';
+import { IUserInfo } from '../../utils/interface';
 
-const UserDetails: React.FC = () => {
+interface IUserDetails {
+    user: IUserInfo
+}
+const UserDetails: React.FC<IUserDetails> = (props) => {
     const history = useHistory();
 
     return (<><Box direction='row' align='center' >
@@ -14,13 +20,27 @@ const UserDetails: React.FC = () => {
         </Box>
     </Box>
         <Box pad='small'>
-            <Heading level={4}>Мои контакты</Heading>
-            <Box > 
-            <Button icon={<Configure />} onClick={() => {history.push('/edit')}} primary hoverIndicator />
-
-
+            <Heading level={4} margin={{'bottom': 'small'}}>Мои контакты</Heading>
+            <Box direction='row' align='center'>
+                <Box pad='small'><Phone color='brand' /></Box>
+                <Box direction='column'>
+                    <Text size='small' weight='bold'>Номер телефона</Text>
+                    <Text color='brand' >{props.user.phone}</Text>
+                </Box>
             </Box>
+            <Box direction='row' align='center'>
+                <Box pad='small'><Instagram color='brand' /></Box>
+                <Box direction='column'>
+                    <Text size='small' weight='bold'>Instagram</Text>
+                    <Text color='brand' >{props.user.instagram}</Text>
+                </Box>
+            </Box>
+            <Button icon={<Configure />} onClick={() => { history.push('/edit') }} primary hoverIndicator />
         </Box></>);
 }
-export default UserDetails;
+const mapStateToProps = (state: AppState) => ({
+    user: state.auth.user
+});
+
+export default connect(mapStateToProps)(UserDetails);
 

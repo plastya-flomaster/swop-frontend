@@ -122,7 +122,7 @@ const MainPage: React.FC<ISwap> = (props) => {
 
     return (<Grid
         columns={['1/4', '3/4']}
-        rows={['xsmall', 'fill']}
+        rows={['xsmall', '']}
         areas={[
             { name: 'nav', start: [0, 0], end: [0, 1] },
             { name: 'header', start: [1, 0], end: [1, 0] },
@@ -138,8 +138,8 @@ const MainPage: React.FC<ISwap> = (props) => {
             <Button margin='small' label='узнать совпадения'></Button>
         </Box>
         <Box gridArea='header' background='light-3' direction='row' align='center' gap='xsmall' justify='end'>
-            <Anchor label='Помощь' onClick={handleHelp}></Anchor>
-            <Anchor label='Выйти' margin={{ 'right': '4rem' }} onClick={handleLogout}></Anchor>
+            <Anchor label='Помощь'  margin={{ 'right': '1rem' }} onClick={handleHelp}/>
+            <Anchor label='Выйти' margin={{ 'right': '4rem' }} onClick={handleLogout}/>
         </Box>
         <Box gridArea='main'>
             {(test.length !== 0)

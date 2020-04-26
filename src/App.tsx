@@ -17,6 +17,7 @@ import PrivateRoute from './Components/Private-routes/PrivateRoute';
 import HelpPage from './Pages/HelpPage';
 import UserPage from './Pages/UserPage';
 import EditUserPage from './Pages/EditUserPage';
+import { Grommet, grommet } from 'grommet';
 
 
 // проверяем токен, чтобы пользователь был все время авторизован
@@ -28,7 +29,7 @@ import EditUserPage from './Pages/EditUserPage';
 //   const decoded: any = jwt_decode(token!);
 //   console.log('decode4ed');  
 //   console.log(decoded);
-  
+
 //   store.dispatch(setCurrentUser(decoded));
 
 //   const currentTime = Date.now() / 1000;
@@ -40,30 +41,32 @@ import EditUserPage from './Pages/EditUserPage';
 // }
 
 
-const App: React.FC = () =>{
+const App: React.FC = () => {
 
   React.useEffect(() => {
     const token = localStorage.getItem('jwtToken')
     if (token) {
-  //добавляем токен в localStorage
-  setAuthToken(token!);
-  //дешифруем токен
-  const decoded: any = jwt_decode(token);
-  console.log('decode4ed');  
-  console.log(decoded);
-  
-  store.dispatch(setCurrentUser(decoded));
+      //добавляем токен в localStorage
+      setAuthToken(token!);
+      //дешифруем токен
+      const decoded: any = jwt_decode(token);
+      console.log('decode4ed');
+      console.log(decoded);
 
-  const currentTime = Date.now() / 1000;
-  // проверяем не истек ли токен
-  if (decoded.exp < currentTime) {
-    store.dispatch(logoutUser());
-    window.location.href = './login';
-  }
-}
+      store.dispatch(setCurrentUser(decoded));
+
+      const currentTime = Date.now() / 1000;
+      // проверяем не истек ли токен
+      if (decoded.exp < currentTime) {
+        store.dispatch(logoutUser());
+        window.location.href = './login';
+      }
+    }
   })
 
-    return <Provider store={store}>
+  return <Provider store={store}>
+    <Grommet theme={grommet}>
+
       <BrowserRouter>
         <Switch>
           <Route component={LoginComponent} path='/login' />
@@ -78,7 +81,8 @@ const App: React.FC = () =>{
           </Switch>
         </Switch>
       </BrowserRouter>
-    </Provider>;
+    </Grommet>
+  </Provider>;
 }
 
 

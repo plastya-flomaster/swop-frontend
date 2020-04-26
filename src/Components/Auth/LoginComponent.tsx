@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { loginUser } from "../../redux/Actions/userActions";
-import { FormField, Grommet, grommet, Button, Box, Heading, Form, TextInput, Text, CheckBox } from 'grommet';
+import { FormField, Button, Box, Heading, Form, TextInput, Text, CheckBox } from 'grommet';
 import { AppState } from '../../redux/Stores/store';
 
 interface ILoginProps extends RouteComponentProps {
@@ -69,7 +69,6 @@ const LoginComponent: React.FC<ILoginProps> = (props) => {
 
 
     return (
-        <Grommet theme={grommet}>
             <Box align='center'>
                 <Heading level={2} margin={{ 'vertical': '30px' }}>Войдите, чтобы продолжить</Heading>
                 <Form
@@ -101,7 +100,6 @@ const LoginComponent: React.FC<ILoginProps> = (props) => {
 
                 </Form>
             </Box>
-        </Grommet>
     );
 };
 

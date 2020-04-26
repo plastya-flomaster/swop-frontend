@@ -5,7 +5,7 @@ import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { registerUser } from '../../redux/Actions/userActions';
 
-import { FormField, Grommet, grommet, Header, Button, Box, Heading, Form, TextInput, Anchor } from 'grommet';
+import { FormField, Header, Button, Box, Heading, Form, TextInput, Anchor } from 'grommet';
 import { LinkPrevious } from 'grommet-icons';
 
 import { IError } from '../../utils/types';
@@ -51,8 +51,7 @@ const RegisterComponent: React.FC<IRegister> = (props) => {
         });
     };
 
-    return (
-        <Grommet theme={grommet}>
+    return (<>
             <Header>
                 <Link to='/' ><Button icon={<LinkPrevious color='brand'/>} label = 'Назад' margin='small' plain={true} hoverIndicator /></Link>
             </Header>
@@ -86,11 +85,9 @@ const RegisterComponent: React.FC<IRegister> = (props) => {
                         <Button type='reset' label='Очистить' />
                     </Box>
                 </Form>
-            </Box>
-        </Grommet>
-    )
+            </Box></>
+            )};
 
-}
 //allows pass props auth and errors to register component
 const mapStateToProps = (state: AppState) => ({
     isAuthenticated: state.auth.isAuthenticated,
