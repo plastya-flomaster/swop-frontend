@@ -122,7 +122,7 @@ const MainPage: React.FC<ISwap> = (props) => {
 
     return (<Grid
         columns={['1/4', '3/4']}
-        rows={['xsmall', '']}
+        rows={['xsmall', 'auto']}
         areas={[
             { name: 'nav', start: [0, 0], end: [0, 1] },
             { name: 'header', start: [1, 0], end: [1, 0] },

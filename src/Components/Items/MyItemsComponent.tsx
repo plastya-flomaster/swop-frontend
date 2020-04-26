@@ -1,5 +1,5 @@
 import React from 'react';
-import ItemComponent from './ItemComponent';
+import AddItemComponent from './AddItemComponent';
 import MyItemComponent from './MyItemComponent';
 
 import { Box } from 'grommet';
@@ -12,7 +12,7 @@ interface IMyItems {
 
 const MyItems: React.FC<IMyItems> = ({ onEditMode, items }) => (
     <Box margin='2rem' flex='grow' direction='row' wrap={true}>
-        <ItemComponent onEditMode={onEditMode} />
+        <AddItemComponent onEditMode={onEditMode} />
         {
             items && items
                 .map((item, key) =>

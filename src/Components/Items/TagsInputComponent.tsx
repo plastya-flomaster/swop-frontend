@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { Box, Button, Grommet, Keyboard, Text, TextInput } from 'grommet';
-import { grommet } from 'grommet/themes';
+import { Box, Button, Keyboard, Text, TextInput } from 'grommet';
 import { FormClose } from 'grommet-icons';
 
 //подсказывающиеся теги
@@ -94,7 +93,7 @@ const TagInput: React.FC<ITagInput> = ({ value = [], onAdd, onChange, onRemove, 
                 width='500px'
             >
                 {value.length > 0 && renderValue()}
-                <Box flex style={{ minWidth: '250px' }}>
+                <Box flex style={{ maxWidth: '300px' }}>
                     <TextInput
                         type='search'
                         plain
@@ -130,10 +129,9 @@ const TagTextInput: React.FC<ITagTextInput> = ({selectedTags, setSelectedTags}) 
     };
 
     const onAddTag = (tag: string) => {
-        if ( !selectedTags || selectedTags.indexOf(tag) < 0) {
+        if ( !selectedTags || selectedTags.indexOf(tag) < 0 && selectedTags.length < 10) {
             setSelectedTags([...selectedTags, tag]);
         }
-
     };
 
     const onFilterSuggestion = (value: string) =>
@@ -144,7 +142,6 @@ const TagTextInput: React.FC<ITagTextInput> = ({selectedTags, setSelectedTags}) 
         );
 
     return (
-        <Grommet full theme={grommet}>
             <Box>
                 <TagInput
                     placeholder='Добавить иноформацию...'
@@ -155,7 +152,6 @@ const TagTextInput: React.FC<ITagTextInput> = ({selectedTags, setSelectedTags}) 
                     onChange={({ target: { value } }) => onFilterSuggestion(value)}
                 />
             </Box>
-        </Grommet>
     );
 };
 export default TagTextInput;
