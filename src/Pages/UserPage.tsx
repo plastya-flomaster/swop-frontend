@@ -13,7 +13,7 @@ import { IItem, IUserInfo } from '../utils/interface';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppActionType } from '../redux/Actions/ActionTypes';
 import { bindActionCreators } from 'redux';
-import { getAllItems } from '../redux/Actions/itemsActions';
+import { getAllMine } from '../redux/Actions/itemsActions';
 import { AppState } from '../redux/Stores/store';
 import { LinkPrevious } from 'grommet-icons';
 import { Link } from 'react-router-dom';
@@ -22,7 +22,7 @@ interface IUserPage {
     user: IUserInfo
     items: IItem[];
     id: string;
-    getAllItems: (userId: string) => void;
+    getAllMine: (userId: string) => void;
     error: any
 }
 
@@ -33,7 +33,8 @@ const UserPage: React.FC<IUserPage> = (props) => {
     const offEditMode = () => setEditMode(false);
 
     useEffect(() => {
-        props.getAllItems(props.id)
+        debugger;
+        props.getAllMine(props.id);
     }, []);
 
     return <Grid
@@ -73,13 +74,13 @@ const UserPage: React.FC<IUserPage> = (props) => {
 }
 const mapStateToProps = (state: AppState) => ({
     user: state.auth.user,
-    id: state.auth.id,
+    id: state.auth.user._id,
     items: state.items.items,
     error: state.items.error
 });
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AppActionType>) => ({
-    getAllItems: bindActionCreators(getAllItems, dispatch)   // dispatch(getAllItems())
+    getAllMine: bindActionCreators(getAllMine, dispatch)   // dispatch(getAllItems())
 });
 
 export default connect(

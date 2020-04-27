@@ -22,20 +22,20 @@ export interface IChat {
 }
 
 export interface IItem {
-    name: string,
+    _id?: string, 
+    title: string,
     category: ICategory,
     description?: string,
-    type?: IItemType[],
+    tags?: ITagType[],
     photos?: IPhoto[]
 }
 
 export interface ICategory {
-    id: number,
-    category: 'Одежда' | 'Обувь' | 'Аксессуары'
+    _id: string,
+    category: 'Одежда' | 'Обувь' | 'Аксессуары' | string
 }
-export interface IItemType {
-    id: number,
-    typeName: string
+export interface ITagType {
+    tag: string
 }
 export interface IPhoto {
     url: string

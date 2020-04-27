@@ -13,7 +13,7 @@ import CardButtons from '../Components/Cards/CardButtons';
 
 import { Grid, Box, Heading, Anchor, Text, Button } from 'grommet';
 
-import { IItem, ICategory, IItemType, IAlert } from '../utils/interface';
+import { IItem, ICategory, ITagType, IAlert } from '../utils/interface';
 
 import { useHistory } from "react-router-dom";
 
@@ -38,11 +38,11 @@ const MainPage: React.FC<ISwap> = (props) => {
     const history = useHistory();
     const [alert, setAlert] = useState<IAlert>({ show: false, variant: 'status-ok', title: '' });
 
-    const category: ICategory = { id: 1, category: 'Одежда' };
-    const cat2: ICategory = { id: 2, category: 'Обувь' };
-    const type1: IItemType = { id: 2, typeName: 'Крутой!' }
+    const category: ICategory = { _id: '1', category: 'Одежда' };
+    const cat2: ICategory = { _id: '2', category: 'Обувь' };
+    const type1: ITagType = { tag: 'Крутой!' }
     const [test, setTest] = useState<IItem[]>([{
-        name: 'Брюки Armani',
+        title: 'Брюки Armani',
         description: 'Новые и красивые!',
         category: category,
         photos: [{
@@ -51,7 +51,7 @@ const MainPage: React.FC<ISwap> = (props) => {
         { url: 'https://source.unsplash.com/random/700×700/?wear' }]
 
     }, {
-        name: 'Карточка 2',
+        title: 'Карточка 2',
         description: 'Новые и красивые!',
         category: category,
         photos: [{
@@ -60,10 +60,10 @@ const MainPage: React.FC<ISwap> = (props) => {
         { url: 'https://source.unsplash.com/random/700×700/?wear' }]
 
     }, {
-        name: 'Ботинки черные',
+        title: 'Ботинки черные',
         description: 'Размера 41, мужские',
         category: cat2,
-        type: [type1]
+        tags: [type1]
 
 
     }]);

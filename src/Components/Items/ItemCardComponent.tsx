@@ -3,48 +3,74 @@ import { Heading, Box, RadioButtonGroup, TextInput, Button, TextArea } from 'gro
 import TagTextInput from './TagsInputComponent';
 import { connect } from 'react-redux';
 import UploadImageHolder from './ImageComponent';
+import { IItem, ICategory } from '../../utils/interface';
+import { AppState } from '../../redux/Stores/store';
+import { addNewItem } from '../../redux/Actions/itemsActions'
+interface IItemCardProps {
+    id: string,
+    error: any,
+    addNewItem: (userId: string, item: IItem) => void
+}
 
-// interface ICategory {
-//     category: 'Одежда' | 'Обувь' | 'Аксессуары';
-// }
+const ItemCard: React.FC<IItemCardProps> = (props) => {
 
-// function instanceOfCategory(object: any): object is ICategory {
-//     return true;
-// }
-
-const ItemCard: React.FC = (props) => {
-
-    const [category, setCategory] = useState('Одежда');
-    const [name, setName] = useState('');
+    //категория -- это name нужной категории
+    const [category, setCategory] = useState({ id: '5e9ec7131c9d44000068b413', name: 'Одежда' });
+    const [title, settitle] = useState('');
     const [description, setDescription] = useState('');
     const [tags, setTags] = useState(['start tags']);
 
-    const options = ['Одежда', 'Обувь', 'Аксессуары'];
+    // {
+    //     "disabled": false,
+    //     "id": "ONE",
+    //     "name": "one",
+    //     "value": "1",
+    //     "label": "one"
+    //   }
+    const options = [{
+        name: 'Одежда',
+        value: '5e9ec7131c9d44000068b413',
+        label: 'Одежда'
+    },
+    {
+        name: 'Обувь',
+        value: '5e9ec72a1c9d44000068b414',
+        label: 'Обувь'
+    },
+    {
+        name: 'Аксессуары',
+        value: '5e9ec7411c9d44000068b415',
+        label: 'Аксессуары'
+    }];
 
-   // const [createMode, setCreateMode] = useState();
+    // const [createMode, setCreateMode] = useState();
 
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const obj = event.target.value;
-        // if (instanceOfCategory(obj)) {
-        setCategory(obj);
-        // }
+        setCategory({
+            id: event.target.value,
+            name: event.target.name
+        });
     };
 
     const handleAdd = (event: any) => {
         event.preventDefault();
-        console.log('Тип товара', category);
-        console.log('Наименование товара', name);
-        console.log('Описание товара', description);
-        console.log('Теги товара:');
-        console.log(tags);
+        const cat: ICategory = {
+            _id: category.id,
+            category: category.name
+        }
+        const item: IItem = {
+            title: title,
+            category: cat,
+            description: description,
+            //tags: tags
 
-        // props.dispatch({
-        //     type: 'ADD_ITEM',
-        //     payload: tags
-        // });
+        };
+        props.addNewItem(props.id, item);
 
-
+    };
+    const handlePhotoAdd = (event: any) => {
+        console.log(event);
 
     }
     return (<Box flex='grow' direction='column' border pad='small'>
@@ -52,17 +78,17 @@ const ItemCard: React.FC = (props) => {
         <Heading level={5} margin={{ 'vertical': '1rem' }}>Что вы хотите обменять?</Heading>
         <TextInput
             placeholder="Новый шарф H&M"
-            value={name}
-            onChange={event => setName(event.target.value)}
+            value={title}
+            onChange={event => settitle(event.target.value)}
         />
         <Heading level={5} margin={{ 'bottom': '1rem' }}>Выберите категорию</Heading>
 
         <RadioButtonGroup
-            name='category'
+            name='rbg'
             options={options}
             value={category}
             onChange={handleChange}
-        ></RadioButtonGroup>
+        />
 
         <Heading level={5} margin={{ 'vertical': '1rem' }}>Описание</Heading>
         <Box align="center" margin={{ 'bottom': '0px' }}>
@@ -79,8 +105,13 @@ const ItemCard: React.FC = (props) => {
         </Box>
         <Heading level={5} margin={{ 'bottom': '1rem' }}>Загрузите фотографии</Heading>
         <UploadImageHolder />
+        <input type='file' onChange={handlePhotoAdd}></input>
         <Button label='Добавить' onClick={handleAdd}></Button>
     </Box>)
 };
+const mapStateToProps = (state: AppState) => ({
+    id: state.auth.id,
+    error: state.items.error
+});
 
-export default connect()(ItemCard);
+export default connect(mapStateToProps, { addNewItem })(ItemCard);

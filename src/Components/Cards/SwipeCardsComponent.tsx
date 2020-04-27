@@ -19,12 +19,12 @@ const SwipeCards: React.FC<Props> = ({ card }) => {
             justify='end'>
                 <Text>{card.category.category}, г. Пермь</Text>
             <Box>
-                <h1 className='title'>{card.name}</h1>
+                <h1 className='title'>{card.title}</h1>
                 <p className='text'>{card.description}</p>
                 <Box align='start' justify='end'>
                     <Box round={true} background='accent-2'>
                         <Text margin={{ 'horizontal': 'small' }}>
-                             {card.type ? card.type[0].typeName : ''}
+                             {card.tags ? card.tags[0].tag : ''}
                         </Text>
                     </Box>
                 </Box>

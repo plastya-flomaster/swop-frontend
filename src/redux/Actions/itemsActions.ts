@@ -51,12 +51,21 @@ export const deleteItem = (payload: string): AppActionType => ({
 })
 
 
-export const getAllItems = (userId: string) => {
-    return (dispatch: Dispatch<AppActionType>) => {
+export const getAllMine = (userId: string) =>
+    (dispatch: Dispatch<AppActionType>) => {
         dispatch(sendLoading());
-        return axios
-        .get(`http://localhost:5000/api/items/${userId}`)
-        .then(res => dispatch(sendItems(res.data)))
-        .catch(error => dispatch(sendErrors(error.response.data)))
-    }
-}
+        debugger;
+        axios.get(`http://localhost:5000/api/items/${userId}`)
+            .then(res => dispatch(sendItems(res.data)))
+            .catch(error => dispatch(sendErrors(error.response.data)))
+    };
+
+export const addNewItem = (userId: string, item: IItem) => (dispatch: Dispatch<AppActionType>) => {
+    console.log(userId);
+    console.log(item);
+    axios.post(`http://localhost:5000/api/items/add/${userId}`, item)
+    .then(res => console.log(res))
+    .catch(error => dispatch(sendErrors(error.response.data)))
+
+
+};
