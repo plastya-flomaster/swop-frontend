@@ -54,7 +54,6 @@ export const deleteItem = (payload: string): AppActionType => ({
 export const getAllMine = (userId: string) =>
     (dispatch: Dispatch<AppActionType>) => {
         dispatch(sendLoading());
-        debugger;
         axios.get(`http://localhost:5000/api/items/${userId}`)
             .then(res => dispatch(sendItems(res.data)))
             .catch(error => dispatch(sendErrors(error.response.data)))

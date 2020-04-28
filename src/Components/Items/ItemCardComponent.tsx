@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Heading, Box, RadioButtonGroup, TextInput, Button, TextArea } from 'grommet';
+import React, { useState, useRef } from 'react';
+import { Heading, Box, RadioButtonGroup, TextInput, Button, TextArea, Text } from 'grommet';
 import TagTextInput from './TagsInputComponent';
 import { connect } from 'react-redux';
 import UploadImageHolder from './ImageComponent';
@@ -19,7 +19,9 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
     const [title, settitle] = useState('');
     const [description, setDescription] = useState('');
     const [tags, setTags] = useState(['start tags']);
-
+    const [photos, setPhotos] = useState<FileList[]>([]);
+    const photoElem = useRef<HTMLInputElement>(null);
+    const [upload, setUpload] = useState(false);
     // {
     //     "disabled": false,
     //     "id": "ONE",
@@ -63,16 +65,27 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
             title: title,
             category: cat,
             description: description,
+            // photos: photos
             //tags: tags
 
         };
         props.addNewItem(props.id, item);
+        console.log(photos);
+
 
     };
     const handlePhotoAdd = (event: any) => {
-        console.log(event);
+        if (photos.length < 5) {
+            setPhotos([...photos, ...event.target.files]);
+        } else {
+            setUpload(true);
+        }
 
-    }
+    };
+    const handleRemove = (index: number) => {
+        setPhotos([...photos.slice(0, index), ...photos.slice(index + 1)]);
+    };
+
     return (<Box flex='grow' direction='column' border pad='small'>
         <Heading level={2} margin={{ 'bottom': '0' }}>Новый предмет одежды</Heading>
         <Heading level={5} margin={{ 'vertical': '1rem' }}>Что вы хотите обменять?</Heading>
@@ -104,9 +117,18 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
             <TagTextInput selectedTags={tags} setSelectedTags={(tags: []) => setTags(tags)} />
         </Box>
         <Heading level={5} margin={{ 'bottom': '1rem' }}>Загрузите фотографии</Heading>
-        <UploadImageHolder />
-        <input type='file' onChange={handlePhotoAdd}></input>
-        <Button label='Добавить' onClick={handleAdd}></Button>
+        <Box flex='grow' direction='row' wrap={true} width='large'>
+            <input type='file' style={{ display: 'none' }} onChange={handlePhotoAdd} ref={photoElem} multiple={true} accept="image/png, image/jpeg" />
+            <UploadImageHolder onClick={() => photoElem.current?.click()} />
+
+            {photos.length !== 0 ? (
+                photos.map((photo, index) => <UploadImageHolder id={index} imgSrc={URL.createObjectURL(photo)} onRemove={handleRemove} />)) : (<></>)
+            } </Box>
+        {
+            upload ? (<Text color='status-error'>Вы не можете загрузить больше 5 фотографий</Text>) : <></>
+        }
+
+        <Button label='Добавить' onClick={handleAdd} ></Button>
     </Box>)
 };
 const mapStateToProps = (state: AppState) => ({

@@ -33,7 +33,7 @@ const UserPage: React.FC<IUserPage> = (props) => {
     const offEditMode = () => setEditMode(false);
 
     useEffect(() => {
-        debugger;
+        
         props.getAllMine(props.id);
     }, []);
 
