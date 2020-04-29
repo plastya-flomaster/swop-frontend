@@ -19,10 +19,10 @@ export default function (state = initialState, action: AppActionType): IUserRedu
     switch (action.type) {
         case UserActions.SET_CURRENT_USER:
             return {
-                ...state,
                 isAuthenticated: !isEmpty(action.payload),
                 user: action.payload,
-                loading: false
+                loading: false,
+                error: null,
             }
         case UserActions.USER_LOADING:
             return {

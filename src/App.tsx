@@ -19,27 +19,6 @@ import UserPage from './Pages/UserPage';
 import EditUserPage from './Pages/EditUserPage';
 import { Grommet, grommet } from 'grommet';
 
-
-// проверяем токен, чтобы пользователь был все время авторизован
-// if (localStorage.getItem('jwtToken')) {
-//   //добавляем токен в localStorage
-//   const token = localStorage.getItem('jwtToken');
-//   setAuthToken(token!);
-//   //дешифруем токен
-//   const decoded: any = jwt_decode(token!);
-//   console.log('decode4ed');  
-//   console.log(decoded);
-
-//   store.dispatch(setCurrentUser(decoded));
-
-//   const currentTime = Date.now() / 1000;
-//   // проверяем не истек ли токен
-//   if (decoded.exp < currentTime) {
-//     store.dispatch(logoutUser());
-//     window.location.href = './login';
-//   }
-// }
-
 interface IToken {
   _id: string,
   iat: number,
@@ -56,9 +35,6 @@ const App: React.FC = () => {
       setAuthToken(token!);
       //дешифруем токен
       const decoded: IToken = jwt_decode(token);
-      console.log('decode4ed');
-      console.log(decoded);
-
       store.dispatch(getUser(decoded._id));
 
       const currentTime = Date.now() / 1000;

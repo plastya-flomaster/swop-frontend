@@ -19,20 +19,7 @@ const LoginComponent: React.FC<ILoginProps> = (props) => {
     const [user, setUser] = useState<any>({ email: '', password: '' });
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-        // const form = event.currentTarget;
-        // if (form.checkValidity() === false) {
-        //     event.preventDefault();
-        //     event.stopPropagation();
-        // }
-        // console.log(validated);
-        // console.log(err);
-        // setValidated(true);
         event.preventDefault();
-
-        // setUser({
-        //     email: user.email,
-        //     password: user.password
-        // })
         props.loginUser(user);
         writeToLocalStorage();
 

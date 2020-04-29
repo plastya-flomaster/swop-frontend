@@ -19,7 +19,17 @@ export default (state = initialState, action: AppActionType): IItemsReducer => {
         case ItemsActions.ADD_ITEM:
             return state;
         case ItemsActions.UPDATE_ITEM:
-            return state;
+            const index = state.items.findIndex((item) => item._id === action.payload._id);
+            return {
+                error: null,
+                loading: false,
+                items: [ 
+                    ...state.items.slice(0, index),
+                    action.payload,
+                    ...state.items.slice(index+1)
+                ],
+
+            };
         case ItemsActions.DEL_ITEM:
             return state;
         case ItemsActions.ITEM_LOADING:

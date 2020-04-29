@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom'
 import { connect } from 'react-redux';
 
 import { Box, Button, Header, TextInput, FormField, Heading, Form, Layer } from 'grommet';
@@ -25,16 +26,23 @@ const EditUserPage: React.FC<IEditUserPage> = (props) => {
 
     const [user, setUser] = useState<IUserInfo>(props.user);
 
+    const [updated, setUpdated] = useState(false)
+
+    const history = useHistory();
+
     const handleEdit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         setUser({
+            _id: user._id,
             name: user.name,
             email: user.email,
             phone: user.phone,
             instagram: user.instagram
 
         });
+        
         props.updateUser(user._id!, user);
-        event.preventDefault();
+        setUpdated(true);
     };
     const handleDelete = () => {
         setConfirm(false);
@@ -53,6 +61,9 @@ const EditUserPage: React.FC<IEditUserPage> = (props) => {
 
     useEffect(() => {
         setUser(props.user);
+        if (props.error === null && updated) {
+            history.push('/user')
+        } else { setUpdated(false) }
     }, [props.user]);
 
     return (<>
@@ -67,7 +78,7 @@ const EditUserPage: React.FC<IEditUserPage> = (props) => {
                 value={user}
                 onChange={(nextValue: any) => setUser(nextValue)}
             >
-                <FormField label='Имя' name='name' validate={{ regexp: /^[a-zA-zА-Яа-яё]/i }}>
+                <FormField label='Имя' name='name' validate={{ regexp: /^[a-zA-zА-Яа-яё]/i }} error={props.error && props.error.name}>
                     <TextInput placeholder='Иван' name='name' />
                 </FormField>
                 <FormField label='Email' disabled={true} name='email' help='поле Email нельзя отредактировать'>
@@ -76,10 +87,10 @@ const EditUserPage: React.FC<IEditUserPage> = (props) => {
                 <Heading level='4' margin={{ 'top': '3rem' }} >Контактные данные</Heading>
                 <Heading level='6' >Эти данные будут показаны человеку, с которым вы запланируете обмен</Heading>
 
-                <FormField label='Телефон' name='phone'>
+                <FormField label='Телефон' name='phone' type='tel' error={props.error && props.error.phone}>
                     <TextInput icon={<Phone />} placeholder='+799912312312' name='phone' />
                 </FormField>
-                <FormField label='Instagram'>
+                <FormField label='Instagram' error={props.error && props.error.instagram}>
                     <TextInput icon={<Instagram />} placeholder='Иван' name='instagram' />
                 </FormField>
                 <Box margin='small' flex='grow' direction='row' justify='between'>
@@ -109,7 +120,7 @@ const EditUserPage: React.FC<IEditUserPage> = (props) => {
 }
 const mapStateToProps = (state: AppState) => ({
     user: state.auth.user,
-    error: state.items.error
+    error: state.auth.error
 });
 
 export default connect(

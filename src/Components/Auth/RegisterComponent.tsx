@@ -34,7 +34,6 @@ const RegisterComponent: React.FC<IRegister> = (props) => {
           if (props.isAuthenticated) {
             props.history.push('/swop');
           }
-
     }, []);
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

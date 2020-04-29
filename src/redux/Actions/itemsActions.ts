@@ -50,7 +50,7 @@ export const deleteItem = (payload: string): AppActionType => ({
     payload
 })
 
-
+//получает все товары юзера
 export const getAllMine = (userId: string) =>
     (dispatch: Dispatch<AppActionType>) => {
         dispatch(sendLoading());
@@ -61,7 +61,9 @@ export const getAllMine = (userId: string) =>
 
 export const addNewItem = (userId: string, item: IItem) => (dispatch: Dispatch<AppActionType>) => {
     axios.post(`http://localhost:5000/api/items/add/${userId}`, item)
-        .then(res => { dispatch(sendItems(res.data)); console.log('++++++++++++++++++'); console.log(res) })
+        .then(res => { 
+            dispatch(sendItems(res.data.items)); 
+         })
         .catch(error => dispatch(sendErrors(error.response.data)));
 
 

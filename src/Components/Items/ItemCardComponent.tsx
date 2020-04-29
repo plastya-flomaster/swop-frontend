@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Heading, Box, RadioButtonGroup, TextInput, Button, TextArea, Text } from 'grommet';
 import TagTextInput from './TagsInputComponent';
 import { connect } from 'react-redux';
@@ -10,7 +10,10 @@ import { addNewItem } from '../../redux/Actions/itemsActions';
 interface IItemCardProps {
     id: string,
     error: any,
-    addNewItem: (userId: string, item: IItem) => void
+    items: IItem[],
+    loading: boolean,
+    addNewItem: (userId: string, item: IItem) => void,
+    offEditMode: () => void,
 }
 
 const ItemCard: React.FC<IItemCardProps> = (props) => {
@@ -23,6 +26,8 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
     const [photos, setPhotos] = useState<FileList[]>([]);
     const photoElem = useRef<HTMLInputElement>(null);
     const [upload, setUpload] = useState(false);
+    const [updated, setUpdated] = useState(false)
+
     // {
     //     "disabled": false,
     //     "id": "ONE",
@@ -30,6 +35,19 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
     //     "value": "1",
     //     "label": "one"
     //   }
+
+    useEffect(() => {
+        console.log('useEffect') 
+        console.log(updated);
+        console.log(props.error);        
+               
+        if(props.error === null && updated){
+            props.offEditMode();         
+        }else {setUpdated(false)}
+    }, [props.items])
+
+
+
     const options = [{
         name: 'Одежда',
         value: '5e9ec7131c9d44000068b413',
@@ -66,9 +84,6 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
         for (const tag of tags) {
             newTags.push({tag: tag});
         }
-        console.log('newTags');
-
-        console.log(newTags);
 
         const item: IItem = {
             title: title,
@@ -78,12 +93,11 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
             tags: newTags
 
         };
-
         props.addNewItem(props.id, item);
-        console.log(photos);
-
-
+        setUpdated(true);
     };
+
+
     const handlePhotoAdd = (event: any) => {
         if (photos.length < 5) {
             setPhotos([...photos, ...event.target.files]);
@@ -143,6 +157,8 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
 };
 const mapStateToProps = (state: AppState) => ({
     id: state.auth.user._id,
+    loading: state.items.loading,
+    items: state.items.items,
     error: state.items.error
 });
 

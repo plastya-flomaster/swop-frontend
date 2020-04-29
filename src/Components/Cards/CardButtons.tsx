@@ -14,9 +14,9 @@ export interface CardButtonsProps {
 //     }
 // }
 const CardButtons: React.FC<CardButtonsProps> = ({ left, right }) => {
-    return (<Box flex='grow' direction='row' margin='small'>
-        <Button icon={<Like />} onClick={left} label='свайп влево' />
-        <Button icon={<Dislike />} onClick={right} label='свайп вправо' />
+    return (<Box flex='grow' direction='row' alignSelf='center'>
+        <Button icon={<Like />} onClick={left} label='свайп влево' margin='small' />
+        <Button icon={<Dislike />} onClick={right} label='свайп вправо' margin='small' />
     </Box>);
 }
 

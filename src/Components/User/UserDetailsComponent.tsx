@@ -1,16 +1,13 @@
 import React from 'react';
-import { Box, Heading, Text, Button } from 'grommet';
-import { Waypoint, Configure, Phone, Instagram } from 'grommet-icons';
-import { useHistory } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { AppState } from '../../redux/Stores/store';
-import { IUserInfo } from '../../utils/interface';
+import { Box, Heading, Text } from 'grommet';
+import { Waypoint, Phone, Instagram, StatusInfo } from 'grommet-icons';
+
 
 interface IUserDetails {
-    user: IUserInfo
+    phone: string,
+    instagram: string
 }
-const UserDetails: React.FC<IUserDetails> = (props) => {
-    const history = useHistory();
+const UserDetails: React.FC<IUserDetails> = ({ phone, instagram }) => {
 
     return (<><Box direction='row' align='center' >
         <Box pad='small'><Waypoint color='brand' /></Box>
@@ -20,27 +17,25 @@ const UserDetails: React.FC<IUserDetails> = (props) => {
         </Box>
     </Box>
         <Box pad='small'>
-            <Heading level={4} margin={{'bottom': 'small'}}>Мои контакты</Heading>
+            <Box direction='row' align='center'>
+                <Heading level={4} margin={{ 'bottom': 'small', 'right': 'small' }}>Мои контакты</Heading><StatusInfo size='small' onMouseOver={()=> {console.log('!!!');
+                }}/></Box>
             <Box direction='row' align='center'>
                 <Box pad='small'><Phone color='brand' /></Box>
                 <Box direction='column'>
                     <Text size='small' weight='bold'>Номер телефона</Text>
-                    <Text color='brand' >{props.user.phone}</Text>
+                    <Text color='brand' >{phone}</Text>
                 </Box>
             </Box>
             <Box direction='row' align='center'>
                 <Box pad='small'><Instagram color='brand' /></Box>
                 <Box direction='column'>
                     <Text size='small' weight='bold'>Instagram</Text>
-                    <Text color='brand' >{props.user.instagram}</Text>
+                    <Text color='brand' >{instagram}</Text>
                 </Box>
             </Box>
-            <Button icon={<Configure />} onClick={() => { history.push('/edit') }} primary hoverIndicator />
         </Box></>);
 }
-const mapStateToProps = (state: AppState) => ({
-    user: state.auth.user
-});
 
-export default connect(mapStateToProps)(UserDetails);
+export default UserDetails;
 

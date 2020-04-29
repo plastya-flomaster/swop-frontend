@@ -49,7 +49,8 @@ export const updateUser = (id: string, user: IUserInfo) => (dispatch: Dispatch<A
         .then(res => {
             dispatch(setCurrentUser(res.data));
         }) //установим текущего юзера)
-        .catch(err => dispatch(sendErrors(err.response.data)));
+        .catch(err => {
+            dispatch(sendErrors(err.response.data))});
 }
 
 //register user
@@ -84,7 +85,6 @@ export const logoutUser = (): any => (dispatch: any) => {
 export const deleteUser = (id: string) => (dispatch: Dispatch<AppActionType>) => {
     axios.delete(`http://localhost:5000/api/users/${id}`)
         .then(res => { 
-            console.log(res.data);
             dispatch(logoutUser());
          })
         .catch(err => dispatch(sendErrors(err.response.data)));
