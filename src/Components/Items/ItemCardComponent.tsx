@@ -3,9 +3,10 @@ import { Heading, Box, RadioButtonGroup, TextInput, Button, TextArea, Text } fro
 import TagTextInput from './TagsInputComponent';
 import { connect } from 'react-redux';
 import UploadImageHolder from './ImageComponent';
-import { IItem, ICategory } from '../../utils/interface';
+import { IItem, ICategory, ITagType } from '../../utils/interface';
 import { AppState } from '../../redux/Stores/store';
-import { addNewItem } from '../../redux/Actions/itemsActions'
+import { addNewItem } from '../../redux/Actions/itemsActions';
+
 interface IItemCardProps {
     id: string,
     error: any,
@@ -61,14 +62,23 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
             _id: category.id,
             category: category.name
         }
+        const newTags: ITagType[] = [];
+        for (const tag of tags) {
+            newTags.push({tag: tag});
+        }
+        console.log('newTags');
+
+        console.log(newTags);
+
         const item: IItem = {
             title: title,
             category: cat,
             description: description,
             // photos: photos
-            //tags: tags
+            tags: newTags
 
         };
+
         props.addNewItem(props.id, item);
         console.log(photos);
 
@@ -118,7 +128,7 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
         </Box>
         <Heading level={5} margin={{ 'bottom': '1rem' }}>Загрузите фотографии</Heading>
         <Box flex='grow' direction='row' wrap={true} width='large'>
-            <input type='file' style={{ display: 'none' }} onChange={handlePhotoAdd} ref={photoElem} multiple={true} accept="image/png, image/jpeg" />
+            <input type='file' style={{ display: 'none' }} onChange={handlePhotoAdd} ref={photoElem} multiple name='item-files' accept="image/png, image/jpeg" />
             <UploadImageHolder onClick={() => photoElem.current?.click()} />
 
             {photos.length !== 0 ? (
@@ -132,7 +142,7 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
     </Box>)
 };
 const mapStateToProps = (state: AppState) => ({
-    id: state.auth.id,
+    id: state.auth.user._id,
     error: state.items.error
 });
 

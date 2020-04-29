@@ -15,8 +15,8 @@ const MyItems: React.FC<IMyItems> = ({ onEditMode, items }) => (
         <AddItemComponent onEditMode={onEditMode} />
         {
             items && items
-                .map((item, key) =>
-                    (<MyItemComponent onEditMode={onEditMode} key={key} item={item} />
+                .map((item, idx) =>
+                    (<MyItemComponent onEditMode={onEditMode} key={idx} item={item} />
                     ))
         }
     </Box>);

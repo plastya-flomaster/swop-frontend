@@ -21,7 +21,7 @@ export interface IChat {
     userImage: string;
 }
 
-export interface IItem {
+export type IItem = {
     _id?: string, 
     title: string,
     category: ICategory,
@@ -34,8 +34,8 @@ export interface ICategory {
     _id: string,
     category: 'Одежда' | 'Обувь' | 'Аксессуары' | string
 }
-export interface ITagType {
-    tag: string
+export type ITagType = {
+    tag?: string
 }
 export interface IPhoto {
     url: string

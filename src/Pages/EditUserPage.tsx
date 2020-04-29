@@ -33,12 +33,12 @@ const EditUserPage: React.FC<IEditUserPage> = (props) => {
             instagram: user.instagram
 
         });
-        props.updateUser(props.id, user);
+        props.updateUser(user._id!, user);
         event.preventDefault();
     };
     const handleDelete = () => {
         setConfirm(false);
-        props.deleteUser(props.id);
+        props.deleteUser(user._id!);
     };
     const handleReset = () => {
         setUser({
@@ -109,7 +109,6 @@ const EditUserPage: React.FC<IEditUserPage> = (props) => {
 }
 const mapStateToProps = (state: AppState) => ({
     user: state.auth.user,
-    id: state.auth.id,
     error: state.items.error
 });
 

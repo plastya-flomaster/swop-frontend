@@ -8,7 +8,7 @@ import store from './redux/Stores/store';
 
 import jwt_decode from 'jwt-decode';
 import setAuthToken from './utils/setAuthToken';
-import { setCurrentUser, logoutUser } from './redux/Actions/userActions';
+import { logoutUser, getUser } from './redux/Actions/userActions';
 
 import RegisterComponent from './Components/Auth/RegisterComponent';
 import LoginComponent from './Components/Auth/LoginComponent';
@@ -40,6 +40,12 @@ import { Grommet, grommet } from 'grommet';
 //   }
 // }
 
+interface IToken {
+  _id: string,
+  iat: number,
+  exp: number
+}
+
 
 const App: React.FC = () => {
 
@@ -49,11 +55,11 @@ const App: React.FC = () => {
       //добавляем токен в localStorage
       setAuthToken(token!);
       //дешифруем токен
-      const decoded: any = jwt_decode(token);
+      const decoded: IToken = jwt_decode(token);
       console.log('decode4ed');
       console.log(decoded);
 
-      store.dispatch(setCurrentUser(decoded));
+      store.dispatch(getUser(decoded._id));
 
       const currentTime = Date.now() / 1000;
       // проверяем не истек ли токен

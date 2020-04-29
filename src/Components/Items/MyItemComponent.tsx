@@ -5,10 +5,9 @@ import { IItem } from '../../utils/interface';
 interface IItemProps {
     onEditMode: () => void;
     item: IItem;
-    key: number;
 }
 
-const MyItemComponent: React.FC<IItemProps> = ({ onEditMode, item, key }) => {
+const MyItemComponent: React.FC<IItemProps> = ({ onEditMode, item }) => {
 
 
     return (

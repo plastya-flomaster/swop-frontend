@@ -60,11 +60,9 @@ export const getAllMine = (userId: string) =>
     };
 
 export const addNewItem = (userId: string, item: IItem) => (dispatch: Dispatch<AppActionType>) => {
-    console.log(userId);
-    console.log(item);
     axios.post(`http://localhost:5000/api/items/add/${userId}`, item)
-    .then(res => console.log(res))
-    .catch(error => dispatch(sendErrors(error.response.data)))
+        .then(res => { dispatch(sendItems(res.data)); console.log('++++++++++++++++++'); console.log(res) })
+        .catch(error => dispatch(sendErrors(error.response.data)));
 
 
 };

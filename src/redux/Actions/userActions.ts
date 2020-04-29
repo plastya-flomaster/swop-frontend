@@ -37,10 +37,16 @@ export const userLogout = (): AppActionType => ({
 })
 
 //НЕ ЭКШЕНЫ
+export const getUser = (id: string): any => (dispatch: Dispatch<any>) => {
+    axios.get(`http://localhost:5000/api/users/${id}`).then(res => {
+        dispatch(setCurrentUser(res.data))
+    })
+    .catch(err => dispatch(sendErrors(err.response.data)))
+}
+
 export const updateUser = (id: string, user: IUserInfo) => (dispatch: Dispatch<AppActionType>) => {
     axios.put(`http://localhost:5000/api/users/${id}/update/`, {}, { params: user })
         .then(res => {
-            console.log(res.data);
             dispatch(setCurrentUser(res.data));
         }) //установим текущего юзера)
         .catch(err => dispatch(sendErrors(err.response.data)));

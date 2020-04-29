@@ -7,7 +7,6 @@ export interface IItemsReducer {
 }
 export interface IUserReducer {
     isAuthenticated: boolean,
-    id: string,
     loading: boolean,
     user: IUserInfo,
     error?: any

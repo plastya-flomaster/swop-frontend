@@ -33,9 +33,9 @@ const UserPage: React.FC<IUserPage> = (props) => {
     const offEditMode = () => setEditMode(false);
 
     useEffect(() => {
-        
-        props.getAllMine(props.id);
-    }, []);
+        if(props.user._id)
+        props.getAllMine(props.user._id);
+    }, [props.user]);
 
     return <Grid
             columns={['1/4', '3/4']}
@@ -74,7 +74,6 @@ const UserPage: React.FC<IUserPage> = (props) => {
 }
 const mapStateToProps = (state: AppState) => ({
     user: state.auth.user,
-    id: state.auth.user._id,
     items: state.items.items,
     error: state.items.error
 });
