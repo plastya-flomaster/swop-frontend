@@ -36,11 +36,7 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
     //     "label": "one"
     //   }
 
-    useEffect(() => {
-        console.log('useEffect') 
-        console.log(updated);
-        console.log(props.error);        
-               
+    useEffect(() => {               
         if(props.error === null && updated){
             props.offEditMode();         
         }else {setUpdated(false)}
