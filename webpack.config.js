@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const path = require('path');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const config = {
   entry: [
@@ -25,7 +26,7 @@ const config = {
       {
         test: /\.css$/i,
         use: [
-          { loader: 'style-loader'},
+          { loader: 'style-loader' },
           'css-loader',
         ],
       },
@@ -57,13 +58,15 @@ const config = {
     }
   },
   devServer: {
-    contentBase: './dist',
-    historyApiFallback: true,
+    historyApiFallback: true
   },
   plugins: [
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
       openAnalyzer: false,
+    }),
+    new HtmlWebpackPlugin({
+      template: './src/index.html'
     })
   ]
 };

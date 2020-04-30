@@ -18,6 +18,7 @@ import HelpPage from './Pages/HelpPage';
 import UserPage from './Pages/UserPage';
 import EditUserPage from './Pages/EditUserPage';
 import { Grommet, grommet } from 'grommet';
+import Page404 from './Pages/404Page';
 
 interface IToken {
   _id: string,
@@ -59,7 +60,7 @@ const App: React.FC = () => {
             <Route component={UserPage} path='/user' />
             <Route component={HelpPage} path='/help' />
             <Route component={EditUserPage} path='/edit' />
-
+            <Route component={Page404} />
           </Switch>
         </Switch>
       </BrowserRouter>

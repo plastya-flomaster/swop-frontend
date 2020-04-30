@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { Grid, Box, Heading, Button, Header } from 'grommet';
 
@@ -7,8 +7,6 @@ import { connect } from 'react-redux';
 
 import UserPic from '../Components/User/UserPicComponent';
 import UserDetails from '../Components/User/UserDetailsComponent';
-import MyItems from '../Components/Items/MyItemsComponent';
-import ItemCard from '../Components/Items/ItemCardComponent';
 import { IItem, IUserInfo } from '../utils/interface';
 import { ThunkDispatch } from 'redux-thunk';
 import { AppActionType } from '../redux/Actions/ActionTypes';
@@ -17,6 +15,7 @@ import { getAllMine } from '../redux/Actions/itemsActions';
 import { AppState } from '../redux/Stores/store';
 import { LinkPrevious, Configure, Alert } from 'grommet-icons';
 import { useHistory, Link } from 'react-router-dom';
+import ItemRouter from '../Components/Items/ItemRouter';
 
 interface IUserPage {
     user: IUserInfo
@@ -27,10 +26,7 @@ interface IUserPage {
 }
 
 const UserPage: React.FC<IUserPage> = (props) => {
-    const [editMode, setEditMode] = useState<boolean>(false);
     const history = useHistory();
-    const onEditMode = () => setEditMode(true);
-    const offEditMode = () => setEditMode(false);
 
      
     useEffect(() => {
@@ -63,15 +59,10 @@ const UserPage: React.FC<IUserPage> = (props) => {
 
         <Box gridArea='main' align='start'>
 
-            
         <Header margin={{ 'top': '1rem' }}>
         <Link to='/swop'><Button icon={<LinkPrevious color='brand' />} label='На главную' margin='small' hoverIndicator /></Link>
-    </Header>
-            {editMode ? (<>
-               
-                <ItemCard offEditMode={offEditMode} />
-            </>
-            ) : (<MyItems onEditMode={onEditMode} items={props.items} errors={props.error} />)}
+    </Header>     
+    <ItemRouter items={props.items} error={props.error}/>
         </Box>
     </Grid>;
 };

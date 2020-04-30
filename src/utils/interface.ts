@@ -35,7 +35,7 @@ export interface ICategory {
     category: 'Одежда' | 'Обувь' | 'Аксессуары' | string
 }
 export type ITagType = {
-    tag?: string
+    tag: string
 }
 export interface IPhoto {
     url: string

@@ -1,20 +1,22 @@
 import React from 'react';
 import { Box, Heading } from 'grommet';
 import { IItem } from '../../utils/interface';
+import { useHistory, useRouteMatch} from 'react-router-dom';
 
 interface IItemProps {
-    onEditMode: () => void;
     item: IItem;
 }
 
-const MyItemComponent: React.FC<IItemProps> = ({ onEditMode, item }) => {
+const MyItemComponent: React.FC<IItemProps> = ({ item }) => {
 
-
+    const history = useHistory();
+    const {url} = useRouteMatch();
+ 
     return (
         <Box background='brand' margin='small' height='small' width='small' elevation='small'>
             <Box background={item.photos && item.photos.length > 0 ?
                 { 'image': `url(${item.photos![0].url})`, 'dark': true, 'opacity': 'medium' }
-                : 'brand'} basis='small' align='start' justify='end' margin='5px' onClick={onEditMode} pad={{ 'left': '1rem' }}>
+                : 'brand'} basis='small' align='start' justify='end' margin='5px' onClick={() => history.push(`${url}/item/${item._id}`)} pad={{ 'left': '1rem' }}>
                 <Heading level={4} color='light-1' margin={{ 'bottom': '0' }} truncate={true}>{item.title}</Heading>
                 {item.category ?
                     (<Heading level={6} color='light-1'>{item.category.category}</Heading>) : <></>}

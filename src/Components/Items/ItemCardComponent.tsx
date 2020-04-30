@@ -6,6 +6,7 @@ import UploadImageHolder from './ImageComponent';
 import { IItem, ICategory, ITagType } from '../../utils/interface';
 import { AppState } from '../../redux/Stores/store';
 import { addNewItem } from '../../redux/Actions/itemsActions';
+import { useParams, useHistory } from 'react-router-dom';
 
 interface IItemCardProps {
     id: string,
@@ -13,36 +14,46 @@ interface IItemCardProps {
     items: IItem[],
     loading: boolean,
     addNewItem: (userId: string, item: IItem) => void,
-    offEditMode: () => void,
 }
 
 const ItemCard: React.FC<IItemCardProps> = (props) => {
 
     //категория -- это name нужной категории
-    const [category, setCategory] = useState({ id: '5e9ec7131c9d44000068b413', name: 'Одежда' });
+    const [category, setCategory] = useState<ICategory>({ _id: '5e9ec7131c9d44000068b413', category: 'Одежда' });
     const [title, settitle] = useState('');
-    const [description, setDescription] = useState('');
+    const [description, setDescription] = useState<string | undefined>('');
     const [tags, setTags] = useState(['start tags']);
     const [photos, setPhotos] = useState<FileList[]>([]);
     const photoElem = useRef<HTMLInputElement>(null);
     const [upload, setUpload] = useState(false);
     const [updated, setUpdated] = useState(false)
 
-    // {
-    //     "disabled": false,
-    //     "id": "ONE",
-    //     "name": "one",
-    //     "value": "1",
-    //     "label": "one"
-    //   }
+    const history = useHistory();
+    const { itemId } = useParams()
 
-    useEffect(() => {               
-        if(props.error === null && updated){
-            props.offEditMode();         
-        }else {setUpdated(false)}
+    useEffect(() => {
+        if (props.error === null && updated) {
+            history.push('/user')
+        } else { setUpdated(false) }
     }, [props.items])
 
+    useEffect(() => {
+        const item = props.items.find((item) => item._id === itemId);
+        if (item) {
+            setCategory(item.category);
+            settitle(item.title);
+            setDescription(item.description);
+            if (item.tags) {
+                setTags(getArray(item.tags));
+            }
+        }
+    }, [props.items, itemId]);
 
+    const getArray = (obj: ITagType[]): string[] => {
+        let array: string[] = [];
+        obj.map(tag => { tag && array.push(tag.tag) });
+        return array;
+    };
 
     const options = [{
         name: 'Одежда',
@@ -60,30 +71,24 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
         label: 'Аксессуары'
     }];
 
-    // const [createMode, setCreateMode] = useState();
-
-
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setCategory({
-            id: event.target.value,
-            name: event.target.name
+            _id: event.target.value,
+            category: event.target.name
         });
     };
 
     const handleAdd = (event: any) => {
         event.preventDefault();
-        const cat: ICategory = {
-            _id: category.id,
-            category: category.name
-        }
+
         const newTags: ITagType[] = [];
         for (const tag of tags) {
-            newTags.push({tag: tag});
+            newTags.push({ tag: tag });
         }
 
         const item: IItem = {
             title: title,
-            category: cat,
+            category,
             description: description,
             // photos: photos
             tags: newTags
