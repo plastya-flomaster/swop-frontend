@@ -61,10 +61,14 @@ export const getAllMine = (userId: string) =>
 
 export const addNewItem = (userId: string, item: IItem) => (dispatch: Dispatch<AppActionType>) => {
     axios.post(`http://localhost:5000/api/items/add/${userId}`, item)
-        .then(res => { 
-            dispatch(sendItems(res.data.items)); 
-         })
+        .then(res => {
+            dispatch(sendItems(res.data.items));
+        })
         .catch(error => dispatch(sendErrors(error.response.data)));
+};
 
-
+export const updateCurrentItem = (userId: string, item: IItem) => (dispatch: Dispatch<AppActionType>) => {
+    axios.put(`http://localhost:5000/api/items/edit/${userId}`, item).then(res => {
+        dispatch(updateItem(res.data.item))
+    }).catch(error => dispatch(sendErrors(error.response.data)));
 };

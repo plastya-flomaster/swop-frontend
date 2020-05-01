@@ -28,7 +28,6 @@ export default (state = initialState, action: AppActionType): IItemsReducer => {
                     action.payload,
                     ...state.items.slice(index+1)
                 ],
-
             };
         case ItemsActions.DEL_ITEM:
             return state;

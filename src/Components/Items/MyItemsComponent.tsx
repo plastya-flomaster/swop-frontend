@@ -20,7 +20,7 @@ const MyItems: React.FC<IMyItems> = ({ items, error }) => (
             <Box margin='2rem' flex='grow' direction='row' wrap={true}>
                 <AddItem/>
                 {
-                    items && items
+                    items.length > 0 && items
                         .map((item, index) =>
                             (<MyItem key={index} item={item} />
                             ))

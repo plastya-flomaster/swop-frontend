@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import UploadImageHolder from './ImageComponent';
 import { IItem, ICategory, ITagType } from '../../utils/interface';
 import { AppState } from '../../redux/Stores/store';
-import { addNewItem } from '../../redux/Actions/itemsActions';
+import { addNewItem, updateCurrentItem } from '../../redux/Actions/itemsActions';
 import { useParams, useHistory } from 'react-router-dom';
 
 interface IItemCardProps {
@@ -14,11 +14,11 @@ interface IItemCardProps {
     items: IItem[],
     loading: boolean,
     addNewItem: (userId: string, item: IItem) => void,
+    updateCurrentItem: (userId: string, item: IItem) => void
 }
 
 const ItemCard: React.FC<IItemCardProps> = (props) => {
 
-    //категория -- это name нужной категории
     const [category, setCategory] = useState<ICategory>({ _id: '5e9ec7131c9d44000068b413', category: 'Одежда' });
     const [title, settitle] = useState('');
     const [description, setDescription] = useState<string | undefined>('');
@@ -27,9 +27,9 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
     const photoElem = useRef<HTMLInputElement>(null);
     const [upload, setUpload] = useState(false);
     const [updated, setUpdated] = useState(false)
-
+    const [buttonLabel, setButtonLabel] = useState<string>('Добавить')
     const history = useHistory();
-    const { itemId } = useParams()
+    const { id } = useParams();
 
     useEffect(() => {
         if (props.error === null && updated) {
@@ -38,16 +38,19 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
     }, [props.items])
 
     useEffect(() => {
-        const item = props.items.find((item) => item._id === itemId);
-        if (item) {
-            setCategory(item.category);
-            settitle(item.title);
-            setDescription(item.description);
-            if (item.tags) {
-                setTags(getArray(item.tags));
+        if (id !== 'new') {
+            setButtonLabel('Изменить');
+            const item = props.items.find((item) => item._id === id);
+            if (item) {
+                setCategory(item.category);
+                settitle(item.title);
+                setDescription(item.description);
+                if (item.tags) {
+                    setTags(getArray(item.tags));
+                }
             }
         }
-    }, [props.items, itemId]);
+    }, [props.items, id]);
 
     const getArray = (obj: ITagType[]): string[] => {
         let array: string[] = [];
@@ -71,6 +74,7 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
         label: 'Аксессуары'
     }];
 
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setCategory({
             _id: event.target.value,
@@ -78,23 +82,31 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
         });
     };
 
-    const handleAdd = (event: any) => {
+    const handleSubmit = (event: any) => {
         event.preventDefault();
 
         const newTags: ITagType[] = [];
-        for (const tag of tags) {
-            newTags.push({ tag: tag });
+            for (const tag of tags) {
+                newTags.push({ tag: tag });
+            }
+
+            const item: IItem = {
+                title: title,
+                category,
+                description: description,
+                // photos: photos
+                tags: newTags
+
+            };
+
+        //добавлениие
+        if (id === 'new') {
+            props.addNewItem(props.id, item);
+        } else //обновление объекта
+        {
+            console.log('update');
+            props.updateCurrentItem(props.id, item);
         }
-
-        const item: IItem = {
-            title: title,
-            category,
-            description: description,
-            // photos: photos
-            tags: newTags
-
-        };
-        props.addNewItem(props.id, item);
         setUpdated(true);
     };
 
@@ -124,7 +136,7 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
         <RadioButtonGroup
             name='rbg'
             options={options}
-            value={category}
+            value={category._id}
             onChange={handleChange}
         />
 
@@ -153,7 +165,7 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
             upload ? (<Text color='status-error'>Вы не можете загрузить больше 5 фотографий</Text>) : <></>
         }
 
-        <Button label='Добавить' onClick={handleAdd} ></Button>
+        <Button label={buttonLabel} onClick={handleSubmit} ></Button>
     </Box>)
 };
 const mapStateToProps = (state: AppState) => ({
@@ -163,4 +175,4 @@ const mapStateToProps = (state: AppState) => ({
     error: state.items.error
 });
 
-export default connect(mapStateToProps, { addNewItem })(ItemCard);
+export default connect(mapStateToProps, { addNewItem, updateCurrentItem })(ItemCard);

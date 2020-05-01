@@ -1,7 +1,7 @@
 
 import * as React from 'react';
 import { hot } from 'react-hot-loader/root';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { HashRouter, Switch, Route, Redirect } from 'react-router-dom';
 
 import { Provider } from 'react-redux';
 import store from './redux/Stores/store';
@@ -50,7 +50,7 @@ const App: React.FC = () => {
   return <Provider store={store}>
     <Grommet theme={grommet}>
 
-      <BrowserRouter>
+      <HashRouter>
         <Switch>
           <Route component={LoginComponent} path='/login' />
           <Route component={UserPage} path='/user' />
@@ -60,10 +60,11 @@ const App: React.FC = () => {
             <Route component={UserPage} path='/user' />
             <Route component={HelpPage} path='/help' />
             <Route component={EditUserPage} path='/edit' />
+            <Route path='/'>< Redirect to="/swop"/></Route>
             <Route component={Page404} />
           </Switch>
         </Switch>
-      </BrowserRouter>
+      </HashRouter>
     </Grommet>
   </Provider>;
 }
