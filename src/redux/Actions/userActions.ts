@@ -50,6 +50,7 @@ export const updateUser = (id: string, user: IUserInfo) => (dispatch: Dispatch<A
             dispatch(setCurrentUser(res.data));
         }) //установим текущего юзера)
         .catch(err => {
+            console.log(err);
             dispatch(sendErrors(err.response.data))});
 }
 

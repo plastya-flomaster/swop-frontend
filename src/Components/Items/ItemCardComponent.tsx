@@ -16,6 +16,7 @@ import { AppState } from '../../redux/Stores/store';
 import {
   addNewItem,
   updateCurrentItem,
+  removeItem,
 } from '../../redux/Actions/itemsActions';
 import { useParams, useHistory } from 'react-router-dom';
 
@@ -27,6 +28,7 @@ interface IItemCardProps {
   categories: ICategory[];
   addNewItem: (userId: string, item: IItem) => void;
   updateCurrentItem: (userId: string, item: IItem) => void;
+  removeItem: (userId: string, itemId: string) => void;
 }
 
 const ItemCard: React.FC<IItemCardProps> = ({
@@ -36,6 +38,7 @@ const ItemCard: React.FC<IItemCardProps> = ({
   categories,
   addNewItem,
   updateCurrentItem,
+  removeItem,
 }) => {
   const [category, setCategory] = useState<string>(
     categories['5ead2e16b96074e77fd74897']
@@ -87,7 +90,7 @@ const ItemCard: React.FC<IItemCardProps> = ({
 
   const options = [
     {
-      name: 'Одежда',
+      name: 'clothes',
       value: '5ead2e16b96074e77fd74897',
       label: 'Одежда',
     },
@@ -103,10 +106,11 @@ const ItemCard: React.FC<IItemCardProps> = ({
     },
   ];
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCategory(event.target.value);
+  const handleDelete = (event: any) => {
+    event.preventDefault();
+    removeItem(userId, id!);
+    setUpdated(true);
   };
-
   const handleSubmit = (event: any) => {
     event.preventDefault();
 
@@ -169,7 +173,9 @@ const ItemCard: React.FC<IItemCardProps> = ({
         name="rbg"
         options={options}
         value={category}
-        onChange={handleChange}
+        onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
+          setCategory(event.target.value);
+        }}
       />
 
       <Heading level={5} margin={{ vertical: '1rem' }}>
@@ -227,8 +233,18 @@ const ItemCard: React.FC<IItemCardProps> = ({
       ) : (
         <></>
       )}
-
-      <Button label={buttonLabel} onClick={handleSubmit}></Button>
+      <Box flex="grow" direction="row" width="large">
+        <Button
+          label={buttonLabel}
+          onClick={handleSubmit}
+          size="medium"
+        ></Button>
+        {id !== 'new' ? (
+          <Button label="Удалить" size="medium" onClick={handleDelete}></Button>
+        ) : (
+          <></>
+        )}
+      </Box>
     </Box>
   );
 };
@@ -239,6 +255,8 @@ const mapStateToProps = (state: AppState) => ({
   error: state.items.error,
 });
 
-export default connect(mapStateToProps, { addNewItem, updateCurrentItem })(
-  ItemCard
-);
+export default connect(mapStateToProps, {
+  addNewItem,
+  updateCurrentItem,
+  removeItem,
+})(ItemCard);
