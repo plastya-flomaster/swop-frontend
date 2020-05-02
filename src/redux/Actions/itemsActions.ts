@@ -63,7 +63,6 @@ export const getAllMine = (userId: string) => (
 export const addNewItem = (userId: string, item: IItem) => (
   dispatch: Dispatch<AppActionType>
 ) => {
-  debugger;
   axios
     .post(`http://localhost:5000/api/items/add/${userId}`, item)
     .then((res) => {

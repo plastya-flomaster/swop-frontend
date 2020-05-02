@@ -3,19 +3,13 @@ import { IItem, ICategory } from '../../utils/interface';
 import { Box, Text } from 'grommet';
 import { connect } from 'react-redux';
 import { AppState } from '../../redux/Stores/store';
-import { useEffect } from 'react';
 
 interface Props {
   card: IItem;
   categories: ICategory[];
 }
 
-const SwipeCards: React.FC<Props> = ({ card, categories }) => {
-  useEffect(() => {
-    console.log(categories);
-  }, []);
-
-  return (
+const SwipeCards: React.FC<Props> = ({ card, categories }) => 
     <Box
       round="small"
       background={
@@ -47,7 +41,7 @@ const SwipeCards: React.FC<Props> = ({ card, categories }) => {
       </Box>
     </Box>
   );
-};
+
 const mapStateToProps = (state: AppState) => ({
   categories: state.categories.categories,
 });
