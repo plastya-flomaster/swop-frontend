@@ -69,6 +69,6 @@ export const addNewItem = (userId: string, item: IItem) => (dispatch: Dispatch<A
 
 export const updateCurrentItem = (userId: string, item: IItem) => (dispatch: Dispatch<AppActionType>) => {
     axios.post(`http://localhost:5000/api/items/edit/${userId}`, item).then(res => {
-        dispatch(updateItems(res.data))
+        dispatch(sendItems(res.data))
     }).catch(error => dispatch(sendErrors(error.response.data)));
 };
