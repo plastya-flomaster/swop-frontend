@@ -15,13 +15,13 @@ const CardButtons: React.FC<RenderButtonsPayload> = ({ left, right }) => {
   return (
     <Box flex="grow" direction="row" alignSelf="center">
       <Button
-        icon={<Like />}
+        icon={<Dislike />}
         onClick={left}
         label="свайп влево"
         margin="small"
       />
       <Button
-        icon={<Dislike />}
+        icon={<Like />}
         onClick={right}
         label="свайп вправо"
         margin="small"

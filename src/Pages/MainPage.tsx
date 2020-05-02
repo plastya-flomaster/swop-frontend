@@ -43,30 +43,37 @@ const MainPage: React.FC<ISwap> = (props) => {
       .catch((err) => console.log(err));
   }, []);
 
-  console.log(allItems);
-
   const handleSwipe = (swipeDirection: direction) => {
     if (swipeDirection == direction.RIGHT) {
       setAlert({
         show: true,
-        variant: 'status-error',
+        variant: 'status-ok',
         title: 'Вы свайпнули вправо!',
       });
-      setAllItems(allItems.slice(1));
-    }
-    if (swipeDirection == direction.LEFT) {
-      setAlert({
-        show: true,
-        variant: 'status-ok',
-        title: 'Вы свайпнули влево!',
-      });
       axios
-        .put(`http://localhost:5000/api//api/likeditems/dislike/${user._id}`, {
+        .put(`http://localhost:5000/api/likeditems/addpairs/${user._id}`, {
+          otherId: allItems[0].userId,
           itemId: allItems[0]._id,
         })
         .then((res) => {
           setAllItems(allItems.slice(1));
-        });
+        })
+        .catch((err) => console.log(err));
+    }
+    if (swipeDirection == direction.LEFT) {
+      setAlert({
+        show: true,
+        variant: 'status-error',
+        title: 'Вы свайпнули влево!',
+      });
+      axios
+        .put(`http://localhost:5000/api/likeditems/dislike/${user._id}`, {
+          itemId: allItems[0]._id,
+        })
+        .then((res) => {
+          setAllItems(allItems.slice(1));
+        })
+        .catch((err) => console.log(err));
     }
   };
   const handleHelp = (
