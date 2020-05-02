@@ -1,4 +1,4 @@
-import { IItem, IUserInfo } from '../../utils/interface';
+import { IItem, IUserInfo, ICategory } from '../../utils/interface';
 
 export interface IItemsReducer {
     loading: boolean,
@@ -10,4 +10,9 @@ export interface IUserReducer {
     loading: boolean,
     user: IUserInfo,
     error?: any
+}
+export interface ICategoriesReducer {
+    loading: boolean,
+    categories: ICategory[],
+    error: any
 }

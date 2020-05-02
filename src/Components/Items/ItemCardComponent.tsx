@@ -58,7 +58,7 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
 
       if (item) {
         setButtonLabel('Изменить');
-        setCategory(item.category);
+        // setCategory(item.category);
         settitle(item.title);
         setDescription(item.description);
         if (item.tags) {
@@ -111,7 +111,7 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
 
     let item: IItem = {
       title,
-      category,
+      category: category.category,
       description,
       // photos: photos
       tags: newTags,

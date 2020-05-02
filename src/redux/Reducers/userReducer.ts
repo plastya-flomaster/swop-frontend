@@ -1,6 +1,7 @@
-import { UserActions } from '../Actions/userActions';
-import { AppActionType } from '../Actions/ActionTypes';
 import { IUserReducer } from './reducerTypes';
+import { AppActionType } from '../Actions/ActionTypes';
+import { UserActions } from '../Actions/userActions';
+
 const isEmpty = require('is-empty');
 
 const initialState: IUserReducer = {

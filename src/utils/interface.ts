@@ -24,15 +24,14 @@ export interface IChat {
 export type IItem = {
     _id?: string, 
     title: string,
-    category: ICategory,
+    category: string,
     description?: string,
     tags?: ITagType[],
     photos?: IPhoto[]
 }
 
 export interface ICategory {
-    _id: string,
-    category: 'Одежда' | 'Обувь' | 'Аксессуары' | string
+    [x: string]: 'Одежда' | 'Обувь' | 'Аксессуары' | string
 }
 export type ITagType = {
     tag: string
