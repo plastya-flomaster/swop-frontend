@@ -19,7 +19,13 @@ const MainRouter: React.FC<IMainRouter> = (props) => {
         <Route component={LoginComponent} path="/login" />
         <Route component={RegisterComponent} path="/register" />
         <Switch>
-          {props.isAuthenticated ? <PrivateRoute /> : <Redirect to="/login" />}
+          <Route
+            render={({ location }) => {
+              if (props.isAuthenticated) {
+                return <PrivateRoute />;
+              } else return <Redirect to="/login" />;
+            }}
+          />
           <Route path="/">
             <Redirect to="/swop" />
           </Route>

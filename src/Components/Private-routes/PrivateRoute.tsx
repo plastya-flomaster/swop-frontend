@@ -19,11 +19,11 @@ const PrivateRoute: React.FC<IPrivetRouter> = (props) => {
   }, []);
   return (
     <Switch>
-      <Route component={MainPage} path="/swop" />
       <Route component={UserPage} path="/user" />
       <Route component={HelpPage} path="/help" />
       <Route component={EditUserPage} path="/edit" />
       <Route component={MatchPage} path="/match" />
+      <Route component={MainPage} path="/swop" />
     </Switch>
   );
 };
