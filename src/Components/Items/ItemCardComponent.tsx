@@ -34,6 +34,8 @@ const ItemCard: React.FC<IItemCardProps> = ({
   error,
   items,
   categories,
+  addNewItem,
+  updateCurrentItem,
 }) => {
   const [category, setCategory] = useState<string>(
     categories['5ead2e16b96074e77fd74897']
@@ -60,11 +62,9 @@ const ItemCard: React.FC<IItemCardProps> = ({
   }, [items]);
 
   useEffect(() => {
-    debugger;
-
     if (id !== 'new') {
       const item = items.find((item) => item._id === id);
-      debugger;
+
       if (item) {
         setButtonLabel('Изменить');
         setCategory(item.category);
@@ -108,8 +108,6 @@ const ItemCard: React.FC<IItemCardProps> = ({
   };
 
   const handleSubmit = (event: any) => {
-    debugger;
-
     event.preventDefault();
 
     const newTags: ITagType[] = [];
