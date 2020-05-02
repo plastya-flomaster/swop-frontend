@@ -28,6 +28,7 @@ interface IUserPage {
 const UserPage: React.FC<IUserPage> = (props) => {
     const history = useHistory();
 
+     console.log(props.items);
      
     useEffect(() => {
         if (props.user._id)

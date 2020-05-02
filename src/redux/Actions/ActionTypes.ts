@@ -37,9 +37,9 @@ interface IAddItem {
     payload: IItem
 }
 
-interface IUpdateItem {
-    type: typeof ItemsActions.UPDATE_ITEM,
-    payload: IItem
+interface IUpdateItems {
+    type: typeof ItemsActions.UPDATE_ITEMS,
+    payload: IItem[]
 }
 
 interface IItemLoading {
@@ -51,7 +51,7 @@ interface IItemError {
     payload: any
 }
 
-type ItemTypes = IGetAllItems | IDelItem | IAddItem | IUpdateItem | IItemLoading | IItemError;
+type ItemTypes = IGetAllItems | IDelItem | IAddItem | IUpdateItems | IItemLoading | IItemError;
 
 export type AppActionType = UserTypes | ItemTypes ;
 

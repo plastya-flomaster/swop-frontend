@@ -19,15 +19,15 @@ interface IItemCardProps {
 
 const ItemCard: React.FC<IItemCardProps> = (props) => {
 
-    const [category, setCategory] = useState<ICategory>({ _id: '5e9ec7131c9d44000068b413', category: 'Одежда' });
+    const [category, setCategory] = useState<ICategory>({ _id: '5ead2e16b96074e77fd74897', category: 'Одежда' });
     const [title, settitle] = useState('');
     const [description, setDescription] = useState<string | undefined>('');
     const [tags, setTags] = useState(['start tags']);
     const [photos, setPhotos] = useState<FileList[]>([]);
     const photoElem = useRef<HTMLInputElement>(null);
     const [upload, setUpload] = useState(false);
-    const [updated, setUpdated] = useState(false)
-    const [buttonLabel, setButtonLabel] = useState<string>('Добавить')
+    const [updated, setUpdated] = useState(false);
+    const [buttonLabel, setButtonLabel] = useState<string>('Добавить');
     const history = useHistory();
     const { id } = useParams();
 
@@ -42,6 +42,7 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
             setButtonLabel('Изменить');
             const item = props.items.find((item) => item._id === id);
             if (item) {
+                console.log(item);
                 setCategory(item.category);
                 settitle(item.title);
                 setDescription(item.description);
@@ -60,17 +61,17 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
 
     const options = [{
         name: 'Одежда',
-        value: '5e9ec7131c9d44000068b413',
+        value: '5ead2e16b96074e77fd74897',
         label: 'Одежда'
     },
     {
         name: 'Обувь',
-        value: '5e9ec72a1c9d44000068b414',
+        value: '5ead2e2eb96074e77fd74898',
         label: 'Обувь'
     },
     {
         name: 'Аксессуары',
-        value: '5e9ec7411c9d44000068b415',
+        value: '5ead2e3ab96074e77fd74899',
         label: 'Аксессуары'
     }];
 
@@ -90,10 +91,10 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
                 newTags.push({ tag: tag });
             }
 
-            const item: IItem = {
-                title: title,
+            let item: IItem = {
+                title,
                 category,
-                description: description,
+                description,
                 // photos: photos
                 tags: newTags
 
@@ -104,7 +105,10 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
             props.addNewItem(props.id, item);
         } else //обновление объекта
         {
-            console.log('update');
+            item = {
+                _id: id,
+                ...item
+            }
             props.updateCurrentItem(props.id, item);
         }
         setUpdated(true);

@@ -7,7 +7,7 @@ export enum ItemsActions {
     GET_ITEMS = 'GET_ITEMS',
     DEL_ITEM = 'DEL_ITEM',
     ADD_ITEM = 'ADD_ITEM',
-    UPDATE_ITEM = 'UPDATE_ITEM',
+    UPDATE_ITEMS = 'UPDATE_ITEMS',
 
     ITEM_LOADING = 'ITEM_LOADING',
     ITEM_ERROR = 'ITEM_ERROR'
@@ -39,8 +39,8 @@ export const addItem = (payload: IItem): AppActionType => ({
 });
 
 //обновляет товар
-export const updateItem = (payload: IItem): AppActionType => ({
-    type: ItemsActions.UPDATE_ITEM,
+export const updateItems = (payload: IItem[]): AppActionType => ({
+    type: ItemsActions.UPDATE_ITEMS,
     payload
 });
 
@@ -62,13 +62,13 @@ export const getAllMine = (userId: string) =>
 export const addNewItem = (userId: string, item: IItem) => (dispatch: Dispatch<AppActionType>) => {
     axios.post(`http://localhost:5000/api/items/add/${userId}`, item)
         .then(res => {
-            dispatch(sendItems(res.data.items));
+            dispatch(sendItems(res.data));
         })
         .catch(error => dispatch(sendErrors(error.response.data)));
 };
 
 export const updateCurrentItem = (userId: string, item: IItem) => (dispatch: Dispatch<AppActionType>) => {
-    axios.put(`http://localhost:5000/api/items/edit/${userId}`, item).then(res => {
-        dispatch(updateItem(res.data.item))
+    axios.post(`http://localhost:5000/api/items/edit/${userId}`, item).then(res => {
+        dispatch(updateItems(res.data))
     }).catch(error => dispatch(sendErrors(error.response.data)));
 };
