@@ -60,7 +60,13 @@ const MainPage: React.FC<ISwap> = (props) => {
         variant: 'status-ok',
         title: 'Вы свайпнули влево!',
       });
-      setAllItems(allItems.slice(1));
+      axios
+        .put(`http://localhost:5000/api//api/likeditems/dislike/${user._id}`, {
+          itemId: allItems[0]._id,
+        })
+        .then((res) => {
+          setAllItems(allItems.slice(1));
+        });
     }
   };
   const handleHelp = (
