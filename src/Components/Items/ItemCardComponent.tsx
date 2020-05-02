@@ -11,7 +11,7 @@ import {
 import TagTextInput from './TagsInputComponent';
 import { connect } from 'react-redux';
 import UploadImageHolder from './ImageComponent';
-import { IItem, ICategory, ITagType } from '../../utils/interface';
+import { IItem, ITagType, ICategory } from '../../utils/interface';
 import { AppState } from '../../redux/Stores/store';
 import {
   addNewItem,
@@ -20,19 +20,24 @@ import {
 import { useParams, useHistory } from 'react-router-dom';
 
 interface IItemCardProps {
-  id: string;
+  userId: string;
   error: any;
   items: IItem[];
   loading: boolean;
+  categories: ICategory[];
   addNewItem: (userId: string, item: IItem) => void;
   updateCurrentItem: (userId: string, item: IItem) => void;
 }
 
-const ItemCard: React.FC<IItemCardProps> = (props) => {
-  const [category, setCategory] = useState<ICategory>({
-    _id: '5ead2e16b96074e77fd74897',
-    category: 'Одежда',
-  });
+const ItemCard: React.FC<IItemCardProps> = ({
+  userId,
+  error,
+  items,
+  categories,
+}) => {
+  const [category, setCategory] = useState<string>(
+    categories['5ead2e16b96074e77fd74897']
+  );
   const [title, settitle] = useState('');
   const [description, setDescription] = useState<string | undefined>('');
   const [tags, setTags] = useState(['start tags']);
@@ -40,25 +45,29 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
   const photoElem = useRef<HTMLInputElement>(null);
   const [upload, setUpload] = useState(false);
   const [updated, setUpdated] = useState(false);
+
   const [buttonLabel, setButtonLabel] = useState<string>('Добавить');
+
   const history = useHistory();
   const { id } = useParams();
 
   useEffect(() => {
-    if (props.error === null && updated) {
+    if (error === null && updated) {
       history.push('/user');
     } else {
       setUpdated(false);
     }
-  }, [props.items]);
+  }, [items]);
 
   useEffect(() => {
-    if (id !== 'new') {
-      const item = props.items.find((item) => item._id === id);
+    debugger;
 
+    if (id !== 'new') {
+      const item = items.find((item) => item._id === id);
+      debugger;
       if (item) {
         setButtonLabel('Изменить');
-        // setCategory(item.category);
+        setCategory(item.category);
         settitle(item.title);
         setDescription(item.description);
         if (item.tags) {
@@ -66,7 +75,7 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
         }
       }
     }
-  }, [props.items, id]);
+  }, [items, id]);
 
   const getArray = (obj: ITagType[]): string[] => {
     let array: string[] = [];
@@ -95,13 +104,12 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
   ];
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCategory({
-      _id: event.target.value,
-      category: event.target.name,
-    });
+    setCategory(event.target.value);
   };
 
   const handleSubmit = (event: any) => {
+    debugger;
+
     event.preventDefault();
 
     const newTags: ITagType[] = [];
@@ -111,7 +119,7 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
 
     let item: IItem = {
       title,
-      category: category.category,
+      category: category,
       description,
       // photos: photos
       tags: newTags,
@@ -119,14 +127,14 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
 
     //добавлениие
     if (id === 'new') {
-      props.addNewItem(props.id, item);
+      addNewItem(userId, item);
     } //обновление объекта
     else {
       item = {
         _id: id,
         ...item,
       };
-      props.updateCurrentItem(props.id, item);
+      updateCurrentItem(userId, item);
     }
     setUpdated(true);
   };
@@ -162,7 +170,7 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
       <RadioButtonGroup
         name="rbg"
         options={options}
-        value={category._id}
+        value={category}
         onChange={handleChange}
       />
 
@@ -227,7 +235,7 @@ const ItemCard: React.FC<IItemCardProps> = (props) => {
   );
 };
 const mapStateToProps = (state: AppState) => ({
-  id: state.auth.user._id,
+  userId: state.auth.user._id,
   loading: state.items.loading,
   items: state.items.items,
   error: state.items.error,

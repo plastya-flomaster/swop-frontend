@@ -4,17 +4,14 @@ import { Box, Text } from 'grommet';
 import { connect } from 'react-redux';
 import { AppState } from '../../redux/Stores/store';
 import { useEffect } from 'react';
-import { getCategories } from '../../redux/Actions/CategoriesActions';
 
 interface Props {
   card: IItem;
   categories: ICategory[];
-  getCategories: () => void;
 }
 
-const SwipeCards: React.FC<Props> = ({ card, getCategories, categories }) => {
+const SwipeCards: React.FC<Props> = ({ card, categories }) => {
   useEffect(() => {
-    getCategories();
     console.log(categories);
   }, []);
 
@@ -54,4 +51,4 @@ const SwipeCards: React.FC<Props> = ({ card, getCategories, categories }) => {
 const mapStateToProps = (state: AppState) => ({
   categories: state.categories.categories,
 });
-export default connect(mapStateToProps, { getCategories })(SwipeCards);
+export default connect(mapStateToProps)(SwipeCards);

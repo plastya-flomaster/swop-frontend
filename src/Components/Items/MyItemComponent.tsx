@@ -1,13 +1,14 @@
 import React from 'react';
 import { Box, Heading } from 'grommet';
-import { IItem } from '../../utils/interface';
+import { IItem, ICategory } from '../../utils/interface';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 
 interface IItemProps {
   item: IItem;
+  categories: ICategory[];
 }
 
-const MyItemComponent: React.FC<IItemProps> = ({ item }) => {
+const MyItemComponent: React.FC<IItemProps> = ({ item, categories }) => {
   const history = useHistory();
   const { url } = useRouteMatch();
 
@@ -46,7 +47,7 @@ const MyItemComponent: React.FC<IItemProps> = ({ item }) => {
         </Heading>
         {item.category ? (
           <Heading level={6} color="light-1">
-            {item.category.length}
+            {categories[item.category]}
           </Heading>
         ) : (
           <></>

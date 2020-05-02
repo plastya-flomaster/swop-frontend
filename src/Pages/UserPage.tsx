@@ -58,8 +58,10 @@ const UserPage: React.FC<IUserPage> = (props) => {
           />
         ) : (
           <>
-            <Alert color="status-warning" />
-            <Heading level="4">У вас не добавлены контактные данные!</Heading>
+            <Box direction="row" flex="grow">
+              <Alert color="status-warning" />
+              <Heading level="4">У вас не добавлены контактные данные!</Heading>
+            </Box>
             <Button label="Добавить" onClick={handleEdit}></Button>
           </>
         )}
