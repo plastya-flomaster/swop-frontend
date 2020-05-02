@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { connect } from 'react-redux';
 import { logoutUser } from '../redux/Actions/userActions';
@@ -13,24 +12,16 @@ import CardButtons from '../Components/Cards/CardButtons';
 
 import { Grid, Box, Heading, Anchor, Text, Button } from 'grommet';
 
-import { IItem, ITagType, IAlert } from '../utils/interface';
+import { IItem, IAlert } from '../utils/interface';
 
 import { useHistory } from 'react-router-dom';
-
-export interface RenderButtonsPayload {
-  right: () => void;
-  left: () => void;
-}
+import axios from 'axios';
+import { AppState } from '../redux/Stores/store';
+import { IUserReducer } from '../redux/Reducers/reducerTypes';
 
 interface ISwap {
   logoutUser: () => any;
-  auth: {
-    isAuthenticated: boolean;
-    user: {
-      id: string;
-      name: string;
-    };
-  };
+  auth: IUserReducer;
 }
 
 const MainPage: React.FC<ISwap> = (props) => {
@@ -41,39 +32,18 @@ const MainPage: React.FC<ISwap> = (props) => {
     title: '',
   });
 
-  const type1: ITagType = { tag: 'Крутой!' };
-  const [test, setTest] = useState<IItem[]>([
-    {
-      title: 'Брюки Armani',
-      description: 'Новые и красивые!',
-      category: '5ead2e16b96074e77fd74897',
-      photos: [
-        {
-          url: 'https://source.unsplash.com/random/700×700/?man',
-        },
-        { url: 'https://source.unsplash.com/random/700×700/?wear' },
-      ],
-    },
-    {
-      title: 'Карточка 2',
-      description: 'Новые и красивые!',
-      category: '5ead2e16b96074e77fd74897',
-      photos: [
-        {
-          url: 'https://source.unsplash.com/random/700×700/?shoes',
-        },
-        { url: 'https://source.unsplash.com/random/700×700/?wear' },
-      ],
-    },
-    {
-      title: 'Ботинки черные',
-      description: 'Размера 41, мужские',
-      category: '5ead2e16b96074e77fd74897',
-      tags: [type1],
-    },
-  ]);
-
   const { user } = props.auth;
+
+  const [allItems, setAllItems] = useState<IItem[]>([]);
+
+  useEffect(() => {
+    axios
+      .get<IItem[]>(`http://localhost:5000/api/items/swap/${user._id}`)
+      .then((res) => setAllItems([...res.data, ...allItems]))
+      .catch((err) => console.log(err));
+  }, []);
+
+  console.log(allItems);
 
   const handleSwipe = (swipeDirection: direction) => {
     if (swipeDirection == direction.RIGHT) {
@@ -82,7 +52,7 @@ const MainPage: React.FC<ISwap> = (props) => {
         variant: 'status-error',
         title: 'Вы свайпнули вправо!',
       });
-      setTest(test.slice(1));
+      setAllItems(allItems.slice(1));
     }
     if (swipeDirection == direction.LEFT) {
       setAlert({
@@ -90,7 +60,7 @@ const MainPage: React.FC<ISwap> = (props) => {
         variant: 'status-ok',
         title: 'Вы свайпнули влево!',
       });
-      setTest(test.slice(1));
+      setAllItems(allItems.slice(1));
     }
   };
   const handleHelp = (
@@ -119,7 +89,6 @@ const MainPage: React.FC<ISwap> = (props) => {
     >
       <Box gridArea="nav" background="light-3">
         <UserPic name={user.name} />
-        {/* <Messages chats={chats} /> */}
         <Box pad="small">
           <Heading level="5">
             Добро пожаловать в приложение SWOP! Свайпай карточки справа, выбирай
@@ -148,7 +117,7 @@ const MainPage: React.FC<ISwap> = (props) => {
         />
       </Box>
       <Box gridArea="main">
-        {test.length !== 0 ? (
+        {allItems.length !== 0 ? (
           <>
             <Swipeable
               onSwipe={handleSwipe}
@@ -157,7 +126,7 @@ const MainPage: React.FC<ISwap> = (props) => {
               }}
             >
               <Box align="center" pad={{ vertical: '2rem' }}>
-                <SwipeCards card={test[0]}></SwipeCards>
+                <SwipeCards card={allItems[0]}></SwipeCards>
               </Box>
             </Swipeable>
             {alert.show ? (
@@ -178,7 +147,7 @@ const MainPage: React.FC<ISwap> = (props) => {
   );
 };
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: AppState) => ({
   auth: state.auth,
 });
 

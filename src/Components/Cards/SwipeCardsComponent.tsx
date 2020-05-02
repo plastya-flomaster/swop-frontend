@@ -17,13 +17,14 @@ const SwipeCards: React.FC<Props> = ({ card, getCategories, categories }) => {
     getCategories();
     console.log(categories);
   }, []);
+
   return (
     <Box
       round="small"
       background={
-        card.photos
+        card.photos && card?.photos?.length > 0
           ? {
-              image: `url(${card.photos![0].url})`,
+              image: `url(${card?.photos[0]?.url && card?.photos[0]?.url})`,
               dark: true,
               opacity: 'medium',
             }
@@ -42,7 +43,7 @@ const SwipeCards: React.FC<Props> = ({ card, getCategories, categories }) => {
         <Box align="start" justify="end">
           <Box round={true} background="accent-2">
             <Text margin={{ horizontal: 'small' }}>
-              {card.tags ? card.tags[0].tag : ''}
+              {card.tags ? card.tags[0]?.tag : ''}
             </Text>
           </Box>
         </Box>
