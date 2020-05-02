@@ -5,6 +5,7 @@ import MainPage from '../../Pages/MainPage';
 import UserPage from '../../Pages/UserPage';
 import HelpPage from '../../Pages/HelpPage';
 import EditUserPage from '../../Pages/EditUserPage';
+import MatchPage from '../../Pages/MatchPage';
 import { AppState } from '../../redux/Stores/store';
 import { getCategories } from '../../redux/Actions/CategoriesActions';
 
@@ -18,10 +19,11 @@ const PrivateRoute: React.FC<IPrivetRouter> = (props) => {
   }, []);
   return (
     <Switch>
+      <Route component={MainPage} path="/swop" />
       <Route component={UserPage} path="/user" />
       <Route component={HelpPage} path="/help" />
       <Route component={EditUserPage} path="/edit" />
-      <Route exact component={MainPage} path="/swop" />
+      <Route component={MatchPage} path="/match" />
     </Switch>
   );
 };

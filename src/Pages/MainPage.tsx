@@ -108,7 +108,11 @@ const MainPage: React.FC<ISwap> = (props) => {
             те предметы одежды, которые понравятся тебе.
           </Heading>
         </Box>
-        <Button margin="small" label="узнать совпадения"></Button>
+        <Button
+          margin="small"
+          label="узнать совпадения"
+          onClick={() => history.push('/match')}
+        ></Button>
       </Box>
       <Box
         gridArea="header"
