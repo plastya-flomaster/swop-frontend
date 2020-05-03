@@ -88,23 +88,20 @@ const ItemCard: React.FC<IItemCardProps> = ({
     return array;
   };
 
-  const options = [
-    {
-      name: 'clothes',
-      value: '5ead2e16b96074e77fd74897',
-      label: 'Одежда',
-    },
-    {
-      name: 'Обувь',
-      value: '5ead2e2eb96074e77fd74898',
-      label: 'Обувь',
-    },
-    {
-      name: 'Аксессуары',
-      value: '5ead2e3ab96074e77fd74899',
-      label: 'Аксессуары',
-    },
-  ];
+  const getOptions = (input: ICategory[]) => {
+    let opts = [];
+
+    for (const elem in input) {
+      let temp = {
+        name: input[elem],
+        value: elem,
+        label: input[elem],
+      };
+      opts.push(temp);
+    }
+    return opts;
+  };
+  const options = getOptions(categories);
 
   const handleDelete = (event: any) => {
     event.preventDefault();
