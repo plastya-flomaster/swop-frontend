@@ -38,7 +38,7 @@ const MainPage: React.FC<ISwap> = (props) => {
 
   useEffect(() => {
     axios
-      .get<IItem[]>(`http://localhost:5000/api/items/swap/${user._id}`)
+      .get<IItem[]>(`/api/items/swap/${user._id}`)
       .then((res) => setAllItems([...res.data, ...allItems]))
       .catch((err) => console.log(err));
   }, []);
@@ -51,7 +51,7 @@ const MainPage: React.FC<ISwap> = (props) => {
         title: 'Вы свайпнули вправо!',
       });
       axios
-        .put(`http://localhost:5000/api/likeditems/addpairs/${user._id}`, {
+        .put(`/api/likeditems/addpairs/${user._id}`, {
           otherId: allItems[0].userId,
           itemId: allItems[0]._id,
         })
@@ -67,7 +67,7 @@ const MainPage: React.FC<ISwap> = (props) => {
         title: 'Вы свайпнули влево!',
       });
       axios
-        .put(`http://localhost:5000/api/likeditems/dislike/${user._id}`, {
+        .put(`/api/likeditems/dislike/${user._id}`, {
           itemId: allItems[0]._id,
         })
         .then((res) => {

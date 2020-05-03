@@ -28,7 +28,7 @@ export const sendErrors = (payload: any): AppActionType => ({
 export const getCategories = () => (dispatch: Dispatch<AppActionType>) => {
   dispatch(sendLoading());
   axios
-    .get('http://localhost:5000/api/categories')
+    .get('/api/categories')
     .then((res) => dispatch(sendCategories(res.data)))
     .catch((err) => dispatch(sendErrors(err.response.data)));
 };

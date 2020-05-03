@@ -1,6 +1,6 @@
-# empty-project
+# SWOP Дипломная работа
 
-Empty project.
+Приложение для обмена одеждой. Выбирайте товары другого пользователя, а затем меняйтесь ими. 
 
 ## Building and running on localhost
 
@@ -32,6 +32,3 @@ npm run build-dev
 
 Open the file `dist/index.html` in your browser
 
-## Credits
-
-Made with [createapp.dev](https://createapp.dev/)

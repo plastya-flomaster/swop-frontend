@@ -38,7 +38,7 @@ export const userLogout = (): AppActionType => ({
 export const getUser = (id: string): any => (dispatch: Dispatch<any>) => {
   dispatch(setUserLoading());
   axios
-    .get(`http://localhost:5000/api/users/${id}`)
+    .get(`/api/users/${id}`)
     .then((res) => {
       dispatch(setCurrentUser(res.data));
     })
@@ -49,7 +49,7 @@ export const updateUser = (id: string, user: IUserInfo) => (
   dispatch: Dispatch<AppActionType>
 ) => {
   axios
-    .put(`http://localhost:5000/api/users/${id}/update/`, {}, { params: user })
+    .put(`/api/users/${id}/update/`, {}, { params: user })
     .then((res) => {
       dispatch(setCurrentUser(res.data));
     }) //установим текущего юзера)
@@ -63,7 +63,7 @@ export const registerUser = (userData: IUserInfo, history: any) => (
   dispatch: Dispatch<AppActionType>
 ) => {
   axios
-    .post('http://localhost:5000/api/users/register', userData)
+    .post('/api/users/register', userData)
     .then((res) => history.push('/login'))
     .catch((err) => dispatch(sendErrors(err.response.data)));
 };
@@ -73,7 +73,7 @@ export const loginUser = (userData: IUserInfo) => (
   dispatch: Dispatch<AppActionType>
 ) => {
   axios
-    .post('http://localhost:5000/api/users/login', userData)
+    .post('/api/users/login', userData)
     .then((res) => {
       const { token, info } = res.data;
       localStorage.setItem('jwtToken', token);
@@ -98,7 +98,7 @@ export const deleteUser = (id: string) => (
   dispatch: Dispatch<AppActionType>
 ) => {
   axios
-    .delete(`http://localhost:5000/api/users/${id}`)
+    .delete(`/api/users/${id}`)
     .then((res) => {
       dispatch(logoutUser());
     })

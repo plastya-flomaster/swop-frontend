@@ -10,7 +10,7 @@ interface IMatchPageProps {
 const MatchPage: React.FunctionComponent<IMatchPageProps> = ({ userId }) => {
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/api/likeditems/search/${userId}`)
+      .get(`/api/likeditems/search/${userId}`)
       .then((match) => console.log(match))
       .catch((err) => console.log(err));
   }, []);

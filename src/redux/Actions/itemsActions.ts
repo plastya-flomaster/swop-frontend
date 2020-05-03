@@ -55,7 +55,7 @@ export const getAllMine = (userId: string) => (
 ) => {
   dispatch(sendLoading());
   axios
-    .get(`http://localhost:5000/api/items/${userId}`)
+    .get(`/api/items/${userId}`)
     .then((res) => dispatch(sendItems(res.data)))
     .catch((error) => dispatch(sendErrors(error.response.data)));
 };
@@ -64,7 +64,7 @@ export const addNewItem = (userId: string, item: IItem) => (
   dispatch: Dispatch<AppActionType>
 ) => {
   axios
-    .post(`http://localhost:5000/api/items/add/${userId}`, item)
+    .post(`/api/items/add/${userId}`, item)
     .then((res) => {
       dispatch(sendItems(res.data));
     })
@@ -75,7 +75,7 @@ export const updateCurrentItem = (userId: string, item: IItem) => (
   dispatch: Dispatch<AppActionType>
 ) => {
   axios
-    .post(`http://localhost:5000/api/items/edit/${userId}`, item)
+    .post(`/api/items/edit/${userId}`, item)
     .then((res) => {
       dispatch(sendItems(res.data));
     })
@@ -86,7 +86,7 @@ export const removeItem = (userId: string, itemId: string) => (
   dispatch: Dispatch<AppActionType>
 ) => {
   axios
-    .delete(`http://localhost:5000/api/items/delete/${userId}`, {
+    .delete(`/api/items/delete/${userId}`, {
       data: { itemId },
     })
     .then((res) => dispatch(sendItems(res.data)))
