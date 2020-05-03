@@ -45,11 +45,11 @@ export const getUser = (id: string): any => (dispatch: Dispatch<any>) => {
     .catch((err) => dispatch(sendErrors(err.response.data)));
 };
 
-export const updateUser = (id: string, user: IUserInfo) => (
+export const updateUser =(user: IUserInfo) => (
   dispatch: Dispatch<AppActionType>
 ) => {
   axios
-    .put(`/api/users/${id}/update/`, {}, { params: user })
+    .put(`/api/users/${user._id}/update/`, {}, { params: user })
     .then((res) => {
       dispatch(setCurrentUser(res.data));
     }) //установим текущего юзера)
