@@ -9,8 +9,9 @@ import setAuthToken from './utils/setAuthToken';
 import { logoutUser, getUser } from './redux/Actions/userActions';
 
 import { Grommet, grommet } from 'grommet';
-import MainRouter from './MainRouterComponent';
 import { useEffect } from 'react';
+
+const MainRouter = React.lazy(() => import('./MainRouterComponent'));
 
 interface IToken {
   _id: string;
@@ -39,7 +40,9 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <Grommet theme={grommet}>
-        <MainRouter />
+        <React.Suspense fallback={<div>Загрузка...</div>}>
+          <MainRouter />
+        </React.Suspense>
       </Grommet>
     </Provider>
   );

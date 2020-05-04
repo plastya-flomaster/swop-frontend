@@ -10,6 +10,7 @@ import { AppState } from './redux/Stores/store';
 
 interface IMainRouter {
   isAuthenticated: boolean;
+  loading: boolean;
 }
 
 const MainRouter: React.FC<IMainRouter> = (props) => {
@@ -19,13 +20,7 @@ const MainRouter: React.FC<IMainRouter> = (props) => {
         <Route component={LoginComponent} path="/login" />
         <Route component={RegisterComponent} path="/register" />
         <Switch>
-          <Route
-            render={({ location }) => {
-              if (props.isAuthenticated) {
-                return <PrivateRoute />;
-              } else return <Redirect to="/login" />;
-            }}
-          />
+          {props.isAuthenticated ? <PrivateRoute /> : <Redirect to="/login" />}
           <Route path="/">
             <Redirect to="/swop" />
           </Route>
@@ -38,5 +33,6 @@ const MainRouter: React.FC<IMainRouter> = (props) => {
 
 const mapStateToProps = (state: AppState) => ({
   isAuthenticated: state.auth.isAuthenticated,
+  loading: state.auth.loading,
 });
 export default connect(mapStateToProps)(MainRouter);
