@@ -41,7 +41,7 @@ const ItemCard: React.FC<IItemCardProps> = ({
   removeItem,
 }) => {
   const [category, setCategory] = useState<string>(
-    categories['5ead2e16b96074e77fd74897']
+    categories[Object.keys(categories)[0]]
   );
   const [title, settitle] = useState('');
   const [description, setDescription] = useState<string | undefined>('');
@@ -120,7 +120,7 @@ const ItemCard: React.FC<IItemCardProps> = ({
       title,
       category: category,
       description,
-      // photos: photos
+      photos: photos,
       tags: newTags,
     };
 
@@ -214,6 +214,7 @@ const ItemCard: React.FC<IItemCardProps> = ({
         {photos.length !== 0 ? (
           photos.map((photo, index) => (
             <UploadImageHolder
+              key={index}
               id={index}
               imgSrc={URL.createObjectURL(photo)}
               onRemove={handleRemove}

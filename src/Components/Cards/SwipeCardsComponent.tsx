@@ -15,8 +15,7 @@ const SwipeCards: React.FC<Props> = ({ card, categories }) => (
     background={
       card.photos && card?.photos?.length > 0
         ? {
-            image: `url(${card?.photos[0]?.url && card?.photos[0]?.url})`,
-            dark: true,
+            //  image: `url(${card?.photos[0]?.url && card?.photos[0]?.url})`,
             opacity: 'medium',
           }
         : 'brand'

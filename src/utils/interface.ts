@@ -27,7 +27,7 @@ export type IItem = {
   category: string;
   description?: string;
   tags?: ITagType[];
-  photos?: IPhoto[];
+  photos?: FileList[];
   userId?: string;
 };
 
@@ -37,6 +37,3 @@ export interface ICategory {
 export type ITagType = {
   tag: string;
 };
-export interface IPhoto {
-  url: string;
-}
