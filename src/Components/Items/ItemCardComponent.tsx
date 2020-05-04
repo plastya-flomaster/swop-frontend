@@ -26,8 +26,8 @@ interface IItemCardProps {
   items: IItem[];
   loading: boolean;
   categories: ICategory[];
-  addNewItem: (userId: string, item: IItem) => void;
-  updateCurrentItem: (userId: string, item: IItem) => void;
+  addNewItem: (userId: string, item: IItem, formData: any) => void;
+  updateCurrentItem: (userId: string, item: IItem, formData: any) => void;
   removeItem: (userId: string, itemId: string) => void;
 }
 
@@ -116,24 +116,28 @@ const ItemCard: React.FC<IItemCardProps> = ({
       newTags.push({ tag: tag });
     }
 
+    let formData = new FormData();
+    for (const key of Object.keys(photos)) {
+      formData.append('imgCollection', photos[key]);
+    }
+
     let item: IItem = {
       title,
       category: category,
       description,
-      photos: photos,
       tags: newTags,
     };
 
     //добавлениие
     if (id === 'new') {
-      addNewItem(userId, item);
+      addNewItem(userId, item, formData);
     } //обновление объекта
     else {
       item = {
         _id: id,
         ...item,
       };
-      updateCurrentItem(userId, item);
+      updateCurrentItem(userId, item, formData);
     }
     setUpdated(true);
   };

@@ -24,7 +24,7 @@ const MyItem: React.FC<IItemProps> = ({ item, categories }) => {
         background={
           item.photos && item.photos.length > 0
             ? {
-                //   image: `url(${item.photos![0].url})`,
+                image: `url(${item.photos[0]})`,
                 dark: true,
                 opacity: 'medium',
               }

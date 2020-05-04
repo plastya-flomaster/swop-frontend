@@ -60,24 +60,54 @@ export const getAllMine = (userId: string) => (
     .catch((error) => dispatch(sendErrors(error.response.data)));
 };
 
-export const addNewItem = (userId: string, item: IItem) => (
+export const addNewItem = (userId: string, item: IItem, formData: any) => (
   dispatch: Dispatch<AppActionType>
 ) => {
   axios
     .post(`/api/items/add/${userId}`, item)
     .then((res) => {
       dispatch(sendItems(res.data));
+      let itemId = '';
+      if (item._id) {
+        itemId = item._id;
+      } else itemId = res.data[res.data.length - 1]._id;
+      axios
+        .post('api/items/upload-images/i', formData, {
+          headers: {
+            userId,
+            itemId,
+          },
+        })
+        .then((res) => {
+          dispatch(sendItems(res.data));
+        });
     })
     .catch((error) => dispatch(sendErrors(error.response.data)));
 };
 
-export const updateCurrentItem = (userId: string, item: IItem) => (
-  dispatch: Dispatch<AppActionType>
-) => {
+export const updateCurrentItem = (
+  userId: string,
+  item: IItem,
+  formData: any
+) => (dispatch: Dispatch<AppActionType>) => {
   axios
     .post(`/api/items/edit/${userId}`, item)
     .then((res) => {
       dispatch(sendItems(res.data));
+      let itemId = '';
+      if (item._id) {
+        itemId = item._id;
+      } else itemId = res[res.data.length - 1];
+      axios
+        .post('api/items/upload-images/i', formData, {
+          headers: {
+            userId,
+            itemId,
+          },
+        })
+        .then((res) => {
+          dispatch(sendItems(res.data));
+        });
     })
     .catch((error) => dispatch(sendErrors(error.response.data)));
 };
