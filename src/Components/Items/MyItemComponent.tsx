@@ -8,7 +8,7 @@ interface IItemProps {
   categories: ICategory[];
 }
 
-const MyItemComponent: React.FC<IItemProps> = ({ item, categories }) => {
+const MyItem: React.FC<IItemProps> = ({ item, categories }) => {
   const history = useHistory();
   const { url } = useRouteMatch();
 
@@ -24,7 +24,7 @@ const MyItemComponent: React.FC<IItemProps> = ({ item, categories }) => {
         background={
           item.photos && item.photos.length > 0
             ? {
-                image: `url(${item.photos![0].url})`,
+                //   image: `url(${item.photos![0].url})`,
                 dark: true,
                 opacity: 'medium',
               }
@@ -46,7 +46,7 @@ const MyItemComponent: React.FC<IItemProps> = ({ item, categories }) => {
           {item.title}
         </Heading>
         {item.category ? (
-          <Heading level={6} color="light-1">
+          <Heading level={6} color="light-1" margin={{ vertical: 'small' }}>
             {categories[item.category]}
           </Heading>
         ) : (
@@ -56,4 +56,4 @@ const MyItemComponent: React.FC<IItemProps> = ({ item, categories }) => {
     </Box>
   );
 };
-export default MyItemComponent;
+export default MyItem;
