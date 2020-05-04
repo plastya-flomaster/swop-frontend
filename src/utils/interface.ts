@@ -37,3 +37,9 @@ export interface ICategory {
 export type ITagType = {
   tag: string;
 };
+
+export type IPair = {
+  _id?: string;
+  userId: string;
+  items: IItem[];
+};

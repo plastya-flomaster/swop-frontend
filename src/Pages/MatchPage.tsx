@@ -4,27 +4,21 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { AppState } from '../redux/Stores/store';
 
-import axios from 'axios';
 import { Button, Header, Heading, Box } from 'grommet';
 import { LinkPrevious } from 'grommet-icons';
 
 import MatchResult from '../Components/Match/MatchResultComponent';
 import { ICategory } from '../utils/interface';
+import { searchPairs } from '../redux/Actions/likedItemsActions';
 
 interface IMatchPageProps {
   userId: string;
   categories: ICategory[];
 }
 
-const MatchPage: React.FunctionComponent<IMatchPageProps> = ({
-  userId,
-  categories,
-}) => {
+const MatchPage: React.FC<IMatchPageProps> = ({ userId, categories }) => {
   useEffect(() => {
-    axios
-      .get(`/api/likeditems/search/${userId}`)
-      .then((match) => console.log(match))
-      .catch((err) => console.log(err));
+    searchPairs(userId);
   }, []);
 
   return (
@@ -51,5 +45,6 @@ const MatchPage: React.FunctionComponent<IMatchPageProps> = ({
 const mapStateToProps = (state: AppState) => ({
   userId: state.auth.user._id,
   categories: state.categories.categories,
+  pairs: state.pairs.pairs,
 });
-export default connect(mapStateToProps)(MatchPage);
+export default connect(mapStateToProps, { searchPairs })(MatchPage);

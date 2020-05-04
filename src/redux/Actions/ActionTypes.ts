@@ -1,7 +1,8 @@
 import { ItemsActions } from './itemsActions';
 import { UserActions } from './userActions';
-import { IItem, IUserInfo, ICategory } from '../../utils/interface';
+import { IItem, IUserInfo, ICategory, IPair } from '../../utils/interface';
 import { CategoriesActions } from './CategoriesActions';
+import { LikeditemsActions } from './likedItemsActions';
 
 interface ISetCurrentUser {
   type: typeof UserActions.SET_CURRENT_USER;
@@ -73,4 +74,19 @@ interface IGetAllCategories {
 
 type CategoryTypes = ICategoriesLoading | ICategoriesError | IGetAllCategories;
 
-export type AppActionType = UserTypes | ItemTypes | CategoryTypes;
+interface ILikedItemsErrors {
+  type: typeof LikeditemsActions.LIKED_ITEMS_ERROR,
+  payload: any
+}
+
+interface ILikedItemsLoading {
+type: typeof LikeditemsActions.LIKED_ITEMS_LOADING
+}
+interface ILikedItemsPairs {
+  type: typeof LikeditemsActions.LIKED_ITEMS_PAIRS,
+  payload: IPair[]
+}
+
+type LikedItemsType = ILikedItemsErrors | ILikedItemsLoading | ILikedItemsPairs;
+
+export type AppActionType = UserTypes | ItemTypes | CategoryTypes | LikedItemsType | LikedItemsType;

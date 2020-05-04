@@ -16,7 +16,7 @@ const initialState: IUserReducer = {
     error: null,
 }
 
-export default function (state = initialState, action: AppActionType): IUserReducer {
+export default (state = initialState, action: AppActionType): IUserReducer =>  {
     switch (action.type) {
         case UserActions.SET_CURRENT_USER:
             return {

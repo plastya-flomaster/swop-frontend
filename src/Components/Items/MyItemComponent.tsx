@@ -37,12 +37,7 @@ const MyItem: React.FC<IItemProps> = ({ item, categories }) => {
         onClick={() => history.push(`${url}/item/${item._id}`)}
         pad={{ left: '1rem' }}
       >
-        <Heading
-          level={4}
-          color="light-1"
-          margin={{ bottom: '0' }}
-          truncate={true}
-        >
+        <Heading level={4} color="light-1" margin={{ bottom: '0' }}>
           {item.title}
         </Heading>
         {item.category ? (
