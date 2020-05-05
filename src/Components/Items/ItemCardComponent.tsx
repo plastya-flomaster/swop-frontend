@@ -46,7 +46,8 @@ const ItemCard: React.FC<IItemCardProps> = ({
   const [title, settitle] = useState('');
   const [description, setDescription] = useState<string | undefined>('');
   const [tags, setTags] = useState(['start tags']);
-  const [photos, setPhotos] = useState<FileList[]>([]);
+  const [fileList, setFileLits] = useState<FileList[]>([]);
+  const [photos, setPhotos] = useState<string[]>([]);
   const photoElem = useRef<HTMLInputElement>(null);
   const [upload, setUpload] = useState(false);
   const [updated, setUpdated] = useState(false);
@@ -73,6 +74,7 @@ const ItemCard: React.FC<IItemCardProps> = ({
         setCategory(item.category);
         settitle(item.title);
         setDescription(item.description);
+        item.photos && setPhotos(item.photos);
         if (item.tags) {
           setTags(getArray(item.tags));
         }
@@ -117,13 +119,14 @@ const ItemCard: React.FC<IItemCardProps> = ({
     }
 
     let formData = new FormData();
-    for (const key of Object.keys(photos)) {
-      formData.append('imgCollection', photos[key]);
+    for (const key of Object.keys(fileList)) {
+      formData.append('imgCollection', fileList[key]);
     }
 
     let item: IItem = {
       title,
       category: category,
+      photos,
       description,
       tags: newTags,
     };
@@ -143,13 +146,17 @@ const ItemCard: React.FC<IItemCardProps> = ({
   };
 
   const handlePhotoAdd = (event: any) => {
-    if (photos.length < 5) {
-      setPhotos([...photos, ...event.target.files]);
+    if (fileList.length < 5) {
+      setFileLits([...fileList, ...event.target.files]);
     } else {
       setUpload(true);
     }
   };
-  const handleRemove = (index: number) => {
+  const handleRemoveFile = (index: number) => {
+    setFileLits([...fileList.slice(0, index), ...fileList.slice(index + 1)]);
+  };
+
+  const handleRemovePhoto = (index: number) => {
     setPhotos([...photos.slice(0, index), ...photos.slice(index + 1)]);
   };
 
@@ -215,13 +222,25 @@ const ItemCard: React.FC<IItemCardProps> = ({
           accept="image/png, image/jpeg"
         />
         <UploadImageHolder onClick={() => photoElem.current?.click()} />
+        {fileList.length !== 0 ? (
+          fileList.map((file, index) => (
+            <UploadImageHolder
+              key={index}
+              id={index}
+              imgSrc={URL.createObjectURL(file)}
+              onRemove={handleRemoveFile}
+            />
+          ))
+        ) : (
+          <></>
+        )}
         {photos.length !== 0 ? (
           photos.map((photo, index) => (
             <UploadImageHolder
               key={index}
               id={index}
-              imgSrc={URL.createObjectURL(photo)}
-              onRemove={handleRemove}
+              imgSrc={photo}
+              onRemove={handleRemovePhoto}
             />
           ))
         ) : (

@@ -27,7 +27,7 @@ export type IItem = {
   category: string;
   description?: string;
   tags?: ITagType[];
-  photos?: FileList[];
+  photos?: string[];
   userId?: string;
 };
 
