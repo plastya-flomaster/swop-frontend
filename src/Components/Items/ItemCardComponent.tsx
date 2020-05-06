@@ -19,6 +19,7 @@ import {
   removeItem,
 } from '../../redux/Actions/itemsActions';
 import { useParams, useHistory } from 'react-router-dom';
+import { getArray, getOptions } from '../../utils/itemCardUtils';
 
 interface IItemCardProps {
   userId: string;
@@ -40,6 +41,8 @@ const ItemCard: React.FC<IItemCardProps> = ({
   updateCurrentItem,
   removeItem,
 }) => {
+  const options = getOptions(categories);
+
   const [category, setCategory] = useState<string>('');
   const [title, settitle] = useState('');
   const [description, setDescription] = useState<string | undefined>('');
@@ -81,37 +84,14 @@ const ItemCard: React.FC<IItemCardProps> = ({
     }
   }, [items, id]);
 
-  const getArray = (obj: ITagType[]): string[] => {
-    let array: string[] = [];
-    obj.map((tag) => {
-      tag && array.push(tag.tag);
-    });
-    return array;
-  };
-
-  const getOptions = (input: ICategory[]) => {
-    let opts = [];
-
-    for (const elem in input) {
-      let temp = {
-        name: input[elem],
-        value: elem,
-        label: input[elem],
-      };
-      opts.push(temp);
-    }
-    return opts;
-  };
-  const options = getOptions(categories);
-
-  const handleDelete = (event: any) => {
+  const handleDelete = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     removeItem(userId, id!);
     setUpdated(true);
   };
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    debugger;
+
     const newTags: ITagType[] = [];
     for (const tag of tags) {
       newTags.push({ tag: tag });
@@ -130,10 +110,11 @@ const ItemCard: React.FC<IItemCardProps> = ({
       tags: newTags,
     };
 
-    //добавлениие
+    //добавлениие товара
     if (id === 'new') {
       addNewItem(userId, item, formData);
-    } //обновление объекта
+    }
+    //обновление объекта
     else {
       item = {
         _id: id,
@@ -162,7 +143,7 @@ const ItemCard: React.FC<IItemCardProps> = ({
   return (
     <Box flex="grow" direction="column" border pad="small">
       <Heading level={2} margin={{ bottom: '0' }}>
-        {id == 'new' ? 'Новый предмет одежды' : `Изменить: ${title}`}
+        {id === 'new' ? 'Новый предмет одежды' : `Изменить: ${title}`}
       </Heading>
       <Heading level={5} margin={{ vertical: '1rem' }}>
         Что вы хотите обменять?

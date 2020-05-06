@@ -1,24 +1,38 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { AppState } from '../redux/Stores/store';
 
 import { Button, Header, Heading, Box } from 'grommet';
-import { LinkPrevious } from 'grommet-icons';
+import { LinkPrevious, CoatCheck } from 'grommet-icons';
 
 import MatchResult from '../Components/Match/MatchResultComponent';
-import { ICategory } from '../utils/interface';
+import { ICategory, IPair } from '../utils/interface';
 import { searchPairs } from '../redux/Actions/likedItemsActions';
 
 interface IMatchPageProps {
   userId: string;
   categories: ICategory[];
+  pairs: IPair[];
 }
 
-const MatchPage: React.FC<IMatchPageProps> = ({ userId, categories }) => {
+const MatchPage: React.FC<IMatchPageProps> = ({
+  userId,
+  categories,
+  pairs,
+}) => {
+  const [title, setTitle] = useState<string>(
+    'Поздравляем! Вы можете обменяться!'
+  );
+
   useEffect(() => {
     searchPairs(userId);
+    if (pairs.length === 0) {
+      setTitle(
+        'Пока у вас нет совпадений. Продолжайте свайпать предметы одежды и добавьте еще товары!'
+      );
+    }
   }, []);
 
   return (
@@ -34,9 +48,21 @@ const MatchPage: React.FC<IMatchPageProps> = ({ userId, categories }) => {
         </Link>
       </Header>
       <Box pad="medium">
-        <Heading level={2}>Поздравляем! Вы можете обменяться!</Heading>
-        <MatchResult categories={categories} />
-        <Button label="Связаться"></Button>
+        <Heading level={2}>{title}</Heading>
+        {pairs.length > 0 ? (
+          <MatchResult categories={categories} />
+        ) : (
+          <Box flex="grow" direction="row">
+            <Link to="/user">
+              <Button
+                margin="small"
+                icon={<CoatCheck color="brand" />}
+                label="Добавить еще товары!"
+              />
+            </Link>
+            <Button margin="small" label="На главную"></Button>
+          </Box>
+        )}
       </Box>
     </>
   );

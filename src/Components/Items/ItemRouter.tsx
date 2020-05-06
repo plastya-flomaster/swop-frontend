@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 import MyItems from './MyItemsComponent';
@@ -16,20 +16,13 @@ interface IItemRouter {
 
 const ItemRouter: React.FC<IItemRouter> = ({ items, error, categories }) => {
   const { path } = useRouteMatch();
-  const [cats, setCats] = useState<ICategory[]>([]);
-
-  useEffect(() => {
-    debugger;
-    setCats(categories);
-  }, []);
-
   return (
     <Switch>
       <Route path={path} exact>
-        <MyItems items={items} error={error} categories={cats} />
+        <MyItems items={items} error={error} categories={categories} />
       </Route>
       <Route path={`${path}/item/:id`}>
-        <ItemCard categories={cats} />
+        <ItemCard categories={categories} />
       </Route>
       <Route component={Page404} />
     </Switch>
