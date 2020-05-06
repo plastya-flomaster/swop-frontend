@@ -40,9 +40,7 @@ const ItemCard: React.FC<IItemCardProps> = ({
   updateCurrentItem,
   removeItem,
 }) => {
-  const [category, setCategory] = useState<string>(
-    categories[Object.keys(categories)[0]]
-  );
+  const [category, setCategory] = useState<string>('');
   const [title, settitle] = useState('');
   const [description, setDescription] = useState<string | undefined>('');
   const [tags, setTags] = useState(['start tags']);
@@ -66,6 +64,7 @@ const ItemCard: React.FC<IItemCardProps> = ({
   }, [items]);
 
   useEffect(() => {
+    setCategory(categories[Object.keys(categories)[0]]);
     if (id !== 'new') {
       const item = items.find((item) => item._id === id);
 
@@ -112,7 +111,7 @@ const ItemCard: React.FC<IItemCardProps> = ({
   };
   const handleSubmit = (event: any) => {
     event.preventDefault();
-
+    debugger;
     const newTags: ITagType[] = [];
     for (const tag of tags) {
       newTags.push({ tag: tag });

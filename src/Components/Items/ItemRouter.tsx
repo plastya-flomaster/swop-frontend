@@ -19,6 +19,7 @@ const ItemRouter: React.FC<IItemRouter> = ({ items, error, categories }) => {
   const [cats, setCats] = useState<ICategory[]>([]);
 
   useEffect(() => {
+    debugger;
     setCats(categories);
   }, []);
 

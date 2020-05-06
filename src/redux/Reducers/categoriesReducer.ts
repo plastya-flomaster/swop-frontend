@@ -26,7 +26,6 @@ export default (state = initialState, action: AppActionType): ICategoriesReducer
                     ...state,
                     error: action.payload
                 }
-    
         default:
             return state;
     }
