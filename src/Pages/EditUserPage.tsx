@@ -17,12 +17,17 @@ import { LinkPrevious, MailOption, Phone, Instagram } from 'grommet-icons';
 import UserPic from '../Components/User/UserPicComponent';
 import { Link } from 'react-router-dom';
 import { IUserInfo } from '../utils/interface';
-import { updateUser, deleteUser } from '../redux/Actions/userActions';
+import {
+  updateUser,
+  deleteUser,
+  logoutUser,
+} from '../redux/Actions/userActions';
 import { AppState } from '../redux/Stores/store';
 
 interface IEditUserPage {
   updateUser: (userData: IUserInfo) => void;
   deleteUser: (id: string) => void;
+  logoutUser: () => void;
   error: any;
   user: IUserInfo;
   id: string;
@@ -52,6 +57,7 @@ const EditUserPage: React.FC<IEditUserPage> = (props) => {
   const handleDelete = () => {
     setConfirm(false);
     props.deleteUser(user._id!);
+    props.logoutUser();
   };
   const handleReset = () => {
     setUser({
@@ -192,4 +198,5 @@ const mapStateToProps = (state: AppState) => ({
 export default connect(mapStateToProps, {
   updateUser,
   deleteUser,
+  logoutUser,
 })(EditUserPage);

@@ -28,6 +28,9 @@ const MatchPage: React.FC<IMatchPageProps> = ({
 
   useEffect(() => {
     searchPairs(userId);
+
+    console.log(pairs);
+
     if (pairs.length === 0) {
       setTitle(
         'Пока у вас нет совпадений. Продолжайте свайпать предметы одежды и добавьте еще товары!'

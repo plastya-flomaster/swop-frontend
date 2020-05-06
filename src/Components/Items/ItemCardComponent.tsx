@@ -89,7 +89,7 @@ const ItemCard: React.FC<IItemCardProps> = ({
     removeItem(userId, id!);
     setUpdated(true);
   };
-  const handleSubmit = (event: any) => {
+  const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
 
     const newTags: ITagType[] = [];
@@ -111,14 +111,10 @@ const ItemCard: React.FC<IItemCardProps> = ({
       tags: newTags,
     };
 
-    //добавлениие товара
-    if (id === 'new') {
-      addNewItem(userId, item, formData);
-    }
-    //обновление объекта
-    else {
-      updateCurrentItem(userId, item, formData);
-    }
+    //добавлениие товара или обновление
+    id === 'new'
+      ? addNewItem(userId, item, formData)
+      : updateCurrentItem(userId, item, formData);
     setUpdated(true);
   };
 
