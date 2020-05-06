@@ -103,6 +103,7 @@ const ItemCard: React.FC<IItemCardProps> = ({
     }
 
     let item: IItem = {
+      _id: id,
       title,
       category: category,
       photos,
@@ -116,10 +117,6 @@ const ItemCard: React.FC<IItemCardProps> = ({
     }
     //обновление объекта
     else {
-      item = {
-        _id: id,
-        ...item,
-      };
       updateCurrentItem(userId, item, formData);
     }
     setUpdated(true);

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 
-import { Grid, Box, Heading, Button, Header } from 'grommet';
+import { Grid, Box, Text, Button, Header } from 'grommet';
 
 import { connect } from 'react-redux';
 
@@ -31,9 +31,6 @@ const UserPage: React.FC<IUserPage> = (props) => {
     if (props.user._id) props.getAllMine(props.user._id);
   }, [props.user]);
 
-  const handleEdit = () => {
-    history.push('/edit');
-  };
   return (
     <Grid
       columns={['1/4', '3/4']}
@@ -57,19 +54,28 @@ const UserPage: React.FC<IUserPage> = (props) => {
             instagram={props.user.instagram}
           />
         ) : (
-          <>
-            <Box direction="row" flex="grow">
+          <Box>
+            <Box direction="row" flex="grow" align="center" pad="small">
               <Alert color="status-warning" />
-              <Heading level="4">У вас не добавлены контактные данные!</Heading>
+              <Text margin={{ left: '1rem' }}>
+                У вас не добавлены контактные данные!
+              </Text>
             </Box>
-            <Button label="Добавить" onClick={handleEdit}></Button>
-          </>
+            <Button
+              label="Добавить"
+              color="accent-4"
+              onClick={() => history.push('/edit')}
+              margin="medium"
+              primary
+              hoverIndicator
+            ></Button>
+          </Box>
         )}
         <Button
           icon={<Configure />}
           label="настройки профиля"
           margin="medium"
-          onClick={handleEdit}
+          onClick={() => history.push('/edit')}
           primary
           hoverIndicator
         />

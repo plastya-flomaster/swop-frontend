@@ -36,7 +36,7 @@ const MatchPage: React.FC<IMatchPageProps> = ({
   }, []);
 
   return (
-    <>
+    <Box pad="meduim">
       <Header background="light-3">
         <Link to="/swop">
           <Button
@@ -47,12 +47,12 @@ const MatchPage: React.FC<IMatchPageProps> = ({
           />
         </Link>
       </Header>
-      <Box pad="medium">
+      <Box margin="medium">
         <Heading level={2}>{title}</Heading>
         {pairs.length > 0 ? (
           <MatchResult categories={categories} />
         ) : (
-          <Box flex="grow" direction="row">
+          <Box flex="grow" direction="row" wrap={true}>
             <Link to="/user">
               <Button
                 margin="small"
@@ -64,7 +64,7 @@ const MatchPage: React.FC<IMatchPageProps> = ({
           </Box>
         )}
       </Box>
-    </>
+    </Box>
   );
 };
 
