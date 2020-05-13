@@ -45,7 +45,7 @@ export const getUser = (id: string): any => (dispatch: Dispatch<any>) => {
     .catch((err) => dispatch(sendErrors(err.response.data)));
 };
 
-export const updateUser =(user: IUserInfo) => (
+export const updateUser = (user: IUserInfo) => (
   dispatch: Dispatch<AppActionType>
 ) => {
   axios
@@ -104,3 +104,18 @@ export const deleteUser = (id: string) => (
     })
     .catch((err) => dispatch(sendErrors(err.response.data)));
 };
+
+export const uploadUserPic = (userId: string, formData: File) => (
+  dispatch: Dispatch<AppActionType>
+) => {  
+  console.log(userId);
+  console.log(formData);  
+  
+  axios.put(`api/users/avatar/${userId}`, formData)
+  .then((res) => 
+    dispatch(setCurrentUser(res.data)))
+    .catch((err) =>
+      dispatch(sendErrors(err.response.data))
+    );
+  };
+

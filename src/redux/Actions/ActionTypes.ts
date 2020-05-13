@@ -1,6 +1,6 @@
 import { ItemsActions } from './itemsActions';
 import { UserActions } from './userActions';
-import { IItem, IUserInfo, ICategory, IPair } from '../../utils/interface';
+import { IItem, IUserInfo, ICategory, IMatchPair } from '../../utils/interface';
 import { CategoriesActions } from './CategoriesActions';
 import { LikeditemsActions } from './likedItemsActions';
 
@@ -84,7 +84,7 @@ type: typeof LikeditemsActions.LIKED_ITEMS_LOADING
 }
 interface ILikedItemsPairs {
   type: typeof LikeditemsActions.LIKED_ITEMS_PAIRS,
-  payload: IPair[]
+  payload: IMatchPair[]
 }
 
 type LikedItemsType = ILikedItemsErrors | ILikedItemsLoading | ILikedItemsPairs;

@@ -47,7 +47,7 @@ const UserPage: React.FC<IUserPage> = (props) => {
         direction="column"
         margin={{ horizontal: '1rem' }}
       >
-        <UserPic name={props.user.name} />
+        <UserPic name={props.user.name} url={props.user.avatar} />
         {props.user.phone && props.user.instagram ? (
           <UserDetails
             phone={props.user.phone}

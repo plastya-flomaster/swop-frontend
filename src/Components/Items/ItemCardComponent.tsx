@@ -67,7 +67,8 @@ const ItemCard: React.FC<IItemCardProps> = ({
   }, [items]);
 
   useEffect(() => {
-    setCategory(categories[Object.keys(categories)[0]]);
+    setCategory('5ead2e16b96074e77fd74897');
+
     if (id !== 'new') {
       const item = items.find((item) => item._id === id);
 
@@ -103,13 +104,15 @@ const ItemCard: React.FC<IItemCardProps> = ({
     }
 
     let item: IItem = {
-      _id: id,
+      _id: id === 'new' ? undefined : id,
+      userId: userId,
       title,
       category: category,
       photos,
       description,
       tags: newTags,
     };
+    console.log(item);
 
     //добавлениие товара или обновление
     id === 'new'
@@ -227,14 +230,20 @@ const ItemCard: React.FC<IItemCardProps> = ({
       ) : (
         <></>
       )}
-      <Box flex="grow" direction="row" width="large">
+      <Box flex="grow" direction="row">
         <Button
           label={buttonLabel}
           onClick={handleSubmit}
           size="medium"
+          margin="small"
         ></Button>
         {id !== 'new' ? (
-          <Button label="Удалить" size="medium" onClick={handleDelete}></Button>
+          <Button
+            label="Удалить"
+            size="medium"
+            margin="small"
+            onClick={handleDelete}
+          ></Button>
         ) : (
           <></>
         )}

@@ -4,39 +4,40 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { AppState } from '../redux/Stores/store';
 
-import { Button, Header, Heading, Box } from 'grommet';
-import { LinkPrevious, CoatCheck } from 'grommet-icons';
+import { Button, Header, Heading, Box, Layer, Text } from 'grommet';
+import {
+  LinkPrevious,
+  CoatCheck,
+  Transaction,
+  Phone,
+  Instagram,
+  Mail,
+} from 'grommet-icons';
 
 import MatchResult from '../Components/Match/MatchResultComponent';
-import { ICategory, IPair } from '../utils/interface';
+import { ICategory, IMatchPair } from '../utils/interface';
 import { searchPairs } from '../redux/Actions/likedItemsActions';
 
 interface IMatchPageProps {
-  userId: string;
   categories: ICategory[];
-  pairs: IPair[];
+  pairs: IMatchPair[];
 }
 
-const MatchPage: React.FC<IMatchPageProps> = ({
-  userId,
-  categories,
-  pairs,
-}) => {
+const MatchPage: React.FC<IMatchPageProps> = ({ categories, pairs }) => {
+  const [show, setShow] = React.useState<boolean>(false);
   const [title, setTitle] = useState<string>(
     'Поздравляем! Вы можете обменяться!'
   );
 
   useEffect(() => {
-    searchPairs(userId);
-
     console.log(pairs);
 
-    if (pairs.length === 0) {
-      setTitle(
-        'Пока у вас нет совпадений. Продолжайте свайпать предметы одежды и добавьте еще товары!'
-      );
-    }
-  }, []);
+    pairs.length === 0
+      ? setTitle(
+          'Пока у вас нет совпадений. Продолжайте свайпать предметы одежды и добавьте еще товары!'
+        )
+      : setTitle('Поздравляем! Вы можете обменяться!');
+  }, [pairs]);
 
   return (
     <Box pad="meduim">
@@ -53,7 +54,7 @@ const MatchPage: React.FC<IMatchPageProps> = ({
       <Box margin="medium">
         <Heading level={2}>{title}</Heading>
         {pairs.length > 0 ? (
-          <MatchResult categories={categories} />
+          <MatchResult categories={categories} pair={pairs[0]} />
         ) : (
           <Box flex="grow" direction="row" wrap={true}>
             <Link to="/user">
@@ -65,6 +66,42 @@ const MatchPage: React.FC<IMatchPageProps> = ({
             </Link>
             <Button margin="small" label="На главную"></Button>
           </Box>
+        )}
+      </Box>
+      <Box>
+        <Button
+          label="Меняться"
+          icon={<Transaction color="brand" />}
+          onClick={() => {
+            setShow(true);
+          }}
+        />
+        {show && (
+          <Layer
+            onEsc={() => setShow(false)}
+            onClickOutside={() => setShow(false)}
+          >
+            <Box pad="medium">
+              <Heading level={4} margin={{ top: '0' }}>
+                Свяжитесь с {pairs[0].userInfo.name} любым удобным способом!
+              </Heading>
+              <Box flex="grow" direction="row">
+                <Phone color="brand" />
+                <Text margin={{ left: '1rem' }}>{pairs[0].userInfo.phone}</Text>
+              </Box>
+              <Box flex="grow" direction="row">
+                <Instagram color="brand" />
+                <Text margin={{ left: '1rem' }}>
+                  {pairs[0].userInfo.instagram}
+                </Text>
+              </Box>
+              <Box flex="grow" direction="row">
+                <Mail color="brand" />
+                <Text margin={{ left: '1rem' }}>{pairs[0].userInfo.email}</Text>
+              </Box>
+              <Button label="ОК!" onClick={() => setShow(false)} />
+            </Box>
+          </Layer>
         )}
       </Box>
     </Box>

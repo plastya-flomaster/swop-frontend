@@ -49,7 +49,7 @@ export const deleteItem = (payload: string): AppActionType => ({
   payload,
 });
 
-//получает все товары юзера
+//получает все товары пользователя
 export const getAllMine = (userId: string) => (
   dispatch: Dispatch<AppActionType>
 ) => {

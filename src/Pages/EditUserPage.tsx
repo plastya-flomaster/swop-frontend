@@ -21,6 +21,7 @@ import {
   updateUser,
   deleteUser,
   logoutUser,
+  uploadUserPic,
 } from '../redux/Actions/userActions';
 import { AppState } from '../redux/Stores/store';
 
@@ -28,6 +29,7 @@ interface IEditUserPage {
   updateUser: (userData: IUserInfo) => void;
   deleteUser: (id: string) => void;
   logoutUser: () => void;
+  uploadUserPic: (userId: string, file: any) => void;
   error: any;
   user: IUserInfo;
   id: string;
@@ -35,13 +37,15 @@ interface IEditUserPage {
 
 const EditUserPage: React.FC<IEditUserPage> = (props) => {
   const [confirm, setConfirm] = useState(false);
-
   const [user, setUser] = useState<IUserInfo>(props.user);
-
   const [updated, setUpdated] = useState(false);
-
   const history = useHistory();
 
+  const handleAddAvatar = (event: any) => {
+    const formData = new FormData();
+    formData.append('user-avatar', event.target.files[0]);
+    props.uploadUserPic(user._id!, formData);
+  };
   const handleEdit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setUser({
@@ -83,7 +87,11 @@ const EditUserPage: React.FC<IEditUserPage> = (props) => {
     <>
       <Box pad="small" fill align="center" justify="center">
         <Header>
-          <UserPic name={user.name}></UserPic>
+          <UserPic
+            name={user.name}
+            mode={'edit'}
+            handleAddAvatar={handleAddAvatar}
+          ></UserPic>
           <Link to="/swop">
             <Button
               icon={<LinkPrevious color="brand" />}
@@ -197,6 +205,7 @@ const mapStateToProps = (state: AppState) => ({
 
 export default connect(mapStateToProps, {
   updateUser,
+  uploadUserPic,
   deleteUser,
   logoutUser,
 })(EditUserPage);

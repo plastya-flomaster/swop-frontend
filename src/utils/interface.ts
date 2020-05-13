@@ -6,6 +6,7 @@ export interface IUserInfo {
   confirmPassword?: string;
   phone?: string;
   instagram?: string;
+  avatar?: string;
 }
 
 export interface IAlert {
@@ -38,8 +39,8 @@ export type ITagType = {
   tag: string;
 };
 
-export type IPair = {
-  _id?: string;
-  userId: string;
-  items: IItem[];
-};
+export type IMatchPair = {
+  myItems: IItem[];
+  otherItems: IItem[];
+  userInfo: IUserInfo;
+}

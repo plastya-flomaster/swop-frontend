@@ -1,4 +1,4 @@
-import { IItem, IUserInfo, ICategory, IPair } from '../../utils/interface';
+import { IItem, IUserInfo, ICategory, IMatchPair } from '../../utils/interface';
 
 export interface IItemsReducer {
   loading: boolean;
@@ -18,6 +18,6 @@ export interface ICategoriesReducer {
 }
 export interface ILikedItemsReducer {
   loading: boolean;
-  pairs: IPair[];
+  pairs: IMatchPair[];
   error: any;
 }

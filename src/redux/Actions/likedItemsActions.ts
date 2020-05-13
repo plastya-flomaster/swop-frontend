@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { Dispatch } from 'react';
 import { AppActionType } from './ActionTypes';
-import { IPair } from '../../utils/interface';
+import { IMatchPair } from '../../utils/interface';
 
 export enum LikeditemsActions {
   LIKED_ITEMS_ERROR = 'LIKED_ITEMS_ERROR',
@@ -11,7 +11,7 @@ export enum LikeditemsActions {
 export const sendLoading = (): AppActionType => ({
   type: LikeditemsActions.LIKED_ITEMS_LOADING,
 });
-export const sendPairs = (payload: IPair[]): AppActionType => ({
+export const sendPairs = (payload: IMatchPair[]): AppActionType => ({
   type: LikeditemsActions.LIKED_ITEMS_PAIRS,
   payload
 });
@@ -26,7 +26,7 @@ export const searchPairs = (userId: string) => (
 ) => {
   dispatch(sendLoading());
   axios
-    .get(`/api/likeditems/search/${userId}`)
-    .then((res) => { console.log(res.data) ;return dispatch(sendPairs(res.data))})
+    .get(`/api/likedItems/searchpairs/${userId}`)
+    .then((res) => { console.log(res.data); return dispatch(sendPairs(res.data))})
     .catch((err) => dispatch(sendErrors(err)));
 };

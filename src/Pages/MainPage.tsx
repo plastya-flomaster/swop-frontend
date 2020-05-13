@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import { connect } from 'react-redux';
 import { logoutUser } from '../redux/Actions/userActions';
+import { searchPairs } from '../redux/Actions/likedItemsActions';
 
 import { Swipeable, direction } from 'react-deck-swiper';
 
@@ -18,9 +19,11 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import { AppState } from '../redux/Stores/store';
 import { IUserReducer } from '../redux/Reducers/reducerTypes';
+import { Star } from 'grommet-icons';
 
 interface ISwap {
   logoutUser: () => any;
+  searchPairs: (userId: string) => void;
   auth: IUserReducer;
 }
 
@@ -101,7 +104,7 @@ const MainPage: React.FC<ISwap> = (props) => {
       gap="xxsmall"
     >
       <Box gridArea="nav" background="light-3">
-        <UserPic name={user.name} />
+        <UserPic name={user.name} url={user.avatar} />
         <Box pad="small">
           <Heading level="5">
             Добро пожаловать в приложение SWOP! Свайпай карточки справа, выбирай
@@ -111,7 +114,10 @@ const MainPage: React.FC<ISwap> = (props) => {
         <Button
           margin="small"
           label="узнать совпадения"
-          onClick={() => history.push('/match')}
+          onClick={() => {
+            props.searchPairs(user._id!);
+            history.push('/match');
+          }}
         ></Button>
       </Box>
       <Box
@@ -155,8 +161,23 @@ const MainPage: React.FC<ISwap> = (props) => {
             )}
           </>
         ) : (
-          <Box align="center" justify="center">
-            <Heading level={2}>На сегодня всё!</Heading>
+          <Box align="center" justify="center" pad={{ vertical: 'large' }}>
+            <Box
+              round="small"
+              width="medium"
+              height="500px"
+              animation="slideUp"
+              pad="small"
+              justify="center"
+              align="center"
+              border={{ style: 'dashed', size: 'small' }}
+            >
+              <Heading level={2}>На сегодня всё!</Heading>
+              <Text textAlign="center" margin={{ bottom: '1rem' }}>
+                Подождите немного, и скоро появятся новые товары!
+              </Text>
+              <Star color="accent-2" />
+            </Box>
           </Box>
         )}
       </Box>
@@ -168,4 +189,4 @@ const mapStateToProps = (state: AppState) => ({
   auth: state.auth,
 });
 
-export default connect(mapStateToProps, { logoutUser })(MainPage);
+export default connect(mapStateToProps, { logoutUser, searchPairs })(MainPage);
