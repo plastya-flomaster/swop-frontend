@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -7,12 +7,20 @@ import {
   Button,
   Header,
   TextInput,
+  Text,
   FormField,
   Heading,
   Form,
   Layer,
 } from 'grommet';
-import { LinkPrevious, MailOption, Phone, Instagram } from 'grommet-icons';
+import {
+  LinkPrevious,
+  MailOption,
+  Phone,
+  Instagram,
+  Close,
+  Camera,
+} from 'grommet-icons';
 
 import UserPic from '../Components/User/UserPicComponent';
 import { Link } from 'react-router-dom';
@@ -39,9 +47,14 @@ const EditUserPage: React.FC<IEditUserPage> = (props) => {
   const [confirm, setConfirm] = useState(false);
   const [user, setUser] = useState<IUserInfo>(props.user);
   const [updated, setUpdated] = useState(false);
+  const [show, setShow] = useState<boolean>(false);
   const history = useHistory();
+  const uploadAvatar = useRef<HTMLInputElement>(null);
 
-  const handleAddAvatar = (event: any) => {
+  const handleIconClick = () => {
+    setShow(true);
+  };
+  const handleUploadPhoto = (event: any) => {
     const formData = new FormData();
     formData.append('user-avatar', event.target.files[0]);
     props.uploadUserPic(user._id!, formData);
@@ -90,7 +103,7 @@ const EditUserPage: React.FC<IEditUserPage> = (props) => {
           <UserPic
             name={user.name}
             mode={'edit'}
-            handleAddAvatar={handleAddAvatar}
+            handleIconClick={handleIconClick}
           ></UserPic>
           <Link to="/swop">
             <Button
@@ -192,6 +205,37 @@ const EditUserPage: React.FC<IEditUserPage> = (props) => {
                 />
               </Box>
             </Box>
+          </Layer>
+        )}
+        {show && (
+          <Layer
+            onEsc={() => setShow(false)}
+            onClickOutside={() => setShow(false)}
+          >
+            <Box alignSelf="end">
+              <Close onClick={() => setShow(false)} />
+            </Box>
+            <input
+              type="file"
+              style={{ display: 'none' }}
+              onChange={(event: any) => {
+                handleUploadPhoto && handleUploadPhoto(event);
+                setShow(false);
+              }}
+              ref={uploadAvatar}
+              name="user-avatar"
+              accept="image/png, image/jpeg"
+            />
+            <Text margin={{ horizontal: 'large' }}>
+              Для загрузки доступны следующие форматы: .jpg .png
+            </Text>
+            <Button
+              label="Загрузить"
+              size="large"
+              margin="large"
+              icon={<Camera color="brand" />}
+              onClick={() => uploadAvatar.current?.click()}
+            ></Button>
           </Layer>
         )}
       </Box>

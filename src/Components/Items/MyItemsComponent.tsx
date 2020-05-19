@@ -1,7 +1,7 @@
 import React from 'react';
 import AddItem from './AddItemComponent';
 import MyItem from './MyItemComponent';
-import { Box, Tabs, Tab, Heading } from 'grommet';
+import { Box, Tabs, Tab, Heading, Text } from 'grommet';
 
 import { IItem, ICategory } from '../../utils/interface';
 
@@ -33,6 +33,9 @@ const MyItems: React.FC<IMyItems> = ({ items, error, categories }) => (
       <Heading level={2} margin={{ left: '2rem', vertical: '1.5rem' }}>
         История обмена
       </Heading>
+      <Text>
+        В будущих версиях здесь можно будет отслеживать историю обмена.
+      </Text>
     </Tab>
   </Tabs>
 );

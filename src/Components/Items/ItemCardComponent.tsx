@@ -137,7 +137,7 @@ const ItemCard: React.FC<IItemCardProps> = ({
   };
 
   return (
-    <Box flex="grow" direction="column" border pad="small">
+    <Box flex="grow" direction="column" pad="small">
       <Heading level={2} margin={{ bottom: '0' }}>
         {id === 'new' ? 'Новый предмет одежды' : `Изменить: ${title}`}
       </Heading>

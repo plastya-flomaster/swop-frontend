@@ -21,8 +21,8 @@ const MatchResult: React.FC<IMatchResultProps> = ({ categories, pair }) => {
         понравились ваши предметы одежды:
       </Heading>
       <Box flex="grow" direction="row" wrap={true}>
-        {otherItems.length > 0 &&
-          otherItems.map((item, index) => (
+        {myItems.length > 0 &&
+          myItems.map((item, index) => (
             <MyItem item={item} key={index} categories={categories} />
           ))}
       </Box>
@@ -33,8 +33,8 @@ const MatchResult: React.FC<IMatchResultProps> = ({ categories, pair }) => {
             либо делать мод только для отображения, 
             либо просто нарисовать пустую карточку чисто для отображения,
             либо  на клик делать модальное окошко и в нем подробно инфу показать (карточка только для просмотра)*/}
-          {myItems.length > 0 &&
-            myItems.map((item, index) => (
+          {otherItems.length > 0 &&
+            otherItems.map((item, index) => (
               <MyItem item={item} key={index} categories={categories} />
             ))}
         </Box>
