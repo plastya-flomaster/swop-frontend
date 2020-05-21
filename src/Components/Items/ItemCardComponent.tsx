@@ -149,6 +149,11 @@ const ItemCard: React.FC<IItemCardProps> = ({
         value={title}
         onChange={(event) => settitle(event.target.value)}
       />
+      {error && error.title ? (
+        <Text color="status-error">{error.title}</Text>
+      ) : (
+        <></>
+      )}
       <Heading level={5} margin={{ bottom: '1rem' }}>
         Выберите категорию
       </Heading>
@@ -165,7 +170,7 @@ const ItemCard: React.FC<IItemCardProps> = ({
       <Heading level={5} margin={{ vertical: '1rem' }}>
         Описание
       </Heading>
-      <Box align="center" margin={{ bottom: '0px' }}>
+      <Box margin={{ bottom: '0px' }}>
         <TextArea
           fill
           placeholder="Введите описание, которое может помочь при выборе предмета одежды..."
@@ -174,6 +179,11 @@ const ItemCard: React.FC<IItemCardProps> = ({
             setDescription(event.target.value);
           }}
         />
+        {error && error.description ? (
+          <Text color="status-error">{error.description}</Text>
+        ) : (
+          <></>
+        )}
       </Box>
       <Box>
         <Heading level={5} margin={{ vertical: '1rem' }}>
