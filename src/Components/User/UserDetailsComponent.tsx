@@ -1,5 +1,5 @@
-import React from 'react';
-import { Box, Heading, Text } from 'grommet';
+import React, { useState, useRef } from 'react';
+import { Box, Heading, Text, Drop } from 'grommet';
 import { Waypoint, Phone, Instagram, StatusInfo } from 'grommet-icons';
 
 interface IUserDetails {
@@ -7,6 +7,8 @@ interface IUserDetails {
   instagram: string;
 }
 const UserDetails: React.FC<IUserDetails> = ({ phone, instagram }) => {
+  const [over, setOver] = useState<boolean>(false);
+  const ref = useRef<HTMLHeadingElement>(null);
   return (
     <>
       <Box direction="row" align="center">
@@ -22,15 +24,32 @@ const UserDetails: React.FC<IUserDetails> = ({ phone, instagram }) => {
       </Box>
       <Box pad="small">
         <Box direction="row" align="center">
-          <Heading level={4} margin={{ bottom: 'small', right: 'small' }}>
+          <Heading
+            level={4}
+            margin={{ bottom: 'small', right: 'small' }}
+            ref={ref}
+          >
             Мои контакты
           </Heading>
           <StatusInfo
             size="small"
-            onMouseOver={() => {
-              console.log('!!!');
-            }}
+            onMouseOver={() => setOver(true)}
+            onMouseOut={() => setOver(false)}
+            onFocus={() => {}}
+            onBlur={() => {}}
           />
+          {ref.current && over && (
+            <Drop align={{ left: 'right' }} target={ref.current} plain>
+              <Box
+                margin="xsmall"
+                pad="small"
+                background="dark-3"
+                round={{ size: 'medium', corner: 'left' }}
+              >
+                tooltip contents
+              </Box>
+            </Drop>
+          )}
         </Box>
         <Box direction="row" align="center">
           <Box pad="small">

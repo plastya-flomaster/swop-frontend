@@ -36,7 +36,7 @@ const RegisterComponent: React.FC<IRegister> = (props) => {
   });
 
   useEffect(() => {
-    // If logged in and user navigates to Register page, redirect him to swop
+    // если пользователь вошел и переходит на регистрацию, редирект на swop
     if (props.isAuthenticated) {
       props.history.push('/swop');
     }
@@ -63,13 +63,14 @@ const RegisterComponent: React.FC<IRegister> = (props) => {
             icon={<LinkPrevious color="brand" />}
             label="Назад"
             margin="small"
-            plain={true}
             hoverIndicator
           />
         </Link>
       </Header>
       <Box align="center">
-        <Heading level={2}>Зарегистрироваться</Heading>
+        <Heading level={2} margin={{ bottom: '0.5rem' }}>
+          Зарегистрироваться
+        </Heading>
         <Box direction="row" gap="small">
           <Text>
             Уже есть аккаунт?{' '}
